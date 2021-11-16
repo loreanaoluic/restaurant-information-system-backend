@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public abstract class User implements UserDetails {
@@ -27,8 +27,8 @@ public abstract class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "email_address", unique = true, nullable = false)
     private String emailAddress;
@@ -38,6 +38,9 @@ public abstract class User implements UserDetails {
 
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = Boolean.FALSE;
+
+    @OneToOne
+    private Salary salary;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
