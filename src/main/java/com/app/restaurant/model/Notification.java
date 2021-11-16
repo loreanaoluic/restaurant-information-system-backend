@@ -2,6 +2,7 @@ package com.app.restaurant.model;
 
 import com.app.restaurant.model.users.Bartender;
 import com.app.restaurant.model.users.Cook;
+import com.app.restaurant.model.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,5 @@ public class Notification {
     private RestaurantTable restaurantTable;
 
     @OneToOne
-    private Bartender bartender;
-
-    @OneToOne
-    private Cook cook;
+    private User user;
 }
