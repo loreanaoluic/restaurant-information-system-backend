@@ -11,6 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -41,8 +42,8 @@ public abstract class User implements UserDetails {
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = Boolean.FALSE;
 
-    @OneToOne
-    private Salary salary;
+    @OneToMany
+    private List<Salary> salary;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
