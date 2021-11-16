@@ -1,6 +1,6 @@
 package com.app.restaurant.model;
 
-import com.app.restaurant.model.enums.ItemStatus;
+import com.app.restaurant.model.enums.ReceiptItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,6 @@ public abstract class Item {
     private String image;
 
     private String description;
-
-    private ItemStatus itemStatus;
 
     @OneToOne
     private Price price;
