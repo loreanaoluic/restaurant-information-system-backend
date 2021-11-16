@@ -14,7 +14,7 @@ public abstract class Item {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String ingredients;
 

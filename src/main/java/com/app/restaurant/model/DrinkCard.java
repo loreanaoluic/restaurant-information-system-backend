@@ -14,7 +14,7 @@ public class DrinkCard {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @OneToMany(mappedBy = "drinkCard", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<DrinkCardItem> drinkCardItems;

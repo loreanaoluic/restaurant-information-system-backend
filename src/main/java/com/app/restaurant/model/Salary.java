@@ -15,7 +15,7 @@ public class Salary {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Integer id;
 
     @Column(name = "value", nullable = false)
     private double value;

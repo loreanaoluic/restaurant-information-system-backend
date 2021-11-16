@@ -1,5 +1,7 @@
 package com.app.restaurant.service;
 
-public interface IManagerService {
+import com.app.restaurant.model.users.Manager;
+
+public interface IManagerService extends IGenericService<Manager> {
 
 }
