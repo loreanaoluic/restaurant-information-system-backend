@@ -1,4 +1,4 @@
-package com.app.restaurant.model;
+package com.app.restaurant.model.users;
 
 import lombok.Getter;
 import lombok.Setter;

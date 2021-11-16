@@ -1,5 +1,7 @@
 package com.app.restaurant.model;
 
+import com.app.restaurant.model.users.Bartender;
+import com.app.restaurant.model.users.Cook;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.app.restaurant.model;
+package com.app.restaurant.model.users;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Getter
 @Setter
 @PrimaryKeyJoinColumn(name = "user")
-public class Bartender extends User {
+public class Waiter extends User {
 
 }

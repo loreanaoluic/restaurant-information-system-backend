@@ -1,5 +1,7 @@
-package com.app.restaurant.model;
+package com.app.restaurant.model.users;
 
+import com.app.restaurant.model.Role;
+import com.app.restaurant.model.Salary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;

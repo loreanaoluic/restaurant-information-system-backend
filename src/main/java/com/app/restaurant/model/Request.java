@@ -1,5 +1,6 @@
 package com.app.restaurant.model;
 
+import com.app.restaurant.model.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
