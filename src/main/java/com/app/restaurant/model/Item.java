@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
@@ -24,6 +25,6 @@ public abstract class Item {
 
     private ItemStatus itemStatus;
 
-    @OneToOne
-    private Price price;
+    @OneToMany
+    private List<Price> price;
 }

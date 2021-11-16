@@ -25,6 +25,6 @@ public class Salary {
 
     private long endDate;
 
-    @OneToOne
+    @ManyToOne
     private User user;
 }

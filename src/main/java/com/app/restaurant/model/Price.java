@@ -22,6 +22,6 @@ public class Price {
 
     private long endDate;
 
-    @OneToOne
+    @ManyToOne
     private Item item;
 }
