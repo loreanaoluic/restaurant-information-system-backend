@@ -22,8 +22,6 @@ public abstract class Item {
 
     private String description;
 
-    private ItemStatus itemStatus;
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Price price;
 }

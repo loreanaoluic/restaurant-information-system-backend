@@ -9,4 +9,5 @@ import lombok.Setter;
 public class MenuItemDTO {
     private Integer id;
     private Integer menuId;
+    private Double preparationTime;
 }

@@ -1,7 +1,7 @@
 package com.app.restaurant.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.app.restaurant.model.users.User;
 
-public interface IUserService extends UserDetailsService {
+public interface IUserService extends IGenericService<User> {
 
 }
