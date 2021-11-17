@@ -19,8 +19,6 @@ public class Receipt {
 
     @OneToMany(mappedBy = "receipt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReceiptItem> receiptItems;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurant_table_id")
-    private RestaurantTable restaurantTable;
+    
+    private long issueDate;
 }

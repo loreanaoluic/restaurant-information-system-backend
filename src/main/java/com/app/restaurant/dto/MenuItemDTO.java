@@ -13,7 +13,7 @@ public class MenuItemDTO {
     private String ingredients;
     private String image;
     private String description;
-    private double price;
+    private Double price;
     private Integer menuId;
     private Double preparationTime;
 }

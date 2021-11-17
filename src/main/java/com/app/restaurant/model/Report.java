@@ -20,5 +20,4 @@ public class Report {
 
     private double expense;
 
-    private long date;
 }

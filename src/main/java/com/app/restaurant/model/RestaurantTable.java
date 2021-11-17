@@ -20,9 +20,7 @@ public class RestaurantTable {
     @Column(name = "table_status", nullable = false)
     private TableStatus tableStatus;
 
-    @OneToMany(mappedBy = "restaurantTable", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Receipt> receipt;
+    @OneToOne
+    private Receipt receipt;
 
-    @OneToMany(mappedBy = "restaurantTable", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Notification> notifications;
 }

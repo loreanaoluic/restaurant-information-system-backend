@@ -26,5 +26,7 @@ public class Notification {
     private RestaurantTable restaurantTable;
 
     @OneToOne
-    private User user;
+    private User author;
+
+    private boolean done;
 }
