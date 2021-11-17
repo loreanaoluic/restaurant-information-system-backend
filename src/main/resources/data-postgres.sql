@@ -28,9 +28,23 @@ INSERT INTO waiter (id, name, last_name, username, email_address, password, dele
 values (7, 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '1234', false, 7);
 
 
-
 INSERT INTO menu (id)
 values (1);
+
+
+INSERT INTO price (value, start_date, end_date)
+values (1000.0, 1637177653457, 0);
+
+INSERT INTO price (value, start_date, end_date)
+values (1500.0, 1637177653457, 0);
+
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
+
 
 INSERT INTO reports (id, income, expense)
 values (7, 1234, 150);
