@@ -1,6 +1,7 @@
 package com.app.restaurant.model;
 
 import com.app.restaurant.model.enums.ReceiptItemStatus;
+import com.app.restaurant.model.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,7 @@ public class ReceiptItem {
 
     @OneToOne
     private Item item;
+
+    @OneToOne
+    private User author;
 }

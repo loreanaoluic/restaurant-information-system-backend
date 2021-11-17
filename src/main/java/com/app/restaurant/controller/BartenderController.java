@@ -29,9 +29,9 @@ public class BartenderController {
         return new ResponseEntity<>(receiptItemService.bartenderOrders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id) {
-        ReceiptItem receiptItem = receiptItemService.changeStatusToReady(id);
+    @PostMapping(value = "/{user-id}/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id, @PathVariable("user-id") Integer userId) {
+        ReceiptItem receiptItem = receiptItemService.changeStatusToReady(id, userId);
 
         if (receiptItem == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

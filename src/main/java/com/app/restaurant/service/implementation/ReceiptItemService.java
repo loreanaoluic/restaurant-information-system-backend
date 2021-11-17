@@ -9,7 +9,6 @@ import com.app.restaurant.service.IReceiptItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +16,12 @@ import java.util.List;
 public class ReceiptItemService implements IReceiptItemService {
 
     private final ReceiptItemRepository receiptItemRepository;
+    private final UserService userService;
 
     @Autowired
-    public ReceiptItemService(ReceiptItemRepository receiptItemRepository) {
+    public ReceiptItemService(ReceiptItemRepository receiptItemRepository, UserService userService) {
         this.receiptItemRepository = receiptItemRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -39,7 +40,7 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
-    public ReceiptItem changeStatusToReady(Integer receiptItemId) {
+    public ReceiptItem changeStatusToReady(Integer receiptItemId, Integer userId) {
         ReceiptItem receiptItem = this.findOne(receiptItemId);
 
         if (receiptItem == null) {
@@ -48,6 +49,7 @@ public class ReceiptItemService implements IReceiptItemService {
 
         if (receiptItem.getItemStatus().equals(ReceiptItemStatus.ORDERED)) {
             receiptItem.setItemStatus(ReceiptItemStatus.READY);
+            receiptItem.setAuthor(userService.findOne(userId));
             this.save(receiptItem);
             return receiptItem;
         }
