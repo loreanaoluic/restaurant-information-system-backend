@@ -6,7 +6,11 @@ import com.app.restaurant.model.users.Manager;
 
 public interface IManagerService extends IGenericService<Manager> {
 
-    MenuItem createNewMenuItem(MenuItem menuItem);
+    MenuItem createNewMenuItem(MenuItem menuItem, double price);
 
-    DrinkCardItem createNewDrinkCardItem(DrinkCardItem drinkCardItem);
+    DrinkCardItem createNewDrinkCardItem(DrinkCardItem drinkCardItem, double price);
+
+    MenuItem updateMenuItem(MenuItem menuItem, double price);
+
+    DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem, double price);
 }

@@ -13,23 +13,16 @@ import org.springframework.stereotype.Component;
 public class DrinkCardItemDTOToDrinkCardItem implements Converter<DrinkCardItemDTO, DrinkCardItem> {
 
     private final IDrinkCardService drinkCardService;
-    private final IPriceService priceService;
 
     @Autowired
-    public DrinkCardItemDTOToDrinkCardItem(IDrinkCardService drinkCardService, IPriceService priceService) {
+    public DrinkCardItemDTOToDrinkCardItem(IDrinkCardService drinkCardService) {
         this.drinkCardService = drinkCardService;
-        this.priceService = priceService;
     }
 
     @Override
     public DrinkCardItem convert(DrinkCardItemDTO drinkCardItemDTO) {
-        Price price = new Price(drinkCardItemDTO.getPrice(), System.currentTimeMillis());
 
-        DrinkCardItem drinkCardItem = new DrinkCardItem(drinkCardItemDTO.getId(), drinkCardItemDTO.getIngredients(), drinkCardItemDTO.getImage(),
-                drinkCardItemDTO.getDescription(), price, drinkCardService.findOne(drinkCardItemDTO.getId()));
-
-        priceService.save(price);
-
-        return drinkCardItem;
+        return new DrinkCardItem(drinkCardItemDTO.getId(), drinkCardItemDTO.getIngredients(), drinkCardItemDTO.getImage(),
+                drinkCardItemDTO.getDescription(), new Price(), drinkCardService.findOne(drinkCardItemDTO.getId()));
     }
 }

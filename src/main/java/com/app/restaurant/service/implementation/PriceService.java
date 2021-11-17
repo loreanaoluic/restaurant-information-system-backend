@@ -33,4 +33,16 @@ public class PriceService implements IPriceService {
     public Price save(Price price) {
         return priceRepository.save(price);
     }
+
+    @Override
+    public Price update(Price price, Integer id) {
+        Price updated = this.findOne(id);
+        updated.setValue(price.getValue());
+        updated.setStartDate(price.getStartDate());
+        updated.setEndDate(price.getEndDate());
+        updated.setItem(price.getItem());
+
+        priceRepository.save(updated);
+        return updated;
+    }
 }

@@ -17,24 +17,17 @@ import java.time.ZonedDateTime;
 public class MenuItemDTOToMenuItem implements Converter<MenuItemDTO, MenuItem> {
 
     private final IMenuService menuService;
-    private final IPriceService priceService;
 
     @Autowired
-    public MenuItemDTOToMenuItem(IMenuService menuService, IPriceService priceService) {
+    public MenuItemDTOToMenuItem(IMenuService menuService) {
         this.menuService = menuService;
-        this.priceService = priceService;
     }
 
     @Override
     public MenuItem convert(MenuItemDTO menuItemDTO) {
 
-        Price price = new Price(menuItemDTO.getPrice(), System.currentTimeMillis());
 
-        MenuItem menuItem = new MenuItem(menuItemDTO.getId(), menuItemDTO.getIngredients(), menuItemDTO.getImage(),
-                menuItemDTO.getDescription(), price, menuService.findOne(menuItemDTO.getId()));
-
-        priceService.save(price);
-
-        return menuItem;
+        return new MenuItem(menuItemDTO.getId(), menuItemDTO.getIngredients(), menuItemDTO.getImage(),
+                menuItemDTO.getDescription(), new Price(), menuService.findOne(menuItemDTO.getId()));
     }
 }

@@ -23,7 +23,7 @@ public abstract class Item {
 
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Price price;
 
 }

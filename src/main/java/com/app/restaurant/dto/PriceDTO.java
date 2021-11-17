@@ -1,28 +1,15 @@
-package com.app.restaurant.model;
+package com.app.restaurant.dto;
 
+import com.app.restaurant.model.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
-@Entity
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
-public class Price {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(name = "value", nullable = false)
+public class PriceDTO {
     private double value;
-
     private long startDate;
-
     private long endDate;
-
-    @OneToOne
     private Item item;
-
 }

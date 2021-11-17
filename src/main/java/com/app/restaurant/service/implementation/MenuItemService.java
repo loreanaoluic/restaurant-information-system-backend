@@ -1,9 +1,12 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
+import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.MenuItemRepository;
 import com.app.restaurant.service.IMenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +34,21 @@ public class MenuItemService implements IMenuItemService {
     @Override
     public MenuItem save(MenuItem menuItem) {
         return menuItemRepository.save(menuItem);
+    }
+
+    @Override
+    public MenuItem update(MenuItem menuItem, Integer id) {
+        MenuItem updated = this.findOne(id);
+
+        if (updated == null) {
+            return null;
+        }
+
+        updated.setIngredients(menuItem.getIngredients());
+        updated.setImage(menuItem.getImage());
+        updated.setDescription(menuItem.getDescription());
+
+        menuItemRepository.save(updated);
+        return updated;
     }
 }
