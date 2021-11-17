@@ -2,21 +2,20 @@ package com.app.restaurant.repository;
 
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
+import com.app.restaurant.model.users.Waiter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface ManagerRepository extends JpaRepository<Manager, Integer> {
+public interface WaiterRepository extends JpaRepository<Waiter, Integer> {
 
     @Query("select user from User user where user.deleted = false")
-    List<Manager> findAll();
+    List<Waiter> findAll();
 
     @Query("select user from User user where user.username = ?1")
-    Manager findByUsername(String username);
+    Waiter findByUsername(String username);
 }
