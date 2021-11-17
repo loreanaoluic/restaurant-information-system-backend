@@ -27,6 +27,11 @@ values (6, 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '1234', false, 6)
 INSERT INTO waiter (id, name, last_name, username, email_address, password, deleted, role_id)
 values (7, 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '1234', false, 7);
 
+
+
+INSERT INTO menu (id)
+values (1);
+
 INSERT INTO reports (id, income, expense, date)
 values (7, 1234, 150, 1636583064000);
 

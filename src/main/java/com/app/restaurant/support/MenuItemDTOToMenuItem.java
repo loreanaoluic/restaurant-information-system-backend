@@ -25,8 +25,6 @@ public class MenuItemDTOToMenuItem implements Converter<MenuItemDTO, MenuItem> {
 
     @Override
     public MenuItem convert(MenuItemDTO menuItemDTO) {
-
-
         return new MenuItem(menuItemDTO.getId(), menuItemDTO.getIngredients(), menuItemDTO.getImage(),
                 menuItemDTO.getDescription(), new Price(), menuService.findOne(menuItemDTO.getId()));
     }

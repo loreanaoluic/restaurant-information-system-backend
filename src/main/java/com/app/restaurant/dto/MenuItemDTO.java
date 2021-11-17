@@ -15,4 +15,5 @@ public class MenuItemDTO {
     private String description;
     private double price;
     private Integer menuId;
+    private Double preparationTime;
 }

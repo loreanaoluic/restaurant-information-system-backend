@@ -18,20 +18,19 @@ public class PriceService implements IPriceService {
         this.priceRepository = priceRepository;
     }
 
-
     @Override
     public List<Price> findAll() {
-        return priceRepository.findAll();
+        return this.priceRepository.findAll();
     }
 
     @Override
     public Price findOne(Integer id) {
-        return priceRepository.findById(id).orElse(null);
+        return this.priceRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Price save(Price price) {
-        return priceRepository.save(price);
+    public Price save(Price entity) {
+        return this.priceRepository.save(entity);
     }
 
     @Override

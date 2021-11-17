@@ -13,6 +13,7 @@ public class DrinkCardService implements IDrinkCardService {
 
     private final DrinkCardRepository drinkCardRepository;
 
+
     @Autowired
     public DrinkCardService(DrinkCardRepository drinkCardRepository) {
         this.drinkCardRepository = drinkCardRepository;
@@ -21,16 +22,17 @@ public class DrinkCardService implements IDrinkCardService {
 
     @Override
     public List<DrinkCard> findAll() {
-        return drinkCardRepository.findAll();
+        return this.drinkCardRepository.findAll();
     }
 
     @Override
     public DrinkCard findOne(Integer id) {
-        return drinkCardRepository.findById(id).orElse(null);
+        return this.drinkCardRepository.findById(id).orElse(null);
     }
 
     @Override
-    public DrinkCard save(DrinkCard drinkCard) {
-        return drinkCardRepository.save(drinkCard);
+    public DrinkCard save(DrinkCard entity) {
+        return this.drinkCardRepository.save(entity);
     }
+  
 }

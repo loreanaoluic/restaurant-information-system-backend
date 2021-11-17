@@ -20,6 +20,10 @@ public class Request {
 
     private String ingredients;
 
+    private String description;
+
+    private String image;
+
     private String itemName;
 
     private double preparationTime;
