@@ -45,6 +45,9 @@ values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
 values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
 
+UPDATE price SET item_id = 1 WHERE id = 1;
+UPDATE price SET item_id = 2 WHERE id = 2;
+
 
 INSERT INTO reports (id, income, expense)
 values (7, 1234, 150);
