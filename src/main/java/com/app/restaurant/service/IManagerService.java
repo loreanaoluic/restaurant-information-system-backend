@@ -3,6 +3,9 @@ package com.app.restaurant.service;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.users.Manager;
+import com.app.restaurant.model.users.User;
+
+import java.util.List;
 
 public interface IManagerService extends IGenericService<Manager> {
 
@@ -13,4 +16,11 @@ public interface IManagerService extends IGenericService<Manager> {
     MenuItem updateMenuItem(MenuItem menuItem, double price);
 
     DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem, double price);
+
+    void delete(Integer id);
+
+    Manager create(Manager entity) throws Exception;
+
+    Manager update(Manager entity) throws Exception;
+
 }

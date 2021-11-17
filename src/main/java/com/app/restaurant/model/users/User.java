@@ -2,6 +2,7 @@ package com.app.restaurant.model.users;
 
 import com.app.restaurant.model.Role;
 import com.app.restaurant.model.Salary;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
@@ -15,13 +16,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public abstract class User implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "userSeqGen", sequenceName = "userSeq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeqGen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", nullable = false)
@@ -43,6 +42,7 @@ public abstract class User implements UserDetails {
     private Boolean deleted = Boolean.FALSE;
 
     @OneToMany
+    @JsonIgnore
     private List<Salary> salary;
 
     @ManyToOne(fetch = FetchType.EAGER)
