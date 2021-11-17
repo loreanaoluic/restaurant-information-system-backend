@@ -1,5 +1,6 @@
 package com.app.restaurant.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class Price {
     private long endDate;
 
     @OneToOne
-    @Transient
+    @JsonIgnore
     private Item item;
 
     public Price(double value, long startDate, Item item) {

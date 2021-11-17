@@ -38,6 +38,9 @@ values (1000.0, 1637177653457, 0);
 INSERT INTO price (value, start_date, end_date)
 values (1500.0, 1637177653457, 0);
 
+INSERT INTO price (value, start_date, end_date)
+values (120.0, 1637177653457, 0);
+
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
 values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
@@ -45,6 +48,12 @@ values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
 values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
 
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Kola', 'sastojci', 'slika', 'opis', 1, 0.0, 3);
+
+UPDATE price SET item_id = 1 WHERE id = 1;
+UPDATE price SET item_id = 2 WHERE id = 2;
+UPDATE price SET item_id = 3 WHERE id = 3;
 
 INSERT INTO reports (id, income, expense)
 values (7, 1234, 150);
@@ -60,3 +69,6 @@ values (2, 'poruka', 0, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
 values (1, 'poruka2', 0, 2);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
+values (1, 'poruka3', 0, 3);
