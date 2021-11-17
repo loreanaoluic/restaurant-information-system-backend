@@ -25,4 +25,16 @@ public class Price {
     @OneToOne
     private Item item;
 
+    public Price(double value, long startDate, Item item) {
+        this.value = value;
+        this.startDate = startDate;
+        this.item = item;
+    }
+
+    public Price(Integer id, double value, long startDate, long endDate) {
+        this.id = id;
+        this.value = value;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

@@ -10,10 +10,11 @@ import lombok.Setter;
 public class MenuItemDTO {
 
     private Integer id;
+    private String name;
     private String ingredients;
     private String image;
     private String description;
-    private double price;
+    private PriceDTO price;
     private Integer menuId;
-    private Double preparationTime;
+    private double preparationTime;
 }

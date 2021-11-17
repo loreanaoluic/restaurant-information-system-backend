@@ -10,7 +10,7 @@ public interface IManagerService extends IGenericService<Manager> {
 
     DrinkCardItem createNewDrinkCardItem(DrinkCardItem drinkCardItem, double price);
 
-    MenuItem updateMenuItem(MenuItem menuItem, double price);
+    MenuItem updateMenuItem(MenuItem menuItem);
 
-    DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem, double price);
+    DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem);
 }

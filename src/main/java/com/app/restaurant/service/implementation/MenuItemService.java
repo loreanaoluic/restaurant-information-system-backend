@@ -1,12 +1,10 @@
 package com.app.restaurant.service.implementation;
 
-import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.MenuItemRepository;
 import com.app.restaurant.service.IMenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +13,12 @@ import java.util.List;
 public class MenuItemService implements IMenuItemService {
 
     private final MenuItemRepository menuItemRepository;
+    private final PriceService priceService;
 
     @Autowired
-    public MenuItemService(MenuItemRepository menuItemRepository) {
+    public MenuItemService(MenuItemRepository menuItemRepository, PriceService priceService) {
         this.menuItemRepository = menuItemRepository;
+        this.priceService = priceService;
     }
 
     @Override
@@ -48,7 +48,16 @@ public class MenuItemService implements IMenuItemService {
         updated.setImage(menuItem.getImage());
         updated.setDescription(menuItem.getDescription());
 
+        if (menuItem.getPrice().getValue() != updated.getPrice().getValue()) {
+            updated.setPrice(menuItem.getPrice());
+        }
+
         menuItemRepository.save(updated);
+
+        Price price = priceService.findOne(menuItem.getPrice().getId());
+        price.setItem(updated);
+        priceService.save(price);
+
         return updated;
     }
 }
