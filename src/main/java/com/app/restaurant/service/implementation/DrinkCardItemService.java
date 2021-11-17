@@ -32,4 +32,20 @@ public class DrinkCardItemService implements IDrinkCardItemService {
     public DrinkCardItem save(DrinkCardItem drinkCardItem) {
         return drinkCardItemRepository.save(drinkCardItem);
     }
+
+    @Override
+    public DrinkCardItem update(DrinkCardItem drinkCardItem, Integer id) {
+        DrinkCardItem updated = this.findOne(id);
+
+        if (updated == null) {
+            return null;
+        }
+
+        updated.setIngredients(drinkCardItem.getIngredients());
+        updated.setImage(drinkCardItem.getImage());
+        updated.setDescription(drinkCardItem.getDescription());
+
+        drinkCardItemRepository.save(updated);
+        return updated;
+    }
 }

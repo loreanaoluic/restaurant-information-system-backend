@@ -1,6 +1,6 @@
 package com.app.restaurant.model.enums;
 
-public enum ItemStatus {
+public enum ReceiptItemStatus {
     ORDERED,
     READY
 }

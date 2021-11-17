@@ -1,5 +1,6 @@
 package com.app.restaurant.model;
 
+import com.app.restaurant.model.enums.ReceiptItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,8 @@ public class ReceiptItem {
     private int quantity;
 
     private String additionalNote;
+
+    private ReceiptItemStatus itemStatus;
 
     @ManyToOne
     @JoinColumn(name = "receipt_id")
