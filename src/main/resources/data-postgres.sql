@@ -32,11 +32,11 @@ values (7, 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '1234', false, 7);
 INSERT INTO menu (id)
 values (1);
 
-INSERT INTO reports (id, income, expense, date)
-values (7, 1234, 150, 1636583064000);
+INSERT INTO reports (id, income, expense)
+values (7, 1234, 150);
 
-INSERT INTO reports (id, income, expense, date)
-values (8, 2200, 1500, 1636842264000);
+INSERT INTO reports (id, income, expense)
+values (8, 2200, 1500);
 
-INSERT INTO reports (id, income, expense, date)
-values (9, 2200, 1500, 1637101464000);
+INSERT INTO reports (id, income, expense)
+values (9, 2200, 1500);
