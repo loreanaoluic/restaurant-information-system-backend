@@ -23,4 +23,10 @@ public class MenuItem extends Item {
         super(id, ingredients, image, description, price);
         this.menu = menu;
     }
+
+    public MenuItem(Integer id, Menu menu, Double preparationTime){
+        this.setId(id);
+        this.menu = menu;
+        this.preparationTime = preparationTime;
+    }
 }

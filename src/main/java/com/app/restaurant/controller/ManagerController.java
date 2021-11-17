@@ -5,7 +5,6 @@ import com.app.restaurant.dto.MenuItemDTO;
 import com.app.restaurant.dto.RequestReviewDTO;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
-import com.app.restaurant.model.Price;
 import com.app.restaurant.service.IManagerService;
 import com.app.restaurant.service.IRequestService;
 import com.app.restaurant.service.implementation.DrinkCardItemService;
@@ -27,17 +26,15 @@ public class ManagerController {
 
     private final IManagerService managerService;
     private final IPriceService priceService;
-
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
     private final RequestDTOtoRequest requestDTOtoRequest;
     private final IRequestService requestService;
     private final MenuItemService menuItemService;
     private final DrinkCardItemService drinkCardItemService;
-
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
 
     @Autowired
-    public ManagerController(IManagerService managerService, IPriceService priceService, MenuItemDTOToMenuItem menuItemDTOToMenuItem, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem) {
+    public ManagerController(IManagerService managerService, IPriceService priceService, MenuItemDTOToMenuItem menuItemDTOToMenuItem, RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService, MenuItemService menuItemService, DrinkCardItemService drinkCardItemService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem) {
         this.managerService = managerService;
         this.priceService = priceService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;
@@ -47,6 +44,7 @@ public class ManagerController {
         this.drinkCardItemService = drinkCardItemService;
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
     }
+
 
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {

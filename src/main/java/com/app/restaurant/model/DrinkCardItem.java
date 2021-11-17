@@ -23,4 +23,9 @@ public class DrinkCardItem extends Item {
         super(id, ingredients, image, description, price);
         this.drinkCard = drinkCard;
     }
+
+    public DrinkCardItem(Integer id, DrinkCard drinkCard){
+        this.setId(id);
+        this.drinkCard = drinkCard;
+    }
 }
