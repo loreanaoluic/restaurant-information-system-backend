@@ -45,9 +45,6 @@ values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
 values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
 
-UPDATE price SET item_id = 1 WHERE id = 1;
-UPDATE price SET item_id = 2 WHERE id = 2;
-
 
 INSERT INTO reports (id, income, expense)
 values (7, 1234, 150);
@@ -57,3 +54,9 @@ values (8, 2200, 1500);
 
 INSERT INTO reports (id, income, expense)
 values (9, 2200, 1500);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
+values (2, 'poruka', 0, 1);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
+values (1, 'poruka2', 0, 2);

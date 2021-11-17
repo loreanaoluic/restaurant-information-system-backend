@@ -23,6 +23,7 @@ public class Price {
     private long endDate;
 
     @OneToOne
+    @Transient
     private Item item;
 
     public Price(double value, long startDate, Item item) {
