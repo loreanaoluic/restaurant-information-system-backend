@@ -4,4 +4,6 @@ import com.app.restaurant.model.Request;
 
 public interface IRequestService extends IGenericService<Request>{
     Integer createItem(Request request);
+
+    Request createRequest(Request request);
 }

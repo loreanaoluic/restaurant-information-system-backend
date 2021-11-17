@@ -13,14 +13,14 @@ public interface IManagerService extends IGenericService<Manager> {
 
     DrinkCardItem createNewDrinkCardItem(DrinkCardItem drinkCardItem, double price);
 
-    MenuItem updateMenuItem(MenuItem menuItem, double price);
-
-    DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem, double price);
+    MenuItem updateMenuItem(MenuItem menuItem);
 
     void delete(Integer id);
 
     Manager create(Manager entity) throws Exception;
 
     Manager update(Manager entity) throws Exception;
+
+    DrinkCardItem updateDrinkCardItem(DrinkCardItem drinkCardItem);
 
 }

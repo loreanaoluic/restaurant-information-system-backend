@@ -15,6 +15,7 @@ import com.app.restaurant.service.implementation.MenuItemService;
 import com.app.restaurant.support.DrinkCardItemDTOToDrinkCardItem;
 import com.app.restaurant.support.ManagerDTOToManager;
 import com.app.restaurant.support.MenuItemDTOToMenuItem;
+import com.app.restaurant.support.PriceDTOToPrice;
 import com.app.restaurant.support.RequestDTOtoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,32 +29,34 @@ import org.springframework.web.bind.annotation.*;
 public class ManagerController {
 
     private final IManagerService managerService;
-    private final IPriceService priceService;
+    private final IRequestService requestService;
+
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
     private final RequestDTOtoRequest requestDTOtoRequest;
-    private final IRequestService requestService;
-    private final MenuItemService menuItemService;
-    private final DrinkCardItemService drinkCardItemService;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
+    private final PriceDTOToPrice priceDTOToPrice;
 
     @Autowired
-    public ManagerController(IManagerService managerService, IPriceService priceService, MenuItemDTOToMenuItem menuItemDTOToMenuItem, RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService, MenuItemService menuItemService, DrinkCardItemService drinkCardItemService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem, ManagerDTOToManager managerDTOToManager) {
+    public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
+                             RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService,
+                             DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem, PriceDTOToPrice priceDTOToPrice,ManagerDTOToManager managerDTOToManager) {
+
         this.managerService = managerService;
-        this.priceService = priceService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;
         this.requestDTOtoRequest = requestDTOtoRequest;
         this.requestService = requestService;
-        this.menuItemService = menuItemService;
-        this.drinkCardItemService = drinkCardItemService;
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
+
         this.managerDTOToManager = managerDTOToManager;
+
+        this.priceDTOToPrice = priceDTOToPrice;
     }
 
 
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-        MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice());
+        MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
         if (menuItem != null) {
             return new ResponseEntity<>(menuItem, HttpStatus.CREATED);
@@ -64,7 +67,8 @@ public class ManagerController {
 
     @PostMapping(value = "/new-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
-        DrinkCardItem drinkCardItem = managerService.createNewDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO), drinkCardItemDTO.getPrice());
+        DrinkCardItem drinkCardItem = managerService.createNewDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO),
+                drinkCardItemDTO.getPrice().getValue());
 
         if (drinkCardItem != null) {
             return new ResponseEntity<>(drinkCardItem, HttpStatus.CREATED);
@@ -74,7 +78,7 @@ public class ManagerController {
 
     @PostMapping(value = "/update-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
-        MenuItem menuItem = managerService.updateMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice());
+        MenuItem menuItem = managerService.updateMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO));
 
         if (menuItem != null) {
             return new ResponseEntity<>(menuItem, HttpStatus.CREATED);
@@ -85,7 +89,7 @@ public class ManagerController {
 
     @PostMapping(value = "/update-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
-        DrinkCardItem drinkCardItem = managerService.updateDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO), drinkCardItemDTO.getPrice());
+        DrinkCardItem drinkCardItem = managerService.updateDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
 
         if (drinkCardItem != null) {
             return new ResponseEntity<>(drinkCardItem, HttpStatus.CREATED);

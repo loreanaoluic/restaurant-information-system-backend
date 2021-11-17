@@ -1,6 +1,7 @@
 package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.model.DrinkCardItem;
+import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.DrinkCardItemRepository;
 import com.app.restaurant.service.IDrinkCardItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.List;
 public class DrinkCardItemService implements IDrinkCardItemService {
 
     private final DrinkCardItemRepository drinkCardItemRepository;
+    private final PriceService priceService;
 
     @Autowired
-    public DrinkCardItemService(DrinkCardItemRepository drinkCardItemRepository) {
+    public DrinkCardItemService(DrinkCardItemRepository drinkCardItemRepository, PriceService priceService) {
         this.drinkCardItemRepository = drinkCardItemRepository;
+        this.priceService = priceService;
     }
 
     @Override
@@ -45,7 +48,16 @@ public class DrinkCardItemService implements IDrinkCardItemService {
         updated.setImage(drinkCardItem.getImage());
         updated.setDescription(drinkCardItem.getDescription());
 
+        if (drinkCardItem.getPrice().getValue() != updated.getPrice().getValue()) {
+            updated.setPrice(drinkCardItem.getPrice());
+        }
+
         drinkCardItemRepository.save(updated);
+
+        Price price = priceService.findOne(drinkCardItem.getPrice().getId());
+        price.setItem(updated);
+        priceService.save(price);
+
         return updated;
     }
 }

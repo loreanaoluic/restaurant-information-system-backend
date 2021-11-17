@@ -28,15 +28,32 @@ INSERT INTO users (dtype, name, last_name, username, email_address, password, de
 values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '1234', false, 7);
 
 
-
 INSERT INTO menu (id)
 values (1);
 
-INSERT INTO reports (id, income, expense, date)
-values (7, 1234, 150, 1636583064000);
 
-INSERT INTO reports (id, income, expense, date)
-values (8, 2200, 1500, 1636842264000);
+INSERT INTO price (value, start_date, end_date)
+values (1000.0, 1637177653457, 0);
 
-INSERT INTO reports (id, income, expense, date)
-values (9, 2200, 1500, 1637101464000);
+INSERT INTO price (value, start_date, end_date)
+values (1500.0, 1637177653457, 0);
+
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
+
+UPDATE price SET item_id = 1 WHERE id = 1;
+UPDATE price SET item_id = 2 WHERE id = 2;
+
+
+INSERT INTO reports (id, income, expense)
+values (7, 1234, 150);
+
+INSERT INTO reports (id, income, expense)
+values (8, 2200, 1500);
+
+INSERT INTO reports (id, income, expense)
+values (9, 2200, 1500);

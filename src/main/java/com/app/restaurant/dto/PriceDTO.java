@@ -8,6 +8,8 @@ import lombok.Setter;
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class PriceDTO {
+
+    private Integer id;
     private double value;
     private long startDate;
     private long endDate;

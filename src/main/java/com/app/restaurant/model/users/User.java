@@ -41,9 +41,8 @@ public abstract class User implements UserDetails {
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = Boolean.FALSE;
 
-    @OneToMany
-    @JsonIgnore
-    private List<Salary> salary;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Salary salary;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
