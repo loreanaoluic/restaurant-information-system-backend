@@ -17,6 +17,8 @@ public abstract class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
+
     private String ingredients;
 
     private String image;

@@ -19,6 +19,6 @@ public class Receipt {
 
     @OneToMany(mappedBy = "receipt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReceiptItem> receiptItems;
-    
+
     private long issueDate;
 }
