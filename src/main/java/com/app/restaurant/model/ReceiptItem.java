@@ -33,4 +33,11 @@ public class ReceiptItem {
 
     @OneToOne
     private User author;
+
+    public ReceiptItem(int quantity, String additionalNote, ReceiptItemStatus itemStatus, Receipt receipt) {
+        this.quantity = quantity;
+        this.additionalNote = additionalNote;
+        this.itemStatus = itemStatus;
+        this.receipt = receipt;
+    }
 }

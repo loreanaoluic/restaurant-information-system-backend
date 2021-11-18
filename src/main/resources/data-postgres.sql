@@ -72,3 +72,6 @@ values (1, 'poruka2', 0, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
 values (1, 'poruka3', 0, 3);
+
+INSERT INTO restaurant_table (id, table_status)
+values (1, 0);
