@@ -42,7 +42,7 @@ public class ManagerController {
 
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
-                             RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService,
+                             RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
                              IUserService userService, UserRepository userRepository,
                              DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
                              PriceDTOToPrice priceDTOToPrice, ManagerDTOToManager managerDTOToManager) 

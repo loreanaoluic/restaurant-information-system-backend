@@ -3,7 +3,7 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.RequestDTO;
 import com.app.restaurant.model.Request;
 import com.app.restaurant.service.IRequestService;
-import com.app.restaurant.support.RequestDTOtoRequest;
+import com.app.restaurant.support.RequestDTOToRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +17,10 @@ public class ChefController {
 
     private final IRequestService requestService;
 
-    private final RequestDTOtoRequest requestDTOtoRequest;
+    private final RequestDTOToRequest requestDTOtoRequest;
 
     @Autowired
-    public ChefController(IRequestService requestService, RequestDTOtoRequest requestDTOtoRequest) {
+    public ChefController(IRequestService requestService, RequestDTOToRequest requestDTOtoRequest) {
         this.requestService = requestService;
         this.requestDTOtoRequest = requestDTOtoRequest;
     }

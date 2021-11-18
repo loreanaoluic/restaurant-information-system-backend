@@ -6,6 +6,7 @@ import com.app.restaurant.model.Receipt;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.service.implementation.DrinkCardItemService;
 import com.app.restaurant.service.implementation.MenuItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ReceiptDTOToReceipt implements Converter<ReceiptDTO, Receipt> {
               ri.setId(riDTO.getId());
               ri.setReceipt(receipt);
               ri.setQuantity(riDTO.getQuantity());
-              ri.setItemStatus(riDTO.getStatus());
+              ri.setItemStatus(riDTO.getItemStatus());
               ri.setAdditionalNote(riDTO.getAdditionalNote());
 
               ri.setItem(this.menuItemService.findOne(riDTO.getItemId()));
