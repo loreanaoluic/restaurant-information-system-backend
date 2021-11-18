@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @ComponentScan(basePackages = { "com.app.restaurant.*" })
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-
 public class RestaurantApplication {
 
     public static void main(String[] args) {

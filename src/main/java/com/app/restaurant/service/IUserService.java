@@ -1,7 +1,22 @@
 package com.app.restaurant.service;
 
+import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface IUserService extends IGenericService<User> {
+import java.util.List;
 
+public interface IUserService extends UserDetailsService ,IGenericService<User>{
+    @Override
+    public List<User> findAll();
+
+    @Override
+    User findOne(Integer id);
+
+    @Override
+    User save(User entity);
+
+    User update(User user);
+
+    User create(User entity) throws Exception;
 }

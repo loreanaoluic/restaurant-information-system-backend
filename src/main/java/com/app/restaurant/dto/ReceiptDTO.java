@@ -13,3 +13,4 @@ public class ReceiptDTO {
     private List<ReceiptItemDTO> itemDTOs;
     private long issueDate;
 }
+

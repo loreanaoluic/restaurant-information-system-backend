@@ -1,6 +1,7 @@
 package com.app.restaurant.model;
 
 import com.app.restaurant.model.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,12 @@ public class Salary {
     private long endDate;
 
     @OneToOne
+    @JsonIgnore
     private User user;
+
+    public Salary(Integer value,long startDate,User user) {
+        this.value=value;
+        this.startDate= System.currentTimeMillis();
+        this.user=user;
+    }
 }

@@ -78,4 +78,9 @@ public class RequestService implements IRequestService {
             return 1;
         }
     }
+
+    @Override
+    public Request createRequest(Request request) {
+        return this.save(request);
+    }
 }

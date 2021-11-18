@@ -8,10 +8,11 @@ import lombok.Setter;
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class ReceiptItemDTO {
+
     private Integer id;
-    private Integer quantity;
+    private int quantity;
     private String additionalNote;
-    private ReceiptItemStatus status;
-    private Integer receiptId;
+    private ReceiptItemStatus itemStatus;
+    private ReceiptDTO receipt;
     private Integer itemId;
 }
