@@ -14,7 +14,7 @@ import com.app.restaurant.support.DrinkCardItemDTOToDrinkCardItem;
 import com.app.restaurant.support.ManagerDTOToManager;
 import com.app.restaurant.support.MenuItemDTOToMenuItem;
 import com.app.restaurant.support.PriceDTOToPrice;
-import com.app.restaurant.support.RequestDTOtoRequest;
+import com.app.restaurant.support.RequestDTOToRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +35,7 @@ public class ManagerController {
     private final UserRepository userRepository;
 
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
-    private final RequestDTOtoRequest requestDTOtoRequest;
+    private final RequestDTOToRequest requestDTOtoRequest;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
     private final PriceDTOToPrice priceDTOToPrice;
@@ -43,7 +43,10 @@ public class ManagerController {
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
                              RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService,
-                             IUserService userService, UserRepository userRepository, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem, PriceDTOToPrice priceDTOToPrice, ManagerDTOToManager managerDTOToManager) {
+                             IUserService userService, UserRepository userRepository,
+                             DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
+                             PriceDTOToPrice priceDTOToPrice, ManagerDTOToManager managerDTOToManager) 
+    {
 
         this.managerService = managerService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;

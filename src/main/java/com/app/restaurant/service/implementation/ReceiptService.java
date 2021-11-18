@@ -1,8 +1,10 @@
 package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.model.Receipt;
+import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.repository.ReceiptRepository;
 import com.app.restaurant.service.IReceiptService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,12 @@ import java.util.List;
 public class ReceiptService implements IReceiptService {
 
     private final ReceiptRepository receiptRepository;
+    private final ReceiptItemService receiptItemService;
 
-    public ReceiptService(ReceiptRepository receiptRepository) {
+    @Autowired
+    public ReceiptService(ReceiptRepository receiptRepository, ReceiptItemService receiptItemService) {
         this.receiptRepository = receiptRepository;
+        this.receiptItemService = receiptItemService;
     }
 
 
@@ -30,5 +35,18 @@ public class ReceiptService implements IReceiptService {
     @Override
     public Receipt save(Receipt entity) {
         return this.receiptRepository.save(entity);
+    }
+
+    @Override
+    public int updateReceipt(Receipt receipt) {
+        if(this.findOne(receipt.getId()) != null){
+
+            this.receiptRepository.save(receipt);
+
+            return 0;
+        }
+
+
+        return 1;
     }
 }

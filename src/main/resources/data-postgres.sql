@@ -31,6 +31,17 @@ values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '1234', false, 7);
 INSERT INTO menu (id)
 values (1);
 
+INSERT INTO drink_card (id)
+values (1);
+
+INSERT INTO reports (income, expense)
+values (1234, 150);
+
+INSERT INTO reports (income, expense)
+values (2200, 1500);
+
+INSERT INTO reports (income, expense)
+values (2200, 1500);
 
 INSERT INTO price (value, start_date, end_date)
 values (1000.0, 1637177653457, 0);
@@ -58,8 +69,11 @@ UPDATE price SET item_id = 3 WHERE id = 3;
 INSERT INTO reports (id, income, expense)
 values (7, 1234, 150);
 
-INSERT INTO reports (id, income, expense)
-values (8, 2200, 1500);
+
+------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO receipts (id, issue_date)
+values (1, 1637193115);
 
 INSERT INTO reports (id, income, expense)
 values (9, 2200, 1500);
@@ -75,3 +89,4 @@ values (1, 'poruka3', 0, 3);
 
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);
+
