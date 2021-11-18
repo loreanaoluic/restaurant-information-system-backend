@@ -8,12 +8,12 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RequestDTOtoRequest implements Converter<RequestDTO, Request> {
+public class RequestDTOToRequest implements Converter<RequestDTO, Request> {
 
     private final UserService userService;
 
     @Autowired
-    public RequestDTOtoRequest(UserService userService) {
+    public RequestDTOToRequest(UserService userService) {
         this.userService = userService;
     }
 
