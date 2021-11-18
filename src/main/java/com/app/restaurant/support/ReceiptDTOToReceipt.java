@@ -37,10 +37,9 @@ public class ReceiptDTOToReceipt implements Converter<ReceiptDTO, Receipt> {
             ri.setQuantity(riDTO.getQuantity());
             ri.setItemStatus(riDTO.getStatus());
             ri.setAdditionalNote(riDTO.getAdditionalNote());
-            if(riDTO.getMenuItemId() != null && riDTO.getMenuItemId() > 0) ri.setItem(this.menuItemService.findOne(riDTO.getMenuItemId()));
-            else if(riDTO.getDrinkCardItemId() != null && riDTO.getDrinkCardItemId() > 0) ri.setItem(this.drinkCardItemService.findOne(riDTO.getDrinkCardItemId()));
 
-
+            ri.setItem(this.menuItemService.findOne(riDTO.getItemId()));
+            ri.setItem(this.drinkCardItemService.findOne(riDTO.getItemId()));
 
             receipt.getReceiptItems().add(ri);
         }

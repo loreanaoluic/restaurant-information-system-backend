@@ -13,6 +13,5 @@ public class ReceiptItemDTO {
     private String additionalNote;
     private ReceiptItemStatus status;
     private Integer receiptId;
-    private Integer menuItemId;
-    private Integer drinkCardItemId;
+    private Integer itemId;
 }
