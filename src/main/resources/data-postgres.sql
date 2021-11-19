@@ -34,14 +34,7 @@ values (1);
 INSERT INTO drink_card (id)
 values (1);
 
-INSERT INTO reports (income, expense)
-values (1234, 150);
 
-INSERT INTO reports (income, expense)
-values (2200, 1500);
-
-INSERT INTO reports (income, expense)
-values (2200, 1500);
 
 INSERT INTO price (value, start_date, end_date)
 values (1000.0, 1637177653457, 0);
@@ -66,8 +59,7 @@ UPDATE price SET item_id = 1 WHERE id = 1;
 UPDATE price SET item_id = 2 WHERE id = 2;
 UPDATE price SET item_id = 3 WHERE id = 3;
 
-INSERT INTO reports (id, income, expense)
-values (7, 1234, 150);
+
 
 
 ------------------------------------------------------------------------------------------------------------------
@@ -80,8 +72,7 @@ values (2, 1637193600);
 
 
 
-INSERT INTO reports (id, income, expense)
-values (9, 2200, 1500);
+
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
 values (2, 'poruka', 0, 1, 1);
@@ -101,3 +92,11 @@ values (1, 'poruka5', 0, 3, 2);
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);
 
+INSERT INTO expenses (id, text, value, date, deleted)
+values (1,'nabavka salate', 2000,  1637193115, false);
+
+INSERT INTO expenses (id, text, value, date, deleted)
+values (2,'nabavka vina', 2000,  1637193115, false);
+
+INSERT INTO expenses (id, text, value, date, deleted)
+values (3,'nabavka makarona', 2690,  1637193600, false);

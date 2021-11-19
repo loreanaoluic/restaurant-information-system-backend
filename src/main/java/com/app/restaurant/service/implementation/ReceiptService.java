@@ -60,4 +60,19 @@ public class ReceiptService implements IReceiptService {
     public List<Receipt> findByDate(long date){
         return receiptRepository.findByDate(date);
     }
+
+    public double calculateValue(List<Receipt> receipts){
+        double value = 0;
+        for (Receipt r: receipts
+        ) {
+
+            for (ReceiptItem rr:r.getReceiptItems()
+            ) {
+
+                value += (rr.getQuantity()*rr.getItem().getPrice().getValue());
+            }
+
+        }
+        return value;
+    }
 }
