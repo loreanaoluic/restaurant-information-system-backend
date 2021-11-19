@@ -22,4 +22,6 @@ public class Receipt {
     private List<ReceiptItem> receiptItems;
 
     private long issueDate;
+
+
 }

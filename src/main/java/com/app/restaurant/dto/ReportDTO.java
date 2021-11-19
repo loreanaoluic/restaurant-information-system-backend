@@ -16,7 +16,6 @@ public class ReportDTO {
     private double expense;
 
     public ReportDTO(Report r){
-        id = r.getId();
         income = r.getIncome();
         expense = r.getExpense();
     }

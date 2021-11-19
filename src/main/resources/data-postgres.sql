@@ -75,17 +75,28 @@ values (7, 1234, 150);
 INSERT INTO receipts (id, issue_date)
 values (1, 1637193115);
 
+INSERT INTO receipts (id, issue_date)
+values (2, 1637193600);
+
+
+
 INSERT INTO reports (id, income, expense)
 values (9, 2200, 1500);
 
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
-values (2, 'poruka', 0, 1);
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (2, 'poruka', 0, 1, 1);
 
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
-values (1, 'poruka2', 0, 2);
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka2', 0, 2, 1);
 
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id)
-values (1, 'poruka3', 0, 3);
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka3', 0, 3, 1);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka4', 0, 2, 2);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka5', 0, 3, 2);
 
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);

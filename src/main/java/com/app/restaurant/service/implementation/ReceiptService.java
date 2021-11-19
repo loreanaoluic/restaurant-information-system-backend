@@ -5,14 +5,16 @@ import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.repository.ReceiptRepository;
 import com.app.restaurant.service.IReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ReceiptService implements IReceiptService {
-
+    @Autowired
     private final ReceiptRepository receiptRepository;
+
     private final ReceiptItemService receiptItemService;
 
     @Autowired
@@ -48,5 +50,14 @@ public class ReceiptService implements IReceiptService {
 
 
         return 1;
+    }
+
+
+    public List<Receipt> findByDates(long start_date, long end_date){
+        return receiptRepository.findByDates(start_date, end_date);
+    }
+
+    public List<Receipt> findByDate(long date){
+        return receiptRepository.findByDate(date);
     }
 }

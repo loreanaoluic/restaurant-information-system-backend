@@ -16,6 +16,11 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public Report(double i, double e){
+        this.income = i;
+        this.expense = e;
+
+    }
     private double income;
 
     private double expense;
