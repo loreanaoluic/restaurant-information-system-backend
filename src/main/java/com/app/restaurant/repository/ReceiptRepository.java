@@ -11,7 +11,7 @@ import java.util.List;
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
 
 
-    @Query(value = "select * from Receipts r where r.issue_date between ?1 and ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM Receipts r WHERE r.issue_date BETWEEN ?1 AND ?2", nativeQuery = true)
     List<Receipt> findByDates(long start_date, long end_date);
 
     @Query(value = "select * from Receipts r where r.issue_date = ?1", nativeQuery = true)

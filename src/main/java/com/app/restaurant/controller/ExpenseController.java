@@ -29,7 +29,7 @@ public class ExpenseController {
         this.expenseConverter = expenseConverter;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<ExpenseDTO>> getAll(){
         List<Expense> expenses = expenseService.findAll();
         List<ExpenseDTO> expensesDTO = new ArrayList<>();

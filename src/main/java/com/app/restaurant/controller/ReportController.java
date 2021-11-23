@@ -34,7 +34,7 @@ public class ReportController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ReportDTO> getAll(){
         List<Receipt> receipts = receiptService.findAll();
         List<Expense> expenses = expenseService.findAll();

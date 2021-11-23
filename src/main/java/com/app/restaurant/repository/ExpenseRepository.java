@@ -10,9 +10,16 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     List<Expense> findAll();
-    @Query(value = "select * from Expenses e where e.date = ?1", nativeQuery = true)
+    @Query("select e from Expense e where e.date = ?1")
     List<Expense> findByDate(long date);
 
-    @Query(value = "select * from Expenses e where e.date between ?1 and ?2", nativeQuery = true)
+    @Query("select e from Expense e where e.date between ?1 and ?2")
     List<Expense> findByDates(long start_date, long end_date);
+
+
+
+
+
+
+
 }

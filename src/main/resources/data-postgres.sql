@@ -92,11 +92,14 @@ values (1, 'poruka5', 0, 3, 2);
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);
 
-INSERT INTO expenses (id, text, value, date, deleted)
-values (1,'nabavka salate', 2000,  1637193115, false);
+INSERT INTO expenses (text, value, date, deleted)
+values ('nabavka salate', 2000,  1637193115, false);
 
-INSERT INTO expenses (id, text, value, date, deleted)
-values (2,'nabavka vina', 2000,  1637193115, false);
+INSERT INTO expenses ( text, value, date, deleted)
+values ('nabavka vina', 2000,  1637193115, false);
 
-INSERT INTO expenses (id, text, value, date, deleted)
-values (3,'nabavka makarona', 2690,  1637193600, false);
+INSERT INTO expenses (text, value, date, deleted)
+values ('nabavka makarona', 2690,  1637193600, false);
+
+INSERT INTO expenses (text, value, date, deleted)
+values ('nabavka pepsija i fante', 8000,  1637193600, true);
