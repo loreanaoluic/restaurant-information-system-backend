@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,16 +42,19 @@ public class WaiterController {
     }
 
     @GetMapping(value = "/all-menu-items", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<List<MenuItem>> getMenuItems() {
         return new ResponseEntity<>(menuItemService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/all-drink-card-items", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<List<DrinkCardItem>> getDrinkCardItems() {
         return new ResponseEntity<>(drinkCardItemService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/new-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createWaiter(@RequestBody WaiterDTO waiterDTO) {
         Waiter waiter = null;
         try {
@@ -67,6 +71,7 @@ public class WaiterController {
     }
 
     @PostMapping(value = "/update-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
     public ResponseEntity<?> updateWaiter(@RequestBody WaiterDTO waiterDTO) {
         Waiter waiter = null;
         try {
@@ -82,12 +87,14 @@ public class WaiterController {
     }
 
     @PostMapping(value = "/order/{table-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<?> newReceipt(@PathVariable("table-id") Integer tableId) {
         waiterService.newReceipt(tableId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/order/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<?> newOrder(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
                                       @RequestBody ReceiptItemDTO receiptItemDTO) throws Exception {
         waiterService.newOrder(receiptItemDTOToReceiptItem.convert(receiptItemDTO), tableId, receiptId);

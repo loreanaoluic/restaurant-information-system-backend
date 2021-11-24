@@ -9,6 +9,7 @@ import com.app.restaurant.service.implementation.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ public class ReportController {
 
 
     @GetMapping("")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getAll(){
         List<Receipt> receipts = receiptService.findAll();
         List<Expense> expenses = expenseService.findAll();
@@ -42,6 +44,7 @@ public class ReportController {
     }
 
     @GetMapping("/{start_date}/{end_date}")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getByDates(@PathVariable Long start_date, @PathVariable Long end_date){
         List<Receipt> receipts = receiptService.findByDates(start_date, end_date);
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
@@ -60,6 +63,7 @@ public class ReportController {
     }
 
     @GetMapping("/{date}")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getByDates(@PathVariable Long date){
         List<Receipt> receipts = receiptService.findByDate(date);
         List<Expense> expenses = expenseService.getByDate(date);

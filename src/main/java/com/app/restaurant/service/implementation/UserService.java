@@ -7,6 +7,9 @@ import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.service.IGenericService;
 import com.app.restaurant.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,7 +29,16 @@ public class UserService implements IUserService , IGenericService<User> {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+        User user = userRepository.findByUsername(s);
+
+        for(User u : this.userRepository.findAll()){
+            System.out.println(u);
+        }
+
+        if (user == null) {
+            throw new UsernameNotFoundException("No user found for "+ s + ".");
+        }
+        return user;
     }
 
     @Override
@@ -62,4 +74,16 @@ public class UserService implements IUserService , IGenericService<User> {
 
         return entity;
     }
+
+	@Override
+    public User getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken)
+            return null;
+
+//        User user = (User) authentication.getPrincipal();
+        User user = this.userRepository.findByUsername(authentication.getName());
+        return user;
+    }
+
 }

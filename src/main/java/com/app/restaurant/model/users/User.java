@@ -3,20 +3,19 @@ package com.app.restaurant.model.users;
 import com.app.restaurant.model.Role;
 import com.app.restaurant.model.Salary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter @ToString(exclude = "salary")
 public abstract class User implements UserDetails {
 
     @Id
@@ -29,7 +28,7 @@ public abstract class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "email_address", unique = true, nullable = false)
@@ -48,14 +47,12 @@ public abstract class User implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(this.role);
-    }
-
-    @Override
-    public String getUsername() {
-        return getEmailAddress();
     }
 
     @Override

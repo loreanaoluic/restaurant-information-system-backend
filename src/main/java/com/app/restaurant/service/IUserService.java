@@ -19,4 +19,6 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     User update(User user) throws Exception;
 
     User create(User entity) throws Exception;
+
+    User getLoggedInUser();
 }

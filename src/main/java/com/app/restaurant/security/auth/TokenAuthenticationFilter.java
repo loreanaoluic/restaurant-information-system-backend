@@ -1,4 +1,4 @@
-package isa9.Farmacy.security.auth;
+package com.app.restaurant.security.auth;
 
 import java.io.IOException;
 
@@ -12,15 +12,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import isa9.Farmacy.security.TokenUtils;
+import com.app.restaurant.security.TokenUtils;
 
 //Filter koji ce presretati svaki zahtev klijenta ka serveru
 //Sem nad putanjama navedenim u WebSecurityConfig.configure(WebSecurity web)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private TokenUtils tokenUtils;
-
 	private UserDetailsService userDetailsService;
+
 
 	public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {
 		this.tokenUtils = tokenHelper;
@@ -31,16 +31,18 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		String email;
+		String username;
 		String authToken = tokenUtils.getToken(request);
 
 		if (authToken != null) {
 			// uzmi username iz tokena
-			email = tokenUtils.getUsernameFromToken(authToken);
+			username = tokenUtils.getUsernameFromToken(authToken);
 			
-			if (email != null) {
+			if (username != null) {
 				// uzmi user-a na osnovu username-a
-				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+				System.out.println(userDetails.getUsername());
 				
 				// proveri da li je prosledjeni token validan
 				if (tokenUtils.validateToken(authToken, userDetails)) {

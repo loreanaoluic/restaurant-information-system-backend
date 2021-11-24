@@ -1,4 +1,4 @@
-package isa9.Farmacy.model.dto;
+package com.app.restaurant.dto;
 
 public class UserTokenState {
 
