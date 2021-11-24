@@ -92,7 +92,7 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
-    public User setDynamicUser(UserDTO dto) throws Exception {
+    public User updateDynamicUser(UserDTO dto) throws Exception {
         User u = null;
         switch(dto.getDtype()) {
             case "Manager":
@@ -137,6 +137,52 @@ public class UserService implements IUserService , IGenericService<User> {
         this.userRepository.delete(tmp);
         this.create(u);
 
+        return u;
+    }
+
+    @Override
+    public User createDynamicUser(UserDTO dto) throws Exception {
+        User u = null ;
+
+        switch(dto.getDtype()) {
+            case "Manager":
+                u=new Manager();
+                u.setRole(new Role(2,"Manager"));
+                break;
+            case "Director":
+                u=new Director();
+                u.setRole(new Role(1,"Director"));
+                break;
+            case "Bartender":
+                u=new Bartender();
+                u.setRole(new Role(6,"Bartender"));
+                break;
+            case "Chef":
+                u=new Chef();
+                u.setRole(new Role(3,"Chef"));
+                break;
+            case "Cook":
+                u=new Cook();
+                u.setRole(new Role(2,"Cook"));
+                break;
+            case "HeadBartender":
+                u=new HeadBartender();
+                u.setRole(new Role(5,"HeadBartender"));
+                break;
+            case "Waiter":
+                u=new Waiter();
+                u.setRole(new Role(7,"Waiter"));
+                break;
+        }
+
+        u.setName(dto.getName());
+        u.setLastName(dto.getLastName());
+        u.setEmailAddress(dto.getEmailAddress());
+        u.setUsername(dto.getUsername());
+        u.setPassword(dto.getPassword());
+        u.setDeleted(dto.getDeleted());
+
+        this.create(u);
         return u;
     }
 

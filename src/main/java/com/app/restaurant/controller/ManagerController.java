@@ -156,61 +156,10 @@ public class ManagerController {
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
-        User user = null;
-        try {
-            User u = null;
-            switch(userDTO.getDtype()) {
-                case "Manager":
-                    u=new Manager();
-                    u.setRole(new Role(2,"Manager"));
-                    break;
-                case "Director":
-                    u=new Director();
-                    u.setRole(new Role(1,"Director"));
-                    break;
-                case "Bartender":
-                    u=new Bartender();
-                    u.setRole(new Role(6,"Bartender"));
-                    break;
-                case "Chef":
-                    u=new Chef();
-                    u.setRole(new Role(3,"Chef"));
-                    break;
-                case "Cook":
-                    u=new Cook();
-                    u.setRole(new Role(2,"Cook"));
-                    break;
-                case "HeadBartender":
-                    u=new HeadBartender();
-                    u.setRole(new Role(5,"HeadBartender"));
-                    break;
-                case "Waiter":
-                    u=new Waiter();
-                    u.setRole(new Role(7,"Waiter"));
-                    break;
-            }
-            User tmp= userRepository.findByUsername(userDTO.getUsername());
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
+        User user = userService.updateDynamicUser(userDTO);
 
-            u.setId(tmp.getId());
-            u.setName(tmp.getName());
-            u.setLastName(tmp.getLastName());
-            u.setEmailAddress(tmp.getEmailAddress());
-            u.setUsername(tmp.getUsername());
-            u.setPassword(tmp.getPassword());
-            u.setDeleted(tmp.getDeleted());
-
-            tmp.setDeleted(true);
-            tmp=userService.update(tmp);
-            user = userService.update(u);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")

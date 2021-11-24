@@ -28,64 +28,15 @@ public class UserContoller {
 
     @PostMapping(value = "/new-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
-        User user = null;
-        try {
-            User u = null ;
-
-            switch(userDTO.getDtype()) {
-                case "Manager":
-                    u=new Manager();
-                    u.setRole(new Role(2,"Manager"));
-                    break;
-                case "Director":
-                    u=new Director();
-                    u.setRole(new Role(1,"Director"));
-                    break;
-                case "Bartender":
-                    u=new Bartender();
-                    u.setRole(new Role(6,"Bartender"));
-                    break;
-                case "Chef":
-                    u=new Chef();
-                    u.setRole(new Role(3,"Chef"));
-                    break;
-                case "Cook":
-                    u=new Cook();
-                    u.setRole(new Role(2,"Cook"));
-                    break;
-                case "HeadBartender":
-                    u=new HeadBartender();
-                    u.setRole(new Role(5,"HeadBartender"));
-                    break;
-                case "Waiter":
-                    u=new Waiter();
-                    u.setRole(new Role(7,"Waiter"));
-                    break;
-            }
-
-            u.setName(userDTO.getName());
-            u.setLastName(userDTO.getLastName());
-            u.setEmailAddress(userDTO.getEmailAddress());
-            u.setUsername(userDTO.getUsername());
-            u.setPassword(userDTO.getPassword());
-            u.setDeleted(userDTO.getDeleted());
-
-            user = userService.create(u);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
-        }
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) throws Exception {
+        User user = userService.createDynamicUser(userDTO);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        User user = userService.setDynamicUser(userDTO);
+        User user = userService.updateDynamicUser(userDTO);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
