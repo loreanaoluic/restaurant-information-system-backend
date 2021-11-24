@@ -7,22 +7,22 @@ INSERT INTO role (name) values ('ROLE_BARTENDER');
 INSERT INTO role (name) values ('ROLE_WAITER');
 
 INSERT INTO users (dtype,  name, last_name, username, email_address, password, deleted, role_id)
-values ('Director', 'Nemanja', 'Milutinovic', 'nemanja', 'nemanja@gmail.com', '1234', false, 1);
+values ('Director', 'Nemanja', 'Milutinovic', 'nemanja', 'nemanja@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 1);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Manager', 'Dusan', 'Antic', 'dusan', 'dusan@gmail.com', '1234', false, 2);
+values ('Manager', 'Dusan', 'Antic', 'dusan', 'dusan@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 2);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Chef', 'Loreana', 'Oluic', 'loreana', 'loreana@gmail.com', '1234', false, 3);
+values ('Chef', 'Loreana', 'Oluic', 'loreana', 'loreana@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 3);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Cook', 'Mladen', 'Vasic', 'mladen', 'mladen@gmail.com', '1234', false, 4);
+values ('Cook', 'Mladen', 'Vasic', 'mladen', 'mladen@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 4);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('HeadBartender', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '1234', false, 5);
+values ('HeadBartender', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 5);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '1234', false, 6);
+values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 6);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
 values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$75igf4fsZD/fbcwd5gtoleX1or.jK0J7m2C.sswON0hgtSzclsARa', false, 7);

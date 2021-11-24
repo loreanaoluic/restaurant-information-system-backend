@@ -31,7 +31,7 @@ public abstract class User implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "email_address", unique = true, nullable = false)
+    @Column(name = "email_address", nullable = false)
     private String emailAddress;
 
     @Column(name = "password", nullable = false)
