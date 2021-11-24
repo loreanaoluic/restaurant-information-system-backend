@@ -8,6 +8,7 @@ import com.app.restaurant.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class UserContoller {
     }
 
     @PostMapping(value = "/new-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         User user = null;
         try {
@@ -81,6 +83,7 @@ public class UserContoller {
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         User user = null;
         try {
@@ -139,6 +142,7 @@ public class UserContoller {
     }
 
     @PostMapping(value = "/delete-user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
 
         Optional<User> tmp= userRepository.findById(id);

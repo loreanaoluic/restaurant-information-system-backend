@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,12 +19,10 @@ import java.util.List;
 @RequestMapping("/expenses")
 public class ExpenseController {
 
-    @Autowired
     private final ExpenseService expenseService;
-
-    @Autowired
     private final ExpenseDTOToExpense expenseConverter;
 
+    @Autowired
     public ExpenseController(ExpenseService expenseService, ExpenseDTOToExpense expenseConverter) {
         this.expenseService = expenseService;
         this.expenseConverter = expenseConverter;
@@ -42,6 +41,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{start_date}/{end_date}")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<List<ExpenseDTO>> getByDates(@PathVariable Long start_date, @PathVariable Long end_date){
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
@@ -54,6 +54,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{date}")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<List<ExpenseDTO>> getByDate(@PathVariable Long date){
         List<Expense> expenses = expenseService.getByDate(date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
@@ -66,6 +67,7 @@ public class ExpenseController {
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO){
         Expense e = expenseService.create(expenseConverter.convert(expenseDTO));
 
@@ -76,6 +78,7 @@ public class ExpenseController {
     }
 
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> updateExpense( @RequestBody ExpenseDTO expenseDTO){
         Expense e = expenseService.update(expenseConverter.convert(expenseDTO));
 
@@ -86,6 +89,7 @@ public class ExpenseController {
     }
 
     @DeleteMapping(value="/{id}")
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<?> deleteExpense(@PathVariable Integer id){
         expenseService.delete(id);
 

@@ -1,11 +1,11 @@
-package isa9.Farmacy.controller;
+package com.app.restaurant.controller;
 
-import isa9.Farmacy.model.User;
-import isa9.Farmacy.model.dto.UserDTO;
-import isa9.Farmacy.model.dto.UserTokenState;
-import isa9.Farmacy.security.auth.JwtAuthenticationRequest;
-import isa9.Farmacy.service.impl.db.dbUserService;
-import isa9.Farmacy.support.UserToUserDTO;
+import com.app.restaurant.dto.UserTokenState;
+import com.app.restaurant.model.users.User;
+import com.app.restaurant.service.implementation.UserService;
+import com.app.restaurant.dto.UserDTO;
+import com.app.restaurant.security.auth.JwtAuthenticationRequest;
+import com.app.restaurant.support.UserToUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,14 +19,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import isa9.Farmacy.security.*;
+import com.app.restaurant.security.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://pharmacy-tim9.herokuapp.com", "https://pharmacy9.herokuapp.com"})
+@CrossOrigin  //(origins = {"http://localhost:3000", "https://pharmacy-tim9.herokuapp.com", "https://pharmacy9.herokuapp.com"})
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 
@@ -34,13 +34,13 @@ public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
 
-    private dbUserService userService;
+    private UserService userService;
     private final UserToUserDTO userToUserDTO;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationController(TokenUtils t, AuthenticationManager aM, dbUserService us,
+    public AuthenticationController(TokenUtils t, AuthenticationManager aM, UserService us,
                                     UserToUserDTO userToUserDTO, PasswordEncoder pe){
         this.tokenUtils = t;
         this.authenticationManager = aM;
@@ -69,7 +69,7 @@ public class AuthenticationController {
 
         // Kreiraj token za tog korisnika
         User user = (User) authentication.getPrincipal();
-        String jwt = tokenUtils.generateToken(user.getEmail());
+        String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
@@ -116,18 +116,18 @@ public class AuthenticationController {
 
     @GetMapping("/getPasswordResetDate/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Timestamp> getPasswordResetDate(@PathVariable Long id){
+    public ResponseEntity<Timestamp> getPasswordResetDate(@PathVariable Integer id){
         User user = this.userService.findOne(id);
         return new ResponseEntity<>(user.getLastPasswordResetDate(), HttpStatus.OK);
     }
 
-    @PostMapping("/changePassword/{id}")
+    /*@PostMapping("/changePassword/{id}")
     public ResponseEntity<Boolean> changePassword(@PathVariable Long id, @RequestBody String newPassword){
         // TODO do we need to check if id is same as logged in user?
         newPassword = newPassword.substring(0, newPassword.length() - 1);
 
         return new ResponseEntity<>(this.userService.changePassword(id, passwordEncoder.encode(newPassword)),
                                     HttpStatus.OK);
-    }
+    }*/
 
 }

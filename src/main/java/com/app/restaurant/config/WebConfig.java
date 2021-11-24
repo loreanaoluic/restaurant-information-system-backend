@@ -1,4 +1,4 @@
-package isa9.Farmacy.config;
+package com.app.restaurant.config;
 
 
 import org.springframework.context.annotation.Configuration;

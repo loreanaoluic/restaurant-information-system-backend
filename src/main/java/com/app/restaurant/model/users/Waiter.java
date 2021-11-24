@@ -14,11 +14,11 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "user")
 public class Waiter extends User {
     public Waiter(Waiter man) {
-        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), man.getSalary(), man.getRole());
+        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), man.getSalary(), man.getRole(), man.getLastPasswordResetDate());
     }
 
     public Waiter(WaiterDTO man) {
-        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), null, null);
+        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), null, null, null);
     }
 
     public Waiter() {

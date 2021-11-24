@@ -1,4 +1,4 @@
-package isa9.Farmacy.security.auth;
+package com.app.restaurant.security.auth;
 
 // DTO za login
 public class JwtAuthenticationRequest {

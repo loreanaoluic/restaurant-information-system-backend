@@ -1,4 +1,4 @@
-package isa9.Farmacy.security.auth;
+package com.app.restaurant.security.auth;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

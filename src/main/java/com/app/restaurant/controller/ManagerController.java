@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class ManagerController {
 
 
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
         MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
@@ -74,6 +76,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/new-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
         DrinkCardItem drinkCardItem = managerService.createNewDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO),
                 drinkCardItemDTO.getPrice().getValue());
@@ -85,6 +88,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
         MenuItem menuItem = managerService.updateMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO));
 
@@ -96,6 +100,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
         DrinkCardItem drinkCardItem = managerService.updateDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
 
@@ -107,6 +112,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/new-manager", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createManager(@RequestBody ManagerDTO managerDTO) {
         Manager manager = null;
         try {
@@ -123,6 +129,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/request-approval", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> requestReview(@RequestBody RequestReviewDTO reviewDto) {
 
         if (reviewDto.isApproved()) {
@@ -134,6 +141,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-manager", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateManager(@RequestBody ManagerDTO managerDTO) {
         Manager manager = null;
         try {
@@ -149,6 +157,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         User user = null;
         try {
@@ -206,6 +215,7 @@ public class ManagerController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Integer value) {
         User user=null;
         try {
@@ -226,6 +236,7 @@ public class ManagerController {
     }
 
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> getUsers() {
         List<User> users=userRepository.findAll();
 

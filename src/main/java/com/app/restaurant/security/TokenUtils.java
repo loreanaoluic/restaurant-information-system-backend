@@ -1,4 +1,4 @@
-package isa9.Farmacy.security;
+package com.app.restaurant.security;
 
 import java.util.Date;
 
@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import isa9.Farmacy.model.User;
+import com.app.restaurant.model.users.User;
 
 // Utility klasa za rad sa JSON Web Tokenima
 @Component
 public class TokenUtils {
 
 	// Izdavac tokena
-	@Value("ISA9-PHARMACY")
+	@Value("RESTAURANT-IS")
 	private String APP_NAME;
 
 	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
