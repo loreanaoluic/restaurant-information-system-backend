@@ -76,7 +76,7 @@ public class ExpenseController {
     }
 
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExpenseDTO> updateExpense( @RequestBody ExpenseDTO expenseDTO){
+    public ResponseEntity<ExpenseDTO> updateExpense( @RequestBody ExpenseDTO expenseDTO) throws Exception {
         Expense e = expenseService.update(expenseConverter.convert(expenseDTO));
 
         ExpenseDTO eDTO = new ExpenseDTO(e);
@@ -86,7 +86,7 @@ public class ExpenseController {
     }
 
     @DeleteMapping(value="/{id}")
-    public ResponseEntity<?> deleteExpense(@PathVariable Integer id){
+    public ResponseEntity<?> deleteExpense(@PathVariable Integer id) throws Exception {
         expenseService.delete(id);
 
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);

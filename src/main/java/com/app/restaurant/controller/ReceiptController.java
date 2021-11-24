@@ -27,17 +27,10 @@ public class ReceiptController {
     }
 
     @PostMapping("/update-receipt")
-    public ResponseEntity<?> updateReceipt(@RequestBody ReceiptDTO dto){
-        int result = this.receiptService.updateReceipt(this.receiptDTOtoReceipt.convert(dto));
+    public ResponseEntity<?> updateReceipt(@RequestBody ReceiptDTO dto) throws Exception {
+        this.receiptService.updateReceipt(this.receiptDTOtoReceipt.convert(dto));
 
-        switch(result) {
-            case 0:
-                return new ResponseEntity<>("Receipt updated successfully", HttpStatus.OK);
-            case 1:
-                return new ResponseEntity<>( "Tried to update non-existing receipt", HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(null, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(null, HttpStatus.OK);
 
     }
 }

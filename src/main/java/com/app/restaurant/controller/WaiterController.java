@@ -89,7 +89,7 @@ public class WaiterController {
 
     @PostMapping(value = "/order/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> newOrder(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
-                                      @RequestBody ReceiptItemDTO receiptItemDTO) {
+                                      @RequestBody ReceiptItemDTO receiptItemDTO) throws Exception {
         waiterService.newOrder(receiptItemDTOToReceiptItem.convert(receiptItemDTO), tableId, receiptId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

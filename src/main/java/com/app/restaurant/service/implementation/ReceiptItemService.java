@@ -1,6 +1,7 @@
 package com.app.restaurant.service.implementation;
 
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
@@ -40,11 +41,11 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
-    public ReceiptItem changeStatusToReady(Integer receiptItemId, Integer userId) {
+    public ReceiptItem changeStatusToReady(Integer receiptItemId, Integer userId) throws Exception {
         ReceiptItem receiptItem = this.findOne(receiptItemId);
 
         if (receiptItem == null) {
-            return null;
+            throw new NotFoundException("Receipt item with given id does not exist.");
         }
 
         if (receiptItem.getItemStatus().equals(ReceiptItemStatus.ORDERED)) {

@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.DrinkCardItemRepository;
@@ -37,11 +38,11 @@ public class DrinkCardItemService implements IDrinkCardItemService {
     }
 
     @Override
-    public DrinkCardItem update(DrinkCardItem drinkCardItem, Integer id) {
+    public DrinkCardItem update(DrinkCardItem drinkCardItem, Integer id) throws Exception {
         DrinkCardItem updated = this.findOne(id);
 
         if (updated == null) {
-            return null;
+            throw new NotFoundException("Drink card item with given id does not exist.");
         }
 
         updated.setIngredients(drinkCardItem.getIngredients());
@@ -55,6 +56,11 @@ public class DrinkCardItemService implements IDrinkCardItemService {
         drinkCardItemRepository.save(updated);
 
         Price price = priceService.findOne(drinkCardItem.getPrice().getId());
+
+        if (price == null) {
+            throw new NotFoundException("Price with given id does not exist.");
+        }
+
         price.setItem(updated);
         priceService.save(price);
 
