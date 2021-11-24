@@ -1,26 +1,23 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Receipt;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.repository.ReceiptRepository;
 import com.app.restaurant.service.IReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ReceiptService implements IReceiptService {
-    @Autowired
+
     private final ReceiptRepository receiptRepository;
 
-    private final ReceiptItemService receiptItemService;
-
     @Autowired
-    public ReceiptService(ReceiptRepository receiptRepository, ReceiptItemService receiptItemService) {
+    public ReceiptService(ReceiptRepository receiptRepository) {
         this.receiptRepository = receiptRepository;
-        this.receiptItemService = receiptItemService;
     }
 
 
@@ -40,16 +37,13 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public int updateReceipt(Receipt receipt) {
+    public void updateReceipt(Receipt receipt) throws Exception {
         if(this.findOne(receipt.getId()) != null){
 
-            this.receiptRepository.save(receipt);
-
-            return 0;
+            this.save(receipt);
+            return;
         }
-
-
-        return 1;
+        throw new NotFoundException("Receipt with given id does not exist.");
     }
 
 

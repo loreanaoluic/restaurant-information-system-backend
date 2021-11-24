@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.PriceRepository;
 import com.app.restaurant.service.IPriceService;
@@ -34,8 +35,13 @@ public class PriceService implements IPriceService {
     }
 
     @Override
-    public Price update(Price price, Integer id) {
+    public Price update(Price price, Integer id) throws Exception {
         Price updated = this.findOne(id);
+
+        if (updated == null) {
+            throw new NotFoundException("Price with given id does not exist.");
+        }
+
         updated.setValue(price.getValue());
         updated.setStartDate(price.getStartDate());
         updated.setEndDate(price.getEndDate());

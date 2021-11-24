@@ -32,7 +32,7 @@ public class CookController {
 
     @PostMapping(value = "/{user-id}/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_COOK')")
-    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id, @PathVariable("user-id") Integer userId) {
+    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id, @PathVariable("user-id") Integer userId) throws Exception {
         ReceiptItem receiptItem = receiptItemService.changeStatusToReady(id, userId);
 
         if (receiptItem == null) {

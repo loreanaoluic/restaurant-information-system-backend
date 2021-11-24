@@ -16,7 +16,7 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     @Override
     User save(User entity);
 
-    User update(User user);
+    User update(User user) throws Exception;
 
     User create(User entity) throws Exception;
 

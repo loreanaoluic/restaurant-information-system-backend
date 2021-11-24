@@ -1,20 +1,25 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.repository.ExpenseRepository;
+import com.app.restaurant.service.IExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-@Transactional
 
+@Transactional
 @Service
-public class ExpenseService implements  IExpenseService{
+public class ExpenseService implements IExpenseService {
+
+    private final ExpenseRepository expenseRepository;
 
     @Autowired
-    private ExpenseRepository expenseRepository;
-
+    public ExpenseService(ExpenseRepository expenseRepository) {
+        this.expenseRepository = expenseRepository;
+    }
 
     @Override
     public List<Expense> findAll() {
@@ -31,12 +36,6 @@ public class ExpenseService implements  IExpenseService{
         return expenseRepository.save(entity);
     }
 
-
-    @Override
-    public List<Expense> getAll() {
-        return expenseRepository.findAll();
-    }
-
     @Override
     public List<Expense> getByDate(long date) {
         return expenseRepository.findByDate(date);
@@ -48,24 +47,34 @@ public class ExpenseService implements  IExpenseService{
     }
 
     @Override
-    public void delete(Integer id) {
-        Expense e = expenseRepository.getById(id);
+    public void delete(Integer id) throws Exception {
+        Expense e = this.findOne(id);
+
+        if (e == null) {
+            throw new NotFoundException("Expense with given id does not exist.");
+        }
+
         e.setDeleted(true);
-        expenseRepository.save(e);
+        this.save(e);
 
     }
     @Override
     public Expense create(Expense e){
 
-        expenseRepository.save(e);
+        this.save(e);
 
         return e;
     }
 
     @Override
-    public Expense update(Expense e) {
+    public Expense update(Expense e) throws Exception {
 
-        Expense exp = expenseRepository.getById(e.getId());
+        Expense exp = this.findOne(e.getId());
+
+        if (exp == null) {
+            throw new NotFoundException("Expense with given id does not exist.");
+        }
+
         exp.setValue(e.getValue());
 
         exp.setText(e.getText());
@@ -81,8 +90,7 @@ public class ExpenseService implements  IExpenseService{
     public double calculateValue(List<Expense> expenses){
         double value = 0;
 
-        for (Expense e: expenses
-             ) {
+        for (Expense e: expenses) {
             value += e.getValue();
         }
         return value;

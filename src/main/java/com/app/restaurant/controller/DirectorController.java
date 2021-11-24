@@ -27,13 +27,9 @@ public class DirectorController {
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_DIRECTOR')")
     public ResponseEntity<?> getUsers() {
-        List<User> users=userRepository.findAll();
 
-        if(users != null) {
-            return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+        List<User> users = userRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
     }
 
 }

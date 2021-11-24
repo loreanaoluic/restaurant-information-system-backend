@@ -39,14 +39,13 @@ public class ManagerController {
     private final RequestDTOToRequest requestDTOtoRequest;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
-    private final PriceDTOToPrice priceDTOToPrice;
 
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
                              RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
                              IUserService userService, UserRepository userRepository,
                              DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
-                             PriceDTOToPrice priceDTOToPrice, ManagerDTOToManager managerDTOToManager) 
+                             ManagerDTOToManager managerDTOToManager)
     {
 
         this.managerService = managerService;
@@ -59,7 +58,6 @@ public class ManagerController {
 
         this.managerDTOToManager = managerDTOToManager;
 
-        this.priceDTOToPrice = priceDTOToPrice;
     }
 
 
@@ -89,7 +87,7 @@ public class ManagerController {
 
     @PostMapping(value = "/update-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+    public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception {
         MenuItem menuItem = managerService.updateMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO));
 
         if (menuItem != null) {
@@ -101,7 +99,7 @@ public class ManagerController {
 
     @PostMapping(value = "/update-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
+    public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
         DrinkCardItem drinkCardItem = managerService.updateDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
 
         if (drinkCardItem != null) {

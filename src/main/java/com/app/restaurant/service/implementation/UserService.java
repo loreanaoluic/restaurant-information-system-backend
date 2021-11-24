@@ -1,5 +1,7 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.DuplicateEntityException;
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.service.IGenericService;
@@ -9,7 +11,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -56,19 +57,18 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
-    public User update(User user) {
-        Optional<User> u=userRepository.findById(user.getId());
-        if(u.isPresent()==true) {
-            User updateUser = user;
-            userRepository.save(updateUser);
+    public User update(User user) throws Exception {
+        Optional<User> u = userRepository.findById(user.getId());
+        if (u.isPresent()) {
+            userRepository.save(user);
         }
-        return user;
+        throw new NotFoundException("User does not exist.");
     }
 
     @Override
     public User create(User entity) throws Exception {
         if (userRepository.findByUsername(entity.getUsername()) != null)
-            throw new Exception("User already exists.");
+            throw new DuplicateEntityException("User already exists.");
         else
             userRepository.save(entity);
 
