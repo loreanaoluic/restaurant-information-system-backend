@@ -19,7 +19,10 @@ public class Receipt {
     private Integer id;
 
     @OneToMany(mappedBy = "receipt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ReceiptItem> receiptItems;
 
     private long issueDate;
+
+
 }

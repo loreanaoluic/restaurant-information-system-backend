@@ -1,5 +1,6 @@
 package com.app.restaurant.service;
 
+import com.app.restaurant.dto.UserDTO;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,15 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     @Override
     User save(User entity);
 
-    User update(User user);
+    User update(User user) throws Exception;
 
     User create(User entity) throws Exception;
+
+    User getLoggedInUser();
+
+    User createDynamicUser(UserDTO dto) throws Exception;
+
+    User updateDynamicUser(UserDTO dto) throws Exception;
+
+
 }

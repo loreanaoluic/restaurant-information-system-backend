@@ -13,5 +13,5 @@ public interface IWaiterService {
 
     void newReceipt(Integer tableId);
 
-    boolean newOrder(ReceiptItem receiptItem, Integer tableId, Integer receiptId);
+    boolean newOrder(ReceiptItem receiptItem, Integer tableId, Integer receiptId) throws Exception;
 }

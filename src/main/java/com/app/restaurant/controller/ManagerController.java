@@ -14,11 +14,12 @@ import com.app.restaurant.support.DrinkCardItemDTOToDrinkCardItem;
 import com.app.restaurant.support.ManagerDTOToManager;
 import com.app.restaurant.support.MenuItemDTOToMenuItem;
 import com.app.restaurant.support.PriceDTOToPrice;
-import com.app.restaurant.support.RequestDTOtoRequest;
+import com.app.restaurant.support.RequestDTOToRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,15 +36,17 @@ public class ManagerController {
     private final UserRepository userRepository;
 
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
-    private final RequestDTOtoRequest requestDTOtoRequest;
+    private final RequestDTOToRequest requestDTOtoRequest;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
-    private final PriceDTOToPrice priceDTOToPrice;
 
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
-                             RequestDTOtoRequest requestDTOtoRequest, IRequestService requestService,
-                             IUserService userService, UserRepository userRepository, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem, PriceDTOToPrice priceDTOToPrice, ManagerDTOToManager managerDTOToManager) {
+                             RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
+                             IUserService userService, UserRepository userRepository,
+                             DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
+                             ManagerDTOToManager managerDTOToManager)
+    {
 
         this.managerService = managerService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;
@@ -55,11 +58,11 @@ public class ManagerController {
 
         this.managerDTOToManager = managerDTOToManager;
 
-        this.priceDTOToPrice = priceDTOToPrice;
     }
 
 
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
         MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
@@ -71,6 +74,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/new-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
         DrinkCardItem drinkCardItem = managerService.createNewDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO),
                 drinkCardItemDTO.getPrice().getValue());
@@ -82,7 +86,8 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> updateMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception {
         MenuItem menuItem = managerService.updateMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO));
 
         if (menuItem != null) {
@@ -93,7 +98,8 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> updateDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
         DrinkCardItem drinkCardItem = managerService.updateDrinkCardItem(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
 
         if (drinkCardItem != null) {
@@ -104,6 +110,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/new-manager", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createManager(@RequestBody ManagerDTO managerDTO) {
         Manager manager = null;
         try {
@@ -120,6 +127,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/request-approval", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> requestReview(@RequestBody RequestReviewDTO reviewDto) {
 
         if (reviewDto.isApproved()) {
@@ -131,6 +139,7 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-manager", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateManager(@RequestBody ManagerDTO managerDTO) {
         Manager manager = null;
         try {
@@ -146,63 +155,14 @@ public class ManagerController {
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
-        User user = null;
-        try {
-            User u = null;
-            switch(userDTO.getDtype()) {
-                case "Manager":
-                    u=new Manager();
-                    u.setRole(new Role(2,"Manager"));
-                    break;
-                case "Director":
-                    u=new Director();
-                    u.setRole(new Role(1,"Director"));
-                    break;
-                case "Bartender":
-                    u=new Bartender();
-                    u.setRole(new Role(6,"Bartender"));
-                    break;
-                case "Chef":
-                    u=new Chef();
-                    u.setRole(new Role(3,"Chef"));
-                    break;
-                case "Cook":
-                    u=new Cook();
-                    u.setRole(new Role(2,"Cook"));
-                    break;
-                case "HeadBartender":
-                    u=new HeadBartender();
-                    u.setRole(new Role(5,"HeadBartender"));
-                    break;
-                case "Waiter":
-                    u=new Waiter();
-                    u.setRole(new Role(7,"Waiter"));
-                    break;
-            }
-            User tmp= userRepository.findByUsername(userDTO.getUsername());
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
+        User user = userService.updateDynamicUser(userDTO);
 
-            u.setId(tmp.getId());
-            u.setName(tmp.getName());
-            u.setLastName(tmp.getLastName());
-            u.setEmailAddress(tmp.getEmailAddress());
-            u.setUsername(tmp.getUsername());
-            u.setPassword(tmp.getPassword());
-            u.setDeleted(tmp.getDeleted());
-
-            tmp.setDeleted(true);
-            tmp=userService.update(tmp);
-            user = userService.update(u);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Integer value) {
         User user=null;
         try {
@@ -223,6 +183,7 @@ public class ManagerController {
     }
 
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> getUsers() {
         List<User> users=userRepository.findAll();
 

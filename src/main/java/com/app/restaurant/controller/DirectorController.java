@@ -5,6 +5,7 @@ import com.app.restaurant.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,14 +25,11 @@ public class DirectorController {
     }
 
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_DIRECTOR')")
     public ResponseEntity<?> getUsers() {
-        List<User> users=userRepository.findAll();
 
-        if(users != null) {
-            return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+        List<User> users = userRepository.findAll();
+        return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
     }
 
 }

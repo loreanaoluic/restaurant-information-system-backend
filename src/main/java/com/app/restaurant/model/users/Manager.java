@@ -15,12 +15,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "user")
 public class Manager extends User {
     public Manager(Manager man) {
-        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), man.getSalary(), man.getRole());
+        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), man.getSalary(), man.getRole(), man.getLastPasswordResetDate());
     }
 
 
     public Manager(ManagerDTO man) {
-        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), null, null);
+        super(man.getId(), man.getName(), man.getLastName(), man.getUsername(), man.getEmailAddress(), man.getPassword(), man.getDeleted(), null, null, null);
     }
 
 
