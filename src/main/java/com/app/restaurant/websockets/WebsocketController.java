@@ -21,7 +21,7 @@ public class WebsocketController {
         if (messageConverted != null) {
             if (messageConverted.containsKey("toId") && messageConverted.get("toId") != null
                     && !messageConverted.get("toId").equals("")) {
-                this.simpMessagingTemplate.convertAndSend("/topic/" + messageConverted.get("toId"),
+                this.simpMessagingTemplate.convertAndSend("/notificate/" + messageConverted.get("toId"),
                         messageConverted);
             }
         }

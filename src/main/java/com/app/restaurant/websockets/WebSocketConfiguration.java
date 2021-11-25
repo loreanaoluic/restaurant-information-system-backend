@@ -14,7 +14,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/notification")
+        registry.addEndpoint("/app")
 
                 .setAllowedOrigins("*")
                 .withSockJS();
@@ -23,8 +23,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app") // Prefiks koji koji se koristi za mapiranje svih poruka.
-                .enableSimpleBroker("/topic"); // Definisanje topic-a (ruta) na koje klijenti mogu da se pretplate.
+        registry.setApplicationDestinationPrefixes("/notification") // Prefiks koji koji se koristi za mapiranje svih poruka.
+                .enableSimpleBroker("/notificate"); // Definisanje topic-a (ruta) na koje klijenti mogu da se pretplate.
 
     }
 
