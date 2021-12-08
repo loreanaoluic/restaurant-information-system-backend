@@ -39,4 +39,8 @@ public class Price {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public Price(Integer id) {
+        this.id = id;
+    }
 }
