@@ -32,11 +32,6 @@ public class UserService implements IUserService , IGenericService<User> {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(s);
-
-        for(User u : this.userRepository.findAll()){
-            System.out.println(u);
-        }
-
         if (user == null) {
             throw new UsernameNotFoundException("No user found for "+ s + ".");
         }
