@@ -43,4 +43,10 @@ public class Price {
     public Price(Integer id) {
         this.id = id;
     }
+
+    public Price(int value, int startDate, int i) {
+        this.value = value;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

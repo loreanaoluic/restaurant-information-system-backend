@@ -41,7 +41,7 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
-    public ReceiptItem changeStatusToReady(Integer receiptItemId, Integer userId) throws Exception {
+    public ReceiptItem changeStatusToReady(Integer receiptItemId) throws Exception {
         ReceiptItem receiptItem = this.findOne(receiptItemId);
 
         if (receiptItem == null) {
@@ -50,7 +50,6 @@ public class ReceiptItemService implements IReceiptItemService {
 
         if (receiptItem.getItemStatus().equals(ReceiptItemStatus.ORDERED)) {
             receiptItem.setItemStatus(ReceiptItemStatus.READY);
-            receiptItem.setAuthor(userService.findOne(userId));
             this.save(receiptItem);
             return receiptItem;
         }

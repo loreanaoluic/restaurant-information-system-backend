@@ -63,7 +63,7 @@ public class ManagerController {
 
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+    public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception {
         MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
         if (menuItem != null) {
@@ -128,7 +128,7 @@ public class ManagerController {
 
     @PostMapping(value = "/request-approval", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> requestReview(@RequestBody RequestReviewDTO reviewDto) {
+    public ResponseEntity<?> requestReview(@RequestBody RequestReviewDTO reviewDto) throws Exception {
 
         if (reviewDto.isApproved()) {
             requestService.createItem(this.requestDTOtoRequest.convert(reviewDto.getDto()));

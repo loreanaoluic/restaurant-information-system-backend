@@ -40,7 +40,7 @@ public class ReceiptService implements IReceiptService {
     public void updateReceipt(Receipt receipt) throws Exception {
         if(this.findOne(receipt.getId()) != null){
 
-            this.save(receipt);
+            receiptRepository.save(receipt);
             return;
         }
         throw new NotFoundException("Receipt with given id does not exist.");

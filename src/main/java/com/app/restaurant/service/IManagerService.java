@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IManagerService extends IGenericService<Manager> {
 
-    MenuItem createNewMenuItem(MenuItem menuItem, double price);
+    MenuItem createNewMenuItem(MenuItem menuItem, double price) throws Exception;
 
     DrinkCardItem createNewDrinkCardItem(DrinkCardItem drinkCardItem, double price);
 
