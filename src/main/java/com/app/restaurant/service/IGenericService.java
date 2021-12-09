@@ -8,5 +8,5 @@ public interface IGenericService<T> {
 
     T findOne(Integer id);
 
-    T save(T entity);
+    T save(T entity) throws Exception;
 }

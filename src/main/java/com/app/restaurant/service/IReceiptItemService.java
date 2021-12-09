@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IReceiptItemService extends IGenericService<ReceiptItem> {
 
-    ReceiptItem changeStatusToReady (Integer receiptItemId, Integer userId) throws Exception;
+    ReceiptItem changeStatusToReady (Integer receiptItemId) throws Exception;
 
     List<ReceiptItem> cookOrders();
 

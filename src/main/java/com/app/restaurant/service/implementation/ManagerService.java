@@ -102,7 +102,7 @@ public class ManagerService implements IManagerService {
     }
 
     @Override
-    public MenuItem createNewMenuItem(MenuItem menuItem, double price) {
+    public MenuItem createNewMenuItem(MenuItem menuItem, double price) throws Exception {
         MenuItem saveId = new MenuItem();
         menuItemService.save(saveId);
 

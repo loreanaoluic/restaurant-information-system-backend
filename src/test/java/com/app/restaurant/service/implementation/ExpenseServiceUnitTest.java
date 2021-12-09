@@ -48,7 +48,6 @@ public class ExpenseServiceUnitTest {
 
     @Test
     public void findAll() {
-
         List<Expense> found = expenseService.findAll();
         assertEquals(1, found.size());
     }

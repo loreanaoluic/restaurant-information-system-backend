@@ -33,7 +33,14 @@ public class MenuItemService implements IMenuItemService {
     }
 
     @Override
-    public MenuItem save(MenuItem menuItem) {
+    public MenuItem save(MenuItem menuItem) throws Exception {
+
+        if(menuItem.getId() != null){
+            if(this.findOne(menuItem.getId()) != null){
+                throw new Exception(String.format("Menuitem with id %s already exists", menuItem.getId()));
+            }
+        }
+
         return menuItemRepository.save(menuItem);
     }
 

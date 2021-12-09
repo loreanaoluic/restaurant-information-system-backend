@@ -28,4 +28,12 @@ public abstract class Item {
     @OneToOne(cascade = CascadeType.ALL)
     private Price price;
 
+    public Item(String name, String ingredients, String image, String description, Price price){
+        this.name =name;
+        this.ingredients = ingredients;
+        this.image = image;
+        this.description = description;
+        this.price = price;
+    }
+
 }
