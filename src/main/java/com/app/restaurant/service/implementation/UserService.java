@@ -44,6 +44,12 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
+    public void delete(Integer id) {
+        User user = userRepository.getById(id);
+        userRepository.delete(user);
+    }
+
+    @Override
     public User findOne(Integer id) {
         return this.userRepository.findById(id).orElse(null);
     }

@@ -19,5 +19,14 @@ values (1, 1637193115);
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
 values (2, 'poruka', 0, 1, 1);
 
+INSERT INTO users (id,dtype,  name, last_name, username, email_address, password, deleted)
+values (1,'Director', 'Nemanja', 'Milutinovic', 'nemanja', 'nemanja@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false);
+
+INSERT INTO users (id,dtype,  name, last_name, username, email_address, password, deleted)
+values (2,'Waiter', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false);
+
+
+
+
 
 

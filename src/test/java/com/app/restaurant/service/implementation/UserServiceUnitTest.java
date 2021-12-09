@@ -85,10 +85,32 @@ public class UserServiceUnitTest {
 
     @Test
     public void update() {
+
         User found = userService.findOne(100);
-        found.setUsername("loreana");
+        found.setUsername("nemanja");
         userService.save(found);
         User tmp = userService.findOne(100);
-        assertEquals("loreana", tmp.getUsername());
+        assertEquals("nemanja", tmp.getUsername());
     }
+
+    @Test
+    public void create() {
+
+        User createdUser= new Bartender();
+        createdUser.setRole(new Role(6,"Bartender"));
+        createdUser.setId(101);
+        createdUser.setName("Milan");
+        createdUser.setLastName("Milovanovic");
+        createdUser.setEmailAddress("milan@gmail.com");
+        createdUser.setUsername("milan");
+        createdUser.setPassword("123");
+        createdUser.setDeleted(false);
+
+        List<User> users = userService.findAll();
+        users.add(createdUser);
+
+        List<User> found = userService.findAll();
+        assertEquals(2, found.size());
+    }
+
 }

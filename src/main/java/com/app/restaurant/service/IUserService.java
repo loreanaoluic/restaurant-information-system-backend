@@ -11,6 +11,8 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     @Override
     public List<User> findAll();
 
+    void delete(Integer id);
+
     @Override
     User findOne(Integer id);
 

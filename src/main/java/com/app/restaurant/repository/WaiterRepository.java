@@ -13,7 +13,8 @@ import java.util.List;
 @Repository
 public interface WaiterRepository extends JpaRepository<Waiter, Integer> {
 
-    @Query("select user from User user where user.deleted = false")
+    //and user.role = 'Waiter'
+    @Query("select user from User user where user.deleted = false " )
     List<Waiter> findAll();
 
     @Query("select user from User user where user.username = ?1")
