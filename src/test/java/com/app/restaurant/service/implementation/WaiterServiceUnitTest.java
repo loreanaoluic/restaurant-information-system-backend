@@ -101,23 +101,6 @@ public class WaiterServiceUnitTest {
         assertEquals(2, found.size());
     }
 
-    /*
-    //nije dobro, ne smije da doda isti id
-    @Test
-    public void newReceipt() {
-
-        Receipt receipt = new Receipt();
-        receipt.setIssueDate(System.currentTimeMillis());
-        receipt.setId(2);
-
-        List<Receipt> receipts = receiptService.findAll();
-        receipts.add(receipt);
-
-        List<Receipt> found = receiptService.findAll();
-        assertEquals(1, found.size());
-    }
-    */
-
     @Test
     public void newOrder() {
 

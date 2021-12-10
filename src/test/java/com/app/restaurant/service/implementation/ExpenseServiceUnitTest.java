@@ -1,6 +1,9 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.model.DrinkCard;
+import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Expense;
+import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.ExpenseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,18 +40,21 @@ public class ExpenseServiceUnitTest {
 
         given(expenseRepository.findAll()).willReturn(expenses);
 
-        Expense e = new Expense(1,"nabavka salate", 2000,  1637193115, false);
-        Expense e1 = new Expense(1,"nabavka salate", 2000,  1637193115, false);
+        Expense expense = new Expense(1,"nabavka salate", 2000,  1637193115, false);
+        Expense savedExpense = new Expense(1,"nabavka salate", 2000,  1637193115, false);
 
         given(expenseRepository.findById(1))
-                .willReturn(java.util.Optional.of(e));
+                .willReturn(java.util.Optional.of(expense));
 
-        given(expenseRepository.save(e)).willReturn(e1);
+        given(expenseRepository.save(expense)).willReturn(savedExpense);
+
     }
 
     @Test
-    public void findAll() {
-        List<Expense> found = expenseService.findAll();
-        assertEquals(1, found.size());
+    public void UpdateExpense_ValidExpense_Expense() throws Exception {
+        Expense expense = new Expense(1,"nabavka salate", 2000,  1637193115, false);
+        Expense created = expenseService.update(expense);
+
+        assertEquals("nabavka salate", created.getText());
     }
 }

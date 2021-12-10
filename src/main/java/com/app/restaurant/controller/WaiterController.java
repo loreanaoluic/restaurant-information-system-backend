@@ -90,7 +90,7 @@ public class WaiterController {
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<?> newReceipt(@PathVariable("table-id") Integer tableId) {
         waiterService.newReceipt(tableId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/order/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -98,6 +98,6 @@ public class WaiterController {
     public ResponseEntity<?> newOrder(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
                                       @RequestBody ReceiptItemDTO receiptItemDTO) throws Exception {
         waiterService.newOrder(receiptItemDTOToReceiptItem.convert(receiptItemDTO), tableId, receiptId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
