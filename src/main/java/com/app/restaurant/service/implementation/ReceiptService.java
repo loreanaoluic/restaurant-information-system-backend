@@ -37,11 +37,11 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public void updateReceipt(Receipt receipt) throws Exception {
+    public Receipt updateReceipt(Receipt receipt) throws Exception {
         if(this.findOne(receipt.getId()) != null){
 
             receiptRepository.save(receipt);
-            return;
+            return receipt;
         }
         throw new NotFoundException("Receipt with given id does not exist.");
     }

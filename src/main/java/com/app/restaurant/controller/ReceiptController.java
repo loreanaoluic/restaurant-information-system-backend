@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/api/receipts")
 public class ReceiptController {
 
@@ -30,9 +31,8 @@ public class ReceiptController {
 
     @PostMapping("/update-receipt")
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
-    public ResponseEntity<?> updateReceipt(@RequestBody ReceiptDTO dto) throws Exception {
-        this.receiptService.updateReceipt(this.receiptDTOtoReceipt.convert(dto));
+    public ResponseEntity<?> updateReceipt(@RequestBody ReceiptDTO dto) throws Exception { ;
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(this.receiptService.updateReceipt(this.receiptDTOtoReceipt.convert(dto)), HttpStatus.OK);
     }
 }

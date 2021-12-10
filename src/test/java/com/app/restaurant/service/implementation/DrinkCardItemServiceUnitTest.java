@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class DrinkCardItemUnitTests {
+public class DrinkCardItemServiceUnitTest {
 
     @Autowired
     private DrinkCardItemService drinkCardItemService;
@@ -65,23 +65,7 @@ public class DrinkCardItemUnitTests {
     }
 
     @Test
-    public void testFindAll() {
-        List<DrinkCardItem> found = drinkCardItemService.findAll();
-
-        System.out.println(found);
-
-        assertEquals(1, found.size());
-    }
-
-    @Test
-    public void testFindById() {
-        DrinkCardItem found = drinkCardItemService.findOne(100);
-
-        assertEquals(100, found.getId());
-    }
-
-    @Test
-    public void testUpdate() throws Exception {
+    public void UpdateDrinkCardItem_ValidDrinkCardItemId_DrinkCardItem() throws Exception {
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
                 "opis", new Price(1), new DrinkCard());
         DrinkCardItem created = drinkCardItemService.update(drinkCardItem, 100);

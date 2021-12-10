@@ -24,5 +24,9 @@ public class Receipt {
 
     private long issueDate;
 
+    public Receipt (Integer id) {
+        this.id = id;
+    }
+
 
 }
