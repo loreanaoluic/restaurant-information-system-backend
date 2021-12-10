@@ -38,6 +38,7 @@ public class WaiterControllerUnitTest {
     @WithMockUser(roles = "WAITER")
     public void GetMenuItems_ReturnsMenuItems() {
 //        // given
+        
 //        MenuItem menuItem = new MenuItem(1, "piletina", "sastojci", "slika", "opis", new Price(1), new Menu(), 1);
 //        MenuItem[] menuItems = new MenuItem[1];
 //        menuItems[0] = menuItem;
