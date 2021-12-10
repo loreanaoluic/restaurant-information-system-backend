@@ -5,7 +5,6 @@ import com.app.restaurant.model.users.Bartender;
 import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -84,17 +83,26 @@ public class UserServiceUnitTest {
     }
 
     @Test
-    public void update() {
+    public void update() throws Exception {
 
-        User found = userService.findOne(100);
-        found.setUsername("nemanja");
-        userService.save(found);
-        User tmp = userService.findOne(100);
-        assertEquals("nemanja", tmp.getUsername());
+        User createdUser= new Bartender();
+        createdUser.setRole(new Role(6,"Bartender"));
+        createdUser.setId(100);
+        createdUser.setName("micko");
+        createdUser.setLastName("Milovanovic");
+        createdUser.setEmailAddress("milan@gmail.com");
+        createdUser.setUsername("milan");
+        createdUser.setPassword("123");
+        createdUser.setDeleted(false);
+
+        User created=userService.update(createdUser);
+
+
+        assertEquals("micko", created.getName());
     }
 
     @Test
-    public void create() {
+    public void create() throws Exception {
 
         User createdUser= new Bartender();
         createdUser.setRole(new Role(6,"Bartender"));
@@ -102,15 +110,16 @@ public class UserServiceUnitTest {
         createdUser.setName("Milan");
         createdUser.setLastName("Milovanovic");
         createdUser.setEmailAddress("milan@gmail.com");
-        createdUser.setUsername("milan");
+        createdUser.setUsername("milance");
         createdUser.setPassword("123");
         createdUser.setDeleted(false);
 
-        List<User> users = userService.findAll();
-        users.add(createdUser);
+        User created=userService.create(createdUser);
 
-        List<User> found = userService.findAll();
-        assertEquals(2, found.size());
+        List<User> users = userService.findAll();
+        users.add(created);
+
+        assertEquals("Milan", created.getName());
     }
 
 }

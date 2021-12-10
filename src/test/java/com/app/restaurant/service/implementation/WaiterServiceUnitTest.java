@@ -94,6 +94,7 @@ public class WaiterServiceUnitTest {
         receipt.setIssueDate(System.currentTimeMillis());
         receipt.setId(2);
 
+        receiptService.save(receipt);
         List<Receipt> receipts = receiptService.findAll();
         receipts.add(receipt);
 

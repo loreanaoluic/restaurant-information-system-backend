@@ -34,5 +34,8 @@ values (2,'Waiter', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
 values (1, 'poruka', 0, 2, 1);
 
+INSERT INTO users (id,dtype,  name, last_name, username, email_address, password, deleted)
+values (3,'Manager', 'Loreana', 'Oluic', 'loreana', 'lor@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false);
+
 
 

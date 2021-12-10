@@ -24,4 +24,5 @@ public class Waiter extends User {
     public Waiter() {
 
     }
+
 }

@@ -64,7 +64,15 @@ public class UserService implements IUserService , IGenericService<User> {
         Optional<User> u = userRepository.findById(user.getId());
         System.out.println(user);
         if (u.isPresent()) {
-            userRepository.save(user);
+            u.get().setRole(user.getRole());
+            u.get().setUsername(user.getUsername());
+            u.get().setSalary(user.getSalary());
+            u.get().setDeleted(user.getDeleted());
+            u.get().setPassword(user.getPassword());
+            u.get().setEmailAddress(user.getEmailAddress());
+            u.get().setName(user.getName());
+            u.get().setLastName(user.getLastName());
+            userRepository.save(u.get());
         }else
             throw new NotFoundException("User does not exist.");
 
@@ -73,7 +81,7 @@ public class UserService implements IUserService , IGenericService<User> {
 
     @Override
     public User create(User entity) throws Exception {
-        if (userRepository.findByUsername(entity.getUsername()) != null && !entity.getDeleted())
+        if (userRepository.findByUsername(entity.getUsername()) != null)
             throw new DuplicateEntityException("User already exists.");
         else
             userRepository.save(entity);
