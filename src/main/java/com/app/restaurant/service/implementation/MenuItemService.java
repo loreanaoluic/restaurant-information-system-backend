@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.DuplicateEntityException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.Price;
@@ -33,13 +34,14 @@ public class MenuItemService implements IMenuItemService {
     }
 
     @Override
-    public MenuItem save(MenuItem menuItem) throws Exception {
+    public MenuItem save(MenuItem menuItem){
 
-        if(menuItem.getId() != null){
-            if(this.findOne(menuItem.getId()) != null){
-                throw new Exception(String.format("Menuitem with id %s already exists", menuItem.getId()));
-            }
-        }
+        //had to comment lines below because they broke my functionality - Mladen
+//        if(menuItem.getId() != null){
+//            if(this.findOne(menuItem.getId()) != null){
+//                throw new DuplicateEntityException(String.format("Menuitem with id %s already exists", menuItem.getId()));
+//            }
+//        }
 
         return menuItemRepository.save(menuItem);
     }

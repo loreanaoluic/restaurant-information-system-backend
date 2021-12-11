@@ -2,14 +2,12 @@ package com.app.restaurant.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter @ToString(callSuper=true, exclude = {"menu"})
 public class MenuItem extends Item {
 
     @ManyToOne(fetch = FetchType.LAZY)

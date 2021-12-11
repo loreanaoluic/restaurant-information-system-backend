@@ -53,6 +53,7 @@ public class RequestService implements IRequestService {
             approvedMenuItem.setDescription(request.getDescription());
             approvedMenuItem.setImage(request.getImage());
             approvedMenuItem.setIngredients(request.getIngredients());
+            approvedMenuItem.setName(request.getItemName());
 
             approvedMenuItem = this.menuItemService.save(approvedMenuItem);
 
@@ -66,6 +67,7 @@ public class RequestService implements IRequestService {
             approvedDrinkCardItem.setDescription(request.getDescription());
             approvedDrinkCardItem.setImage(request.getImage());
             approvedDrinkCardItem.setIngredients(request.getIngredients());
+            approvedDrinkCardItem.setName(request.getItemName());
 
             approvedDrinkCardItem = this.drinkCardItemService.save(approvedDrinkCardItem);
 

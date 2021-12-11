@@ -1,16 +1,13 @@
 package com.app.restaurant.model;
 
 import com.app.restaurant.model.enums.ReceiptItemStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Getter @Setter @ToString(exclude = {"price"})
 public abstract class Item {
     @Id
     @Column(name = "id")
