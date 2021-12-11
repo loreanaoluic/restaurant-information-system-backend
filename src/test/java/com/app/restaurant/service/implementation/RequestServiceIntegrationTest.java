@@ -1,39 +1,24 @@
 package com.app.restaurant.service.implementation;
 
-import com.app.restaurant.model.*;
+import com.app.restaurant.model.Item;
+import com.app.restaurant.model.Request;
 import com.app.restaurant.model.users.Bartender;
 import com.app.restaurant.model.users.Chef;
-import com.app.restaurant.model.users.User;
-import com.app.restaurant.model.users.Waiter;
-import com.app.restaurant.repository.RequestRepository;
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.notNull;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource("classpath:application-test.properties")
 public class RequestServiceIntegrationTest {
-
-    @MockBean
-    RequestRepository requestRepository;
 
     @Autowired
     RequestService requestService;
@@ -79,7 +64,7 @@ public class RequestServiceIntegrationTest {
         }
 
         assertNotNull(createdItem);
-        System.out.println(createdItem);
+
     }
 
     @Test
