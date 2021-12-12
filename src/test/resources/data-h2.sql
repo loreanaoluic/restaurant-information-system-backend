@@ -38,4 +38,3 @@ INSERT INTO users (id,dtype,  name, last_name, username, email_address, password
 values (3,'Manager', 'Loreana', 'Oluic', 'loreana', 'lor@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false);
 
 
-
