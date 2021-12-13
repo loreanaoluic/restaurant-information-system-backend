@@ -41,7 +41,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/{start_date}/{end_date}")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<List<ExpenseDTO>> getByDates(@PathVariable Long start_date, @PathVariable Long end_date){
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
@@ -53,8 +53,8 @@ public class ExpenseController {
         return new ResponseEntity<>(expensesDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/{date}")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @GetMapping("/date/{date}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<List<ExpenseDTO>> getByDate(@PathVariable Long date){
         List<Expense> expenses = expenseService.getByDate(date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
@@ -66,8 +66,17 @@ public class ExpenseController {
         return new ResponseEntity<>(expensesDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    public ResponseEntity<ExpenseDTO> getById(@PathVariable Integer id){
+        Expense exp = expenseService.findOne(id);
+        ExpenseDTO expDTO = new ExpenseDTO(exp);
+
+        return new ResponseEntity<>(expDTO, HttpStatus.OK);
+    }
+
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO){
         Expense e = expenseService.create(expenseConverter.convert(expenseDTO));
 
@@ -78,7 +87,7 @@ public class ExpenseController {
     }
 
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> updateExpense( @RequestBody ExpenseDTO expenseDTO) throws Exception {
         Expense e = expenseService.update(expenseConverter.convert(expenseDTO));
 
@@ -88,11 +97,12 @@ public class ExpenseController {
 
     }
 
-    @DeleteMapping(value="/{id}")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
-    public ResponseEntity<?> deleteExpense(@PathVariable Integer id) throws Exception {
-        expenseService.delete(id);
 
+    @DeleteMapping(value="/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    public ResponseEntity<?> deleteExpense(@PathVariable Integer id) throws Exception {
+
+        expenseService.delete(id);
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 

@@ -21,6 +21,12 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public Expense(String text, double value, long date, boolean deleted){
+        this.text =text;
+        this.value = value;
+        this.date = date;
+        this.deleted = deleted;
+    }
     private String text;
     private double value;
     private long date;

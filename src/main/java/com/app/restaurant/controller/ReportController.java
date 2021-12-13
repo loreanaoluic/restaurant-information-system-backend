@@ -36,7 +36,7 @@ public class ReportController {
 
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getAll(){
         List<Receipt> receipts = receiptService.findAll();
         List<Expense> expenses = expenseService.findAll();
@@ -44,7 +44,7 @@ public class ReportController {
     }
 
     @GetMapping("/{start_date}/{end_date}")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getByDates(@PathVariable Long start_date, @PathVariable Long end_date){
         List<Receipt> receipts = receiptService.findByDates(start_date, end_date);
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
@@ -63,7 +63,7 @@ public class ReportController {
     }
 
     @GetMapping("/{date}")
-    @PreAuthorize("hasAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ReportDTO> getByDates(@PathVariable Long date){
         List<Receipt> receipts = receiptService.findByDate(date);
         List<Expense> expenses = expenseService.getByDate(date);
