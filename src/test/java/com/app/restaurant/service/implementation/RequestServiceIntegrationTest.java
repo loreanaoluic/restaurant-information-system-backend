@@ -125,7 +125,7 @@ public class RequestServiceIntegrationTest {
             e.printStackTrace();
         }
 
-        assertEquals(4, this.menuItemService.findAll().size());
+        assertEquals(5, this.menuItemService.findAll().size());
 
         Item createdItem = null;
         int duplicateCounter = 0;
@@ -138,7 +138,7 @@ public class RequestServiceIntegrationTest {
                 createdItem = i;
         }
 
-        assertEquals(2, duplicateCounter);
+        assertEquals(3, duplicateCounter);
         assertNotNull(createdItem);
     }
 }

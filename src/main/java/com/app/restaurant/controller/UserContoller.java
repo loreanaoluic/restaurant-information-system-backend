@@ -29,18 +29,16 @@ public class UserContoller {
     @PostMapping(value = "/new-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) throws Exception {
-        User user = userService.createDynamicUser(userDTO);
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(this.userService.createDynamicUser(userDTO),HttpStatus.OK);
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        User user = userService.updateDynamicUser(userDTO);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.updateDynamicUser(userDTO),HttpStatus.OK);
     }
 
+    /* //LOGICKO BRISANJE, IMAMO VEC IMPLEMENTIRANO FIZICKO TAKO DA JE OVO VISAK :D
     @PostMapping(value = "/delete-user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
@@ -50,10 +48,9 @@ public class UserContoller {
             User user=tmp.get();
             user.setDeleted(true);
             userRepository.save(user);
-            if (user != null) {
-                return new ResponseEntity<>(user, HttpStatus.CREATED);
-            }
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+    }*/
 }

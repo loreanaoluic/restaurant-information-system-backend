@@ -3,18 +3,14 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.*;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
-import com.app.restaurant.model.Role;
 import com.app.restaurant.model.Salary;
-import com.app.restaurant.model.users.*;
+import com.app.restaurant.model.users.Manager;
+import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.service.IManagerService;
 import com.app.restaurant.service.IRequestService;
 import com.app.restaurant.service.IUserService;
-import com.app.restaurant.support.DrinkCardItemDTOToDrinkCardItem;
-import com.app.restaurant.support.ManagerDTOToManager;
-import com.app.restaurant.support.MenuItemDTOToMenuItem;
-import com.app.restaurant.support.PriceDTOToPrice;
-import com.app.restaurant.support.RequestDTOToRequest;
+import com.app.restaurant.support.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,6 +43,7 @@ public class ManagerController {
                              DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
                              ManagerDTOToManager managerDTOToManager)
     {
+
 
         this.managerService = managerService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;

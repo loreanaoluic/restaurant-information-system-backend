@@ -133,9 +133,12 @@ public class UserService implements IUserService , IGenericService<User> {
                 u.setRole(new Role(7,"Waiter"));
                 break;
         }
-        User tmp= userRepository.findByUsername(dto.getUsername());
+        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(dto.getUsername()));
+        if(!tmp.isPresent()){
+            throw new NotFoundException("Receipt with given id does not exist.");
+        }
 
-        u.setId(tmp.getId());
+        u.setId(tmp.get().getId());
         u.setName(dto.getName());
         u.setLastName(dto.getLastName());
         u.setEmailAddress(dto.getEmailAddress());
@@ -143,7 +146,7 @@ public class UserService implements IUserService , IGenericService<User> {
         u.setPassword(dto.getPassword());
         u.setDeleted(dto.getDeleted());
 
-        this.userRepository.delete(tmp);
+        this.userRepository.delete(tmp.get());
         this.create(u);
 
         return u;
@@ -182,6 +185,14 @@ public class UserService implements IUserService , IGenericService<User> {
                 u=new Waiter();
                 u.setRole(new Role(7,"Waiter"));
                 break;
+        }
+        if(dto.getName().equals("")||dto.getLastName().equals("")||dto.getEmailAddress().equals("")||dto.getUsername().equals("")||dto.getPassword().equals("")){
+            throw new Exception("Bad input Parameters");
+        }
+
+        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(dto.getUsername()));
+        if(tmp.isPresent()){
+            throw new DuplicateEntityException("Duplicate username");
         }
 
         u.setName(dto.getName());
