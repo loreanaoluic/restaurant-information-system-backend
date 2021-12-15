@@ -14,9 +14,9 @@ import java.util.Optional;
 @Repository
 public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 
-    @Query("select user from User user where user.deleted = false")
+    @Query("select user from User user where user.deleted = false and user.role = 2")
     List<Manager> findAll();
 
-    @Query("select user from User user where user.username = ?1")
+    @Query("select user from User user where user.username = ?1 and user.role = 2")
     Manager findByUsername(String username);
 }

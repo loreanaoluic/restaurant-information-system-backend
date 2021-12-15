@@ -57,6 +57,7 @@ public class MenuItemService implements IMenuItemService {
         updated.setIngredients(menuItem.getIngredients());
         updated.setImage(menuItem.getImage());
         updated.setDescription(menuItem.getDescription());
+        updated.setName(menuItem.getName());
 
         if (menuItem.getPrice().getValue() != updated.getPrice().getValue()) {
             updated.setPrice(menuItem.getPrice());

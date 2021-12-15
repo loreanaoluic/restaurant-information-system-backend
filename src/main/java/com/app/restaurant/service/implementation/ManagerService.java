@@ -5,6 +5,7 @@ import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.Price;
+import com.app.restaurant.model.Role;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.repository.ManagerRepository;
 import com.app.restaurant.service.IManagerService;
@@ -79,6 +80,7 @@ public class ManagerService implements IManagerService {
             manager.setLastName(entity.getLastName());
             manager.setEmailAddress(entity.getEmailAddress());
             manager.setUsername(entity.getUsername());
+            manager.setRole(new Role(2, "ROLE_MANAGER"));
             managerRepository.save(manager);
             return man.get();
         }

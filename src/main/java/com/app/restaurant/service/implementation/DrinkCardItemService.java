@@ -48,6 +48,7 @@ public class DrinkCardItemService implements IDrinkCardItemService {
         updated.setIngredients(drinkCardItem.getIngredients());
         updated.setImage(drinkCardItem.getImage());
         updated.setDescription(drinkCardItem.getDescription());
+        updated.setName(drinkCardItem.getName());
 
         if (drinkCardItem.getPrice().getValue() != updated.getPrice().getValue()) {
             updated.setPrice(drinkCardItem.getPrice());
