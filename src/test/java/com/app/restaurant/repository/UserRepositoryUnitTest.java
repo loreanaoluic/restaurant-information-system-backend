@@ -12,18 +12,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class UserRepositoryTest {
+public class UserRepositoryUnitTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void findByUsername(){
+    public void FindByUsername_ValidUsername_User(){
         User user = userRepository.findByUsername("nemanja");
         assertEquals("nemanja",user.getUsername());
+    }
+
+    @Test
+    public void FindByUsername_InvalidUsername_Null(){
+        User user = userRepository.findByUsername("nepostojeci");
+        assertNull(user);
     }
 }

@@ -16,15 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class ManagerRepositoryTest {
+public class ReceiptRepositoryUnitTest {
 
     @Autowired
-    private ManagerRepository managerRepository;
+    private ReceiptRepository receiptRepository;
 
     @Test
-    public void findByUsername_validUser_true(){
-        User user = managerRepository.findByUsername("loreana");
-        assertEquals("loreana",user.getUsername());
+    public void FindByDates_FindingAllReceiptsByDates_ReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDates(1637193114,1637193116);
+        assertEquals(1, receipts.size());
     }
 
+    @Test
+    public void FindByDate_FindingAllReceiptsByDate_ReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDate(1637193115);
+        assertEquals(1, receipts.size());
+    }
 }
