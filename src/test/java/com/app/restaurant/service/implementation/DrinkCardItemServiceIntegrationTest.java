@@ -25,7 +25,7 @@ public class DrinkCardItemServiceIntegrationTest {
     DrinkCardItemService drinkCardItemService;
 
     @Test
-    public void UpdateDrinkCardItem_ValidDrinkCardItemId_DrinkCardItem() throws Exception {
+    public void UpdateDrinkCardItem_ValidDrinkCardItemId_ReturnsDrinkCardItem() throws Exception {
         DrinkCardItem drinkCardItem = drinkCardItemService.findOne(2);
         drinkCardItem.setDescription("noviOpis");
         drinkCardItemService.update(drinkCardItem, 2);

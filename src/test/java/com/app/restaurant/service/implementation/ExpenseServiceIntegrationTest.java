@@ -21,7 +21,7 @@ public class ExpenseServiceIntegrationTest {
     ExpenseService expenseService;
 
     @Test
-    public void UpdateExpense_ValidExpense_Expense() throws Exception {
+    public void UpdateExpense_ValidExpense_ReturnsExpense() throws Exception {
         Expense expense = expenseService.findOne(1);
         expense.setText("plata sankera");
         expenseService.update(expense);
@@ -29,7 +29,7 @@ public class ExpenseServiceIntegrationTest {
     }
 
     @Test
-    public void UpdateExpense_InvalidExpense_Expense() throws Exception {
+    public void UpdateExpense_InvalidExpense_ThrowsNotFoundException() throws Exception {
         Expense expense = expenseService.findOne(1);
         expense.setText("plata sankera");
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {

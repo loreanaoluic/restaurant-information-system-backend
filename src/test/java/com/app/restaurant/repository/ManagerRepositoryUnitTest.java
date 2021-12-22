@@ -24,19 +24,19 @@ public class ManagerRepositoryUnitTest {
     private ManagerRepository managerRepository;
 
     @Test
-    public void FindByUsername_ValidUsername_Manager(){
+    public void FindByUsername_ValidUsername_ReturnsManager(){
         User user = managerRepository.findByUsername("dusan");
         assertEquals("dusan", user.getUsername());
     }
 
     @Test
-    public void FindByUsername_InvalidUsername_Null(){
+    public void FindByUsername_InvalidUsername_ReturnsNull(){
         User user = managerRepository.findByUsername("nepostojeci");
         assertNull(user);
     }
 
     @Test
-    public void FindAll_FindingAllNotDeletedManagers_ManagerList(){
+    public void FindAll_FindingAllNotDeletedManagers_ReturnsManagerList(){
         List<Manager> user = managerRepository.findAll();
         assertEquals(1, user.size());
     }

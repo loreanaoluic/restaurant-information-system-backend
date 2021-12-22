@@ -21,7 +21,7 @@ public class MenuItemServiceIntegrationTest {
     MenuItemService menuItemService;
 
     @Test
-    public void UpdateMenuItem_ValidMenuItemId_MenuItem() throws Exception {
+    public void UpdateMenuItem_ValidMenuItemId_ReturnsMenuItem() throws Exception {
         MenuItem menuItem = menuItemService.findOne(1);
         menuItem.setDescription("noviOpis");
         menuItemService.update(menuItem, 1);

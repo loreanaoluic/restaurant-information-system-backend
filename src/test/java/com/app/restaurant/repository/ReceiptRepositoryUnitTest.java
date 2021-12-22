@@ -22,13 +22,13 @@ public class ReceiptRepositoryUnitTest {
     private ReceiptRepository receiptRepository;
 
     @Test
-    public void FindByDates_FindingAllReceiptsByDates_ReceiptList(){
+    public void FindByDates_FindingAllReceiptsByDates_ReturnsReceiptList(){
         List<Receipt> receipts = receiptRepository.findByDates(1637193114,1637193116);
         assertEquals(1, receipts.size());
     }
 
     @Test
-    public void FindByDate_FindingAllReceiptsByDate_ReceiptList(){
+    public void FindByDate_FindingAllReceiptsByDate_ReturnsReceiptList(){
         List<Receipt> receipts = receiptRepository.findByDate(1637193115);
         assertEquals(1, receipts.size());
     }

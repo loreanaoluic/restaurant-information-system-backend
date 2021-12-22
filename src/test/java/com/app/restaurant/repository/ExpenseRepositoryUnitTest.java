@@ -21,14 +21,14 @@ public class ExpenseRepositoryUnitTest {
     ExpenseRepository expenseRepository;
 
     @Test
-    public void FindByDates_FindingAllExpensesByDates_ExpenseList(){
+    public void FindByDates_FindingAllExpensesByDates_ReturnsExpenseList(){
 
         List<Expense> expenseList = expenseRepository.findByDates(1, 1637193115);
         assertEquals(1, expenseList.size());
     }
 
     @Test
-    public void FindByDate_FindingAllExpensesByDate_ExpenseList(){
+    public void FindByDate_FindingAllExpensesByDate_ReturnsExpenseList(){
 
         List<Expense> expenseList = expenseRepository.findByDate(1637193115);
         assertEquals(1, expenseList.size());

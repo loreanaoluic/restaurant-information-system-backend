@@ -51,10 +51,11 @@ public class ExpenseServiceUnitTest {
     }
 
     @Test
-    public void UpdateExpense_ValidExpense_Expense() throws Exception {
+    public void UpdateExpense_ValidExpense_ReturnsExpense() throws Exception {
         Expense expense = new Expense(1,"nabavka salate", 2000,  1637193115, false);
         Expense created = expenseService.update(expense);
 
         assertEquals("nabavka salate", created.getText());
     }
+
 }

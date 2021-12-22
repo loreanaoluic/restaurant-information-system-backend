@@ -24,19 +24,19 @@ public class WaiterRepositoryTest {
     private WaiterRepository waiterRepository;
 
     @Test
-    public void FindByUsername_ValidUsername_Waiter(){
+    public void FindByUsername_ValidUsername_ReturnsWaiter(){
         User user = waiterRepository.findByUsername("ana");
         assertEquals("ana", user.getUsername());
     }
 
     @Test
-    public void FindByUsername_InvalidUsername_Null(){
+    public void FindByUsername_InvalidUsername_ReturnsNull(){
         User user = waiterRepository.findByUsername("nepostojeci");
         assertNull(user);
     }
 
     @Test
-    public void FindAll_FindingAllNotDeletedWaiters_WaiterList(){
+    public void FindAll_FindingAllNotDeletedWaiters_ReturnsWaiterList(){
         List<Waiter> users = waiterRepository.findAll();
         assertEquals(1, users.size());
     }

@@ -23,13 +23,13 @@ public class UserRepositoryUnitTest {
     private UserRepository userRepository;
 
     @Test
-    public void FindByUsername_ValidUsername_User(){
+    public void FindByUsername_ValidUsername_ReturnsUser(){
         User user = userRepository.findByUsername("nemanja");
         assertEquals("nemanja",user.getUsername());
     }
 
     @Test
-    public void FindByUsername_InvalidUsername_Null(){
+    public void FindByUsername_InvalidUsername_ReturnsNull(){
         User user = userRepository.findByUsername("nepostojeci");
         assertNull(user);
     }
