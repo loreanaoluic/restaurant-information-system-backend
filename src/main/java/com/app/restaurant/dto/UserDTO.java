@@ -1,5 +1,5 @@
 package com.app.restaurant.dto;
-import com.app.restaurant.model.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,6 @@ public class UserDTO {
     private String emailAddress;
     private String username;
     private String password;
+    private double salary;
     private Boolean deleted;
 }

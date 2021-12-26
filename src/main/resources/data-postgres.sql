@@ -103,3 +103,13 @@ values ('nabavka makarona', 2690,  1637193600, false);
 
 INSERT INTO expenses (text, value, date, deleted)
 values ('nabavka pepsija i fante', 8000,  1637193600, true);
+
+INSERT INTO salary (value, start_date, end_date, user_id)
+values (50000, 1640466900, -1, 2);
+INSERT INTO salary (value, start_date, end_date, user_id)
+values (45000, 1640466900, -1, 3);
+INSERT INTO salary (value, start_date, end_date, user_id)
+values (40000, 1640466900, -1, 4);
+UPDATE users SET salary_id = 1 WHERE id = 2;
+UPDATE users SET salary_id = 2 WHERE id = 3;
+UPDATE users SET salary_id = 3 WHERE id = 4;

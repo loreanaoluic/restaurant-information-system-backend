@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -61,7 +62,13 @@ public class AuthenticationController {
 
 
         //
-        Authentication authentication = authenticationManager.authenticate(u);
+        Authentication authentication;
+
+        try{
+            authentication = authenticationManager.authenticate(u);
+        }catch(BadCredentialsException e){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
 
 
         // Ubaci korisnika u trenutni security kontekst
@@ -102,11 +109,11 @@ public class AuthenticationController {
     public ResponseEntity<UserDTO> getLoggedInUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         User user = (User) authentication.getPrincipal();
         if (user == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 
         UserDTO dto = userToUserDTO.convert(user);
 
@@ -130,4 +137,17 @@ public class AuthenticationController {
                                     HttpStatus.OK);
     }*/
 
+    @GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity logoutUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)){
+            SecurityContextHolder.clearContext();
+
+            return new ResponseEntity<>("You successfully logged out!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User is not authenticated!", HttpStatus.BAD_REQUEST);
+        }
+
+    }
 }

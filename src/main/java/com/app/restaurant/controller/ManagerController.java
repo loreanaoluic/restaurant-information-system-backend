@@ -35,13 +35,14 @@ public class ManagerController {
     private final RequestDTOToRequest requestDTOtoRequest;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
+    private final UserToUserDTO userToUserDTO;
 
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
                              RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
                              IUserService userService, UserRepository userRepository,
                              DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
-                             ManagerDTOToManager managerDTOToManager)
+                             ManagerDTOToManager managerDTOToManager, UserToUserDTO userToUserDTO)
     {
 
 
@@ -54,6 +55,7 @@ public class ManagerController {
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
 
         this.managerDTOToManager = managerDTOToManager;
+        this.userToUserDTO = userToUserDTO;
 
     }
 
@@ -185,8 +187,8 @@ public class ManagerController {
         List<User> users=userRepository.findAll();
 
         if(users != null) {
-            return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
+            return new ResponseEntity<List<UserDTO>>(this.userToUserDTO.convert(users), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<List<UserDTO>>(HttpStatus.BAD_REQUEST);
     }
 }
