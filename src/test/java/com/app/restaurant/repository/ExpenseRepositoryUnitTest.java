@@ -15,23 +15,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class ExpenseRepositoryTest {
+public class ExpenseRepositoryUnitTest {
 
     @Autowired
     ExpenseRepository expenseRepository;
 
     @Test
-    public void testFindAllByDates(){
+    public void FindByDates_FindingAllExpensesByDates_ReturnsExpenseList(){
 
         List<Expense> expenseList = expenseRepository.findByDates(1, 1637193115);
-        assertEquals(1,expenseList.size());
+        assertEquals(1, expenseList.size());
     }
 
     @Test
-    public void testFindByDate(){
+    public void FindByDate_FindingAllExpensesByDate_ReturnsExpenseList(){
 
         List<Expense> expenseList = expenseRepository.findByDate(1637193115);
-        assertEquals(1,expenseList.size());
+        assertEquals(1, expenseList.size());
     }
 
 

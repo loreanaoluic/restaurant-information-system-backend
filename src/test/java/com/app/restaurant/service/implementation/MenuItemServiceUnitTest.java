@@ -1,11 +1,13 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.model.Menu;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.ExpenseRepository;
 import com.app.restaurant.repository.MenuItemRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -51,10 +53,33 @@ public class MenuItemServiceUnitTest {
     }
 
     @Test
-    public void UpdateMenuItem_ValidMenuItem_MenuItem() throws Exception {
-        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", new Price(1), new Menu(), 1);
+    public void UpdateMenuItem_ValidMenuId_ReturnsMenuItem() throws Exception {
+        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+                new Price(1), new Menu(), 1);
         MenuItem created = menuItemService.update(menuItem, 1);
 
         assertEquals("piletina", created.getName());
+    }
+
+    @Test
+    public void UpdateMenuItem_InvalidMenuId_ThrowsNotFoundException() throws Exception {
+        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+                new Price(1), new Menu(), 1);
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            menuItemService.update(menuItem, 100);
+        });
+        assertEquals("Menu item with given id does not exist.", thrown.getMessage());
+    }
+
+    @Test
+    public void UpdateMenuItem_InvalidPriceId_ThrowsNotFoundException() throws Exception {
+        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+                new Price(3), new Menu(), 1);
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            menuItemService.update(menuItem, 1);
+        });
+        assertEquals("Price with given id does not exist.", thrown.getMessage());
     }
 }

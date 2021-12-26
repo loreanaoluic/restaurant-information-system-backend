@@ -1,10 +1,12 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCard;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.DrinkCardItemRepository;
 import com.app.restaurant.repository.PriceRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,11 +67,33 @@ public class DrinkCardItemServiceUnitTest {
     }
 
     @Test
-    public void UpdateDrinkCardItem_ValidDrinkCardItemId_DrinkCardItem() throws Exception {
+    public void UpdateDrinkCardItem_ValidDrinkCardItemId_ReturnsDrinkCardItem() throws Exception {
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
                 "opis", new Price(1), new DrinkCard());
         DrinkCardItem created = drinkCardItemService.update(drinkCardItem, 100);
 
         assertEquals("naziv", created.getName());
+    }
+
+    @Test
+    public void UpdateDrinkCardItem_InvalidDrinkCardItemId_ThrowsNotFoundException() throws Exception {
+        DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
+                "opis", new Price(1), new DrinkCard());
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            drinkCardItemService.update(drinkCardItem, 60);
+        });
+        assertEquals("Drink card item with given id does not exist.", thrown.getMessage());
+    }
+
+    @Test
+    public void UpdateDrinkCardItem_InvalidPriceId_ThrowsNotFoundException() throws Exception {
+        DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
+                "opis", new Price(3), new DrinkCard());
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            drinkCardItemService.update(drinkCardItem, 100);
+        });
+        assertEquals("Price with given id does not exist.", thrown.getMessage());
     }
 }

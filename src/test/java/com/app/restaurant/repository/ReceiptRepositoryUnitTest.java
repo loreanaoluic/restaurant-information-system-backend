@@ -1,6 +1,6 @@
 package com.app.restaurant.repository;
 
-import com.app.restaurant.model.Expense;
+import com.app.restaurant.model.Receipt;
 import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,14 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class UserRepositoryTest {
+public class ReceiptRepositoryUnitTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private ReceiptRepository receiptRepository;
 
     @Test
-    public void findByUsername(){
-        User user = userRepository.findByUsername("nemanja");
-        assertEquals("nemanja",user.getUsername());
+    public void FindByDates_FindingAllReceiptsByDates_ReturnsReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDates(1637193114,1637193116);
+        assertEquals(1, receipts.size());
+    }
+
+    @Test
+    public void FindByDate_FindingAllReceiptsByDate_ReturnsReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDate(1637193115);
+        assertEquals(1, receipts.size());
     }
 }

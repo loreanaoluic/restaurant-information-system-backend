@@ -45,9 +45,9 @@ public class ManagerServiceIntegrationTest {
     @Test
     @Order(1)
     public void delete_validId_setsManagerToDeleted(){
-        this.managerService.delete(3);
+        this.managerService.delete(2);
 
-        assertTrue(this.managerService.findOne(3).getDeleted());
+        assertTrue(this.managerService.findOne(2).getDeleted());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ManagerServiceIntegrationTest {
     @Order(6)
     public void update_existingUser_updatesExistingUser(){
         Manager manager = new Manager();
-        manager.setId(3);
+        manager.setId(2);
         manager.setName("Pera");
         manager.setLastName("Peric");
         manager.setEmailAddress("peraperic@maildrop.cc");
@@ -122,7 +122,7 @@ public class ManagerServiceIntegrationTest {
         manager.setDeleted(false);
         assertDoesNotThrow(() -> this.managerService.update(manager));
 
-        assertEquals("Pera", this.managerService.findOne(3).getName());
+        assertEquals("Pera", this.managerService.findOne(2).getName());
     }
 
     @Test
@@ -144,7 +144,7 @@ public class ManagerServiceIntegrationTest {
     @Order(8)
     public void update_updatingSameUserTwice_updatesExistingUser(){
         Manager manager = new Manager();
-        manager.setId(3);
+        manager.setId(2);
         manager.setName("Pera");
         manager.setLastName("Pericic");
         manager.setEmailAddress("peraperic@maildrop.cc");
@@ -156,7 +156,7 @@ public class ManagerServiceIntegrationTest {
         assertDoesNotThrow(() -> this.managerService.update(manager));
         assertDoesNotThrow(() -> this.managerService.update(manager));
 
-        assertEquals("Pera", this.managerService.findOne(3).getName());
+        assertEquals("Pera", this.managerService.findOne(2).getName());
     }
 
 

@@ -29,7 +29,7 @@ public class PriceServiceIntegrationTest {
     PriceRepository priceRepository;
 
     @Test
-    public void update_existingPrice_updatesPrice() throws Exception {
+    public void Update_ExistingPrice_UpdatesPrice() throws Exception {
         Price price = this.priceRepository.findById(1).get();
         price.setValue(1234);
         Price beforeUpdate = this.priceRepository.findById(1).get();
@@ -39,7 +39,7 @@ public class PriceServiceIntegrationTest {
     }
 
     @Test
-    public void update_existingPriceFiveTimes_updatesPrice() throws Exception {
+    public void Update_ExistingPriceFiveTimes_UpdatesPrice() throws Exception {
         Price price = this.priceRepository.findById(1).get();
         price.setValue(5555);
         Price beforeUpdate = this.priceRepository.findById(1).get();
@@ -54,7 +54,7 @@ public class PriceServiceIntegrationTest {
     }
 
     @Test
-    public void update_nonExistingPrice_throwsNotFound(){
+    public void Update_NonExistingPrice_ThrowsNotFound(){
         Price price = this.priceRepository.findById(1).get();
         price.setValue(5555);
         NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.priceService.update(price, 1234));

@@ -42,7 +42,7 @@ public class PriceServiceUnitTest {
     }
 
     @Test
-    public void update_existingPrice_returnsUpdated() throws Exception {
+    public void Update_ExistingPrice_ReturnsUpdated() throws Exception {
         Price price = this.priceRepository.findById(1).get();
 
         assertDoesNotThrow(() -> this.priceService.update(price, 1));
@@ -51,7 +51,7 @@ public class PriceServiceUnitTest {
 
 
     @Test
-    public void update_nonExistingPrice_throwsNotFound(){
+    public void Update_NonExistingPrice_ThrowsNotFoundException(){
         Price price = this.priceRepository.findById(1).get();
 
         NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.priceService.update(price, 1111));

@@ -46,13 +46,13 @@ public class ReceiptItemServiceIntegrationTest {
     @Test
     public void testCookOrders(){
         List<ReceiptItem> receiptItems = receiptItemService.cookOrders();
-        assertEquals(1, receiptItems.size());
+        assertEquals(2, receiptItems.size());
     }
 
     @Test
     public void testBartenderOrders(){
         List<ReceiptItem> receiptItems = receiptItemService.bartenderOrders();
-        assertEquals(1, receiptItems.size());
+        assertEquals(0, receiptItems.size());
     }
 
     @Test

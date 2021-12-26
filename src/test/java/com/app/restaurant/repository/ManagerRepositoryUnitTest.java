@@ -1,6 +1,7 @@
 package com.app.restaurant.repository;
 
 import com.app.restaurant.model.Receipt;
+import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,24 +13,32 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class ReceiptRepositoryTest {
+public class ManagerRepositoryUnitTest {
 
     @Autowired
-    private ReceiptRepository receiptRepository;
+    private ManagerRepository managerRepository;
 
     @Test
-    public void findByDates(){
-        List<Receipt> receipst  = receiptRepository.findByDates(1637193114,1637193116);
-        assertEquals(1,receipst.size());
+    public void FindByUsername_ValidUsername_ReturnsManager(){
+        User user = managerRepository.findByUsername("dusan");
+        assertEquals("dusan", user.getUsername());
     }
 
     @Test
-    public void findByDate(){
-        List<Receipt> receipts  = receiptRepository.findByDate(1637193115);
-        assertEquals(1,receipts.size());
+    public void FindByUsername_InvalidUsername_ReturnsNull(){
+        User user = managerRepository.findByUsername("nepostojeci");
+        assertNull(user);
     }
+
+    @Test
+    public void FindAll_FindingAllNotDeletedManagers_ReturnsManagerList(){
+        List<Manager> user = managerRepository.findAll();
+        assertEquals(1, user.size());
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.app.restaurant.repository;
 
-import com.app.restaurant.model.Receipt;
+import com.app.restaurant.model.Expense;
 import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,19 +12,25 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class ManagerRepositoryTest {
+public class UserRepositoryUnitTest {
 
     @Autowired
-    private ManagerRepository managerRepository;
+    private UserRepository userRepository;
 
     @Test
-    public void findByUsername_validUser_true(){
-        User user = managerRepository.findByUsername("loreana");
-        assertEquals("loreana",user.getUsername());
+    public void FindByUsername_ValidUsername_ReturnsUser(){
+        User user = userRepository.findByUsername("nemanja");
+        assertEquals("nemanja",user.getUsername());
     }
 
+    @Test
+    public void FindByUsername_InvalidUsername_ReturnsNull(){
+        User user = userRepository.findByUsername("nepostojeci");
+        assertNull(user);
+    }
 }
