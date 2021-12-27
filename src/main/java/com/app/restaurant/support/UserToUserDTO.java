@@ -24,7 +24,7 @@ public class UserToUserDTO implements Converter<User, UserDTO> {
 
         if(user instanceof Manager) dtype = "Manager";
         if(user instanceof Director) dtype = "Director";
-        if(user instanceof Bartender) dtype = "Manager";
+        if(user instanceof Bartender) dtype = "Bartender";
         if(user instanceof Cook) dtype = "Cook";
         if(user instanceof Waiter) dtype = "Waiter";
         if(user instanceof HeadBartender) dtype = "HeadBartender";
