@@ -47,13 +47,49 @@ values (120.0, 1637177653457, 0);
 
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('MenuItem', 'piletina', 'sastojci', 'slika', 'opis', 1, 100.0, 1);
+values ('MenuItem', 'Pasta karbonara', 'sastojci', '../../../../assets/images/pasta-carbonara.jpg', 'opis', 1, 100.0, 1);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
+values ('MenuItem', 'Pica', 'sastojci', '../../../../assets/images/pizza.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Pileci file', 'sastojci', '../../../../assets/images/chicken.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Palacinke', 'sastojci', '../../../../assets/images/pancakes.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Burger', 'sastojci', '../../../../assets/images/burger.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Sladoled od pistaca', 'sastojci', '../../../../assets/images/ice-cream.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Cizkejk', 'sastojci', '../../../../assets/images/cheesecake.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Pomfrit', 'sastojci', '../../../../assets/images/fries.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Kroasan', 'sastojci', '../../../../assets/images/croissant.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Tuna sendvic', 'sastojci', '../../../../assets/images/tuna-sandwich.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
+values ('MenuItem', 'Engleski dorucak', 'sastojci', '../../../../assets/images/english-breakfast.jpg', 'opis', 1, 100.0, 2);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Espreso', 'sastojci', '../../../../assets/images/espreso.jpg', 'opis', 1, 0.0, 3);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
 values ('DrinkCardItem', 'Koka kola', 'sastojci', '../../../../assets/images/cocacola.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Iced kafa', 'sastojci', '../../../../assets/images/iced-coffee.jpg', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Pepsi', 'sastojci', '../../../../assets/images/pepsi.jpg', 'opis', 1, 0.0, 3);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
 values ('DrinkCardItem', 'Limunada', 'sastojci', '../../../../assets/images/lemonade.png', 'opis', 1, 0.0, 3);
