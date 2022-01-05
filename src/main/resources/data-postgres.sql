@@ -53,7 +53,26 @@ INSERT INTO item (dtype, name, ingredients, image, description, menu_id, prepara
 values ('MenuItem', 'svinjsko', 'sastojci', 'slika', 'opis', 1, 100.0, 2);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Kola', 'sastojci', 'slika', 'opis', 1, 0.0, 3);
+values ('DrinkCardItem', 'Koka kola', 'sastojci', '../../../../assets/images/cocacola.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Limunada', 'sastojci', '../../../../assets/images/lemonade.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Fanta', 'sastojci', '../../../../assets/images/fanta.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Rosa', 'sastojci', '../../../../assets/images/rosa.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Belo vino', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac mi turpis.', '../../../../assets/images/white-wine.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Kisela voda', 'sastojci', '../../../../assets/images/sparkling-water.png', 'opis', 1, 0.0, 3);
+
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
+values ('DrinkCardItem', 'Crveno vino', 'sastojci', '../../../../assets/images/red-wine.png', 'opis', 1, 0.0, 3);
+
 
 UPDATE price SET item_id = 1 WHERE id = 1;
 UPDATE price SET item_id = 2 WHERE id = 2;

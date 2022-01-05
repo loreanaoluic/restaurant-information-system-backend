@@ -42,13 +42,13 @@ public class WaiterController {
     }
 
     @GetMapping(value = "/all-menu-items", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
     public ResponseEntity<List<MenuItem>> getMenuItems() {
         return new ResponseEntity<>(menuItemService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/all-drink-card-items", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
     public ResponseEntity<List<DrinkCardItem>> getDrinkCardItems() {
         return new ResponseEntity<>(drinkCardItemService.findAll(), HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCard;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Expense;
@@ -18,7 +19,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,4 +59,13 @@ public class ExpenseServiceUnitTest {
         assertEquals("nabavka salate", created.getText());
     }
 
+    @Test
+    public void DeleteExpense_ValidExpenseId_ReturnsVoid() throws Exception {
+        assertDoesNotThrow(() -> expenseService.delete(1));
+    }
+
+    @Test
+    public void DeleteExpense_InvalidExpenseId_ThrowsNotFoundException() throws Exception {
+        assertThrows(NotFoundException.class, () -> expenseService.delete(100));
+    }
 }

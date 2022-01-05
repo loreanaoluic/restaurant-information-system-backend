@@ -87,7 +87,7 @@ public class RequestServiceUnitTest {
     }
 
     @Test
-    public void createItem_validAuthor_returnsZero(){
+    public void CreateItem_ValidAuthor_ReturnsZero(){
         Chef author = new Chef();
         author.setName("Imenko");
         author.setLastName("Prezimenic");
@@ -109,7 +109,7 @@ public class RequestServiceUnitTest {
     }
 
     @Test
-    public void createItem_invalidAuthor_returnsOne(){
+    public void CreateItem_InvalidAuthor_ReturnsOne(){
         Bartender author = new Bartender();
         author.setName("Imenko");
         author.setLastName("Prezimenic");
