@@ -33,7 +33,6 @@ public class UserContoller {
     }
 
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
         return new ResponseEntity<>(this.userService.updateDynamicUser(userDTO),HttpStatus.OK);
     }

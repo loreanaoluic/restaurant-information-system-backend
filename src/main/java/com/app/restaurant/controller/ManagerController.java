@@ -162,7 +162,7 @@ public class ManagerController {
     }
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Integer value) {
+    public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Double value) {
         User user=null;
         try {
             Optional<User> tmp= userRepository.findById(id);

@@ -4,6 +4,7 @@ import com.app.restaurant.dto.UserDTO;
 import com.app.restaurant.exception.DuplicateEntityException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Role;
+import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.*;
 import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.service.IGenericService;
@@ -122,7 +123,7 @@ public class UserService implements IUserService , IGenericService<User> {
                 break;
             case "Cook":
                 u=new Cook();
-                u.setRole(new Role(2,"Cook"));
+                u.setRole(new Role(4,"Cook"));
                 break;
             case "HeadBartender":
                 u=new HeadBartender();
@@ -135,7 +136,7 @@ public class UserService implements IUserService , IGenericService<User> {
         }
         Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(dto.getUsername()));
         if(!tmp.isPresent()){
-            throw new NotFoundException("Receipt with given id does not exist.");
+            throw new NotFoundException("User with given id does not exist.");
         }
 
         u.setId(tmp.get().getId());
@@ -145,9 +146,12 @@ public class UserService implements IUserService , IGenericService<User> {
         u.setUsername(dto.getUsername());
         u.setPassword(dto.getPassword());
         u.setDeleted(dto.getDeleted());
+        u.setSalary(new Salary(dto.getSalary(), System.currentTimeMillis(), u));
 
-        this.userRepository.delete(tmp.get());
-        this.create(u);
+//        this.userRepository.delete(tmp.get());
+//        this.create(u);
+
+        this.save(u);
 
         return u;
     }
