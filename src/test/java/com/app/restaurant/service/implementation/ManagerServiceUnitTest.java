@@ -54,7 +54,7 @@ public class ManagerServiceUnitTest {
         manager.setPassword("password");
         manager.setDeleted(false);
         manager.setId(15);
-        manager.setSalary(new Salary(50000, System.currentTimeMillis(), manager));
+        manager.setSalary(new Salary(50000d, System.currentTimeMillis(), manager));
 
 
         when(this.managerRepository.findById(15)).thenReturn(java.util.Optional.of(manager));

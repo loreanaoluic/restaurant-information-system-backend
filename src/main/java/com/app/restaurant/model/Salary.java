@@ -30,7 +30,7 @@ public class Salary {
     @JsonIgnore
     private User user;
 
-    public Salary(Integer value,long startDate,User user) {
+    public Salary(Double value,long startDate,User user) {
         this.value=value;
         this.startDate= System.currentTimeMillis();
         this.user=user;
