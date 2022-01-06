@@ -36,6 +36,11 @@ public class RequestService implements IRequestService {
     }
 
     @Override
+    public List<Request> findAllNotDeleted() {
+        return this.requestRepository.findAllNotDeleted();
+    }
+
+    @Override
     public Request findOne(Integer id) {
         return this.requestRepository.findById(id).orElse(null);
     }
@@ -61,6 +66,8 @@ public class RequestService implements IRequestService {
             approvedMenuItem.setPrice(price);
             this.menuItemService.save(approvedMenuItem);
 
+            this.deleteRequest(request);
+
             return 0;
         }else if(request.getUser() instanceof HeadBartender){
             DrinkCardItem approvedDrinkCardItem = new DrinkCardItem(0, this.drinkCardService.findOne(1));
@@ -75,6 +82,8 @@ public class RequestService implements IRequestService {
             approvedDrinkCardItem.setPrice(price);
             this.drinkCardItemService.save(approvedDrinkCardItem);
 
+            this.deleteRequest(request);
+
             return 0;
         }else{
             return 1;
@@ -84,5 +93,11 @@ public class RequestService implements IRequestService {
     @Override
     public Request createRequest(Request request) {
         return this.save(request);
+    }
+
+    @Override
+    public void deleteRequest(Request request) {
+        request.setDeleted(true);
+        this.save(request);
     }
 }

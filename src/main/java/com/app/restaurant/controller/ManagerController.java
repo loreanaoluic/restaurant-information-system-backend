@@ -3,6 +3,7 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.*;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
+import com.app.restaurant.model.Request;
 import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
@@ -125,15 +126,26 @@ public class ManagerController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value = "/request-approval", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/requests", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> requestReview(@RequestBody RequestReviewDTO reviewDto) throws Exception {
+    public ResponseEntity<?> getAllRequests() {
 
-        if (reviewDto.isApproved()) {
-            requestService.createItem(this.requestDTOtoRequest.convert(reviewDto.getDto()));
-            return new ResponseEntity<>("Request has been accepted", HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(this.requestService.findAllNotDeleted(), HttpStatus.ACCEPTED);
+    }
 
+    @PostMapping(value = "/request-approved/{id}")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> requestApproved(@PathVariable Integer id) throws Exception {
+
+        requestService.createItem(this.requestService.findOne(id));
+        return new ResponseEntity<>("Request has been accepted", HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/request-declined/{id}")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> requestDeclined(@PathVariable Integer id) {
+
+        requestService.deleteRequest(this.requestService.findOne(id));
         return new ResponseEntity<>("Request has been denied", HttpStatus.OK);
     }
 
@@ -181,8 +193,8 @@ public class ManagerController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_DIRECTOR')")
     public ResponseEntity<?> getUsers() {
         List<User> users=userRepository.findAll();
 

@@ -60,7 +60,7 @@ public class RequestServiceUnitTest {
         chef.setLastName("Prezimenic");
 
         Request requestValidAuthor = new Request(1, 550, "Sastojci", "Opis novog jela",
-                "", "Svinjska muckalica", 15, chef);
+                "", "Svinjska muckalica", 15, false, chef);
 
 
         Bartender bart = new Bartender();
@@ -68,7 +68,7 @@ public class RequestServiceUnitTest {
         bart.setLastName("Simpson");
 
         Request requestInvalidAuthor = new Request(2, 250, "Tele valjda", "Opis novog jela",
-                "", "Teleca corba", 10, bart);
+                "", "Teleca corba", 10, false, bart);
 
 
         requests.add(requestValidAuthor);

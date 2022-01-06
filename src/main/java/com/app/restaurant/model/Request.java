@@ -28,6 +28,8 @@ public class Request {
 
     private double preparationTime;
 
+    private boolean deleted;
+
     @OneToOne
     private User user;
 }
