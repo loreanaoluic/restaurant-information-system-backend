@@ -182,7 +182,7 @@ public class ManagerController {
     }
 
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<?> getUsers() {
         List<User> users=userRepository.findAll();
 
