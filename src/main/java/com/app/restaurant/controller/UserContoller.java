@@ -26,6 +26,12 @@ public class UserContoller {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/{username}")
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username){
+        return new ResponseEntity<>(this.userService.findByUsername(username), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/new-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) throws Exception {
