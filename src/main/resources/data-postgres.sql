@@ -25,7 +25,7 @@ INSERT INTO users (dtype, name, last_name, username, email_address, password, de
 values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 6);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$LsmYgfjbevONSwZ6QErYaOGKOh6cL4wxbd16cl3PWphlM3zBW7beO', false, 7); --waiter
+values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 7); --waiter
 
 
 INSERT INTO menu (id)
@@ -154,6 +154,13 @@ values (1, 'poruka4', 0, 14, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
 values (1, 'poruka5', 0, 3, 2);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka', 1, 14, 2);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
+values (1, 'poruka', 1, 3, 2);
+
 
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);

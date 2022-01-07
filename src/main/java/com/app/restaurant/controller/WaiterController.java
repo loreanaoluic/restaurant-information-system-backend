@@ -2,7 +2,9 @@ package com.app.restaurant.controller;
 
 import com.app.restaurant.dto.ReceiptItemDTO;
 import com.app.restaurant.dto.WaiterDTO;
+import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.users.Waiter;
+import com.app.restaurant.service.IReceiptItemService;
 import com.app.restaurant.service.IWaiterService;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
@@ -30,15 +32,19 @@ public class WaiterController {
     private final IMenuItemService menuItemService;
     private final IDrinkCardItemService drinkCardItemService;
     private final IWaiterService waiterService;
+    private final IReceiptItemService receiptItemService;
 
     private final ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem;
 
     @Autowired
-    public WaiterController(IMenuItemService menuItemService, IDrinkCardItemService drinkCardItemService, IWaiterService waiterService, ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem) {
+    public WaiterController(IMenuItemService menuItemService, IDrinkCardItemService drinkCardItemService,
+                            IWaiterService waiterService, ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem,
+                            IReceiptItemService receiptItemService) {
         this.menuItemService = menuItemService;
         this.drinkCardItemService = drinkCardItemService;
         this.waiterService = waiterService;
         this.receiptItemDTOToReceiptItem = receiptItemDTOToReceiptItem;
+        this.receiptItemService = receiptItemService;
     }
 
     @GetMapping(value = "/all-menu-items", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -99,5 +105,22 @@ public class WaiterController {
                                       @RequestBody ReceiptItemDTO receiptItemDTO) throws Exception {
         waiterService.newOrder(receiptItemDTOToReceiptItem.convert(receiptItemDTO), tableId, receiptId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<List<ReceiptItem>> getOrders() {
+        return new ResponseEntity<>(receiptItemService.waiterOrders(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id) throws Exception {
+        ReceiptItem receiptItem = receiptItemService.changeStatusToDone(id);
+
+        if (receiptItem == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(receiptItem, HttpStatus.OK);
     }
 }

@@ -11,4 +11,8 @@ public interface IReceiptItemService extends IGenericService<ReceiptItem> {
     List<ReceiptItem> cookOrders();
 
     List<ReceiptItem> bartenderOrders();
+
+    List<ReceiptItem> waiterOrders();
+
+    ReceiptItem changeStatusToDone(Integer receiptItemId) throws Exception;
 }

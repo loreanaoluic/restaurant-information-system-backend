@@ -58,6 +58,23 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
+    public ReceiptItem changeStatusToDone(Integer receiptItemId) throws Exception {
+        ReceiptItem receiptItem = this.findOne(receiptItemId);
+
+        if (receiptItem == null) {
+            throw new NotFoundException("Receipt item with given id does not exist.");
+        }
+
+        if (receiptItem.getItemStatus().equals(ReceiptItemStatus.READY)) {
+            receiptItem.setItemStatus(ReceiptItemStatus.DONE);
+            this.save(receiptItem);
+            return receiptItem;
+        }
+
+        return null;
+    }
+
+    @Override
     public List<ReceiptItem> cookOrders() {
         List<ReceiptItem> orders = new ArrayList<>();
 
@@ -76,6 +93,19 @@ public class ReceiptItemService implements IReceiptItemService {
 
         for (ReceiptItem receiptItem : this.findAll()) {
             if (receiptItem.getItem() instanceof DrinkCardItem && receiptItem.getItemStatus().equals(ReceiptItemStatus.ORDERED)) {
+                orders.add(receiptItem);
+            }
+        }
+
+        return orders;
+    }
+
+    @Override
+    public List<ReceiptItem> waiterOrders() {
+        List<ReceiptItem> orders = new ArrayList<>();
+
+        for (ReceiptItem receiptItem : this.findAll()) {
+            if (receiptItem.getItemStatus().equals(ReceiptItemStatus.READY)) {
                 orders.add(receiptItem);
             }
         }
