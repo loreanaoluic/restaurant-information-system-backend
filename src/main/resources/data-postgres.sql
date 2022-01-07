@@ -147,10 +147,10 @@ INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, recei
 values (1, 'poruka2', 0, 2, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka3', 0, 3, 1);
+values (1, 'poruka3', 0, 13, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka4', 0, 2, 2);
+values (1, 'poruka4', 0, 14, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
 values (1, 'poruka5', 0, 3, 2);

@@ -30,9 +30,9 @@ public class CookController {
         return new ResponseEntity<>(receiptItemService.cookOrders(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{user-id}/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}/change-status", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_COOK')")
-    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id, @PathVariable("user-id") Integer userId) throws Exception {
+    public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id) throws Exception {
         ReceiptItem receiptItem = receiptItemService.changeStatusToReady(id);
 
         if (receiptItem == null) {
