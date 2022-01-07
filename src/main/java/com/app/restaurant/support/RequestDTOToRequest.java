@@ -29,7 +29,7 @@ public class RequestDTOToRequest implements Converter<RequestDTO, Request> {
         request.setImage(dto.getImage());
         request.setPrice(dto.getPrice());
         request.setPreparationTime(dto.getPreparationTime());
-        request.setUser(this.userService.findOne(dto.getUserID()));
+        request.setUser(this.userService.findByUsername(dto.getUsername()));
 
         return request;
     }

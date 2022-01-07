@@ -22,7 +22,7 @@ public class RequestDTO {
 
     private double preparationTime;
 
-    private Integer userID;
+    private String username;
 
     private String image;
 }

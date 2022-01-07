@@ -16,6 +16,8 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     @Override
     User findOne(Integer id);
 
+    User findByUsername(String username);
+
     @Override
     User save(User entity);
 

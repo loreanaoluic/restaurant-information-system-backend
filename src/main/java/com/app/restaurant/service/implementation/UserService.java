@@ -56,6 +56,11 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
+    }
+
+    @Override
     public User save(User entity) {
         return this.userRepository.save(entity);
     }
