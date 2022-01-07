@@ -46,9 +46,14 @@ INSERT INTO price (value, start_date, end_date)
 values (120.0, 1637177653457, 0);
 
 
-
 INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
 values (800.0, 'Pasta bolognese', 'sastojci', 'opis', '../../../../assets/images/pasta-bolognese.jpg', 60.0, 3, false);
+
+INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
+values (370.0, 'Cokoladna torta', 'sastojci', 'opis', '../../../../assets/images/choco-cake.jpg', 5.0, 3, false);
+
+INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
+values (270.0, 'Latte', 'sastojci', 'opis', '../../../../assets/images/latte.jpg', 5.0, 5, false);
 
 
 
