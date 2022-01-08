@@ -3,6 +3,7 @@ package com.app.restaurant.service.implementation;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Price;
+import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.DrinkCardItemRepository;
 import com.app.restaurant.service.IDrinkCardItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class DrinkCardItemService implements IDrinkCardItemService {
     @Override
     public DrinkCardItem save(DrinkCardItem drinkCardItem) {
         return drinkCardItemRepository.save(drinkCardItem);
+    }
+
+    @Override
+    public void delete(DrinkCardItem drinkCardItem) {
+        drinkCardItem.setDeleted(true);
+        drinkCardItemRepository.save(drinkCardItem);
     }
 
     @Override

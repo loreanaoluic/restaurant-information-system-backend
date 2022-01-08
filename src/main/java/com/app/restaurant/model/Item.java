@@ -22,6 +22,8 @@ public abstract class Item {
 
     private String description;
 
+    private Boolean deleted = Boolean.FALSE;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Price price;
 

@@ -57,68 +57,68 @@ values (270.0, 'Latte', 'sastojci', 'opis', '../../../../assets/images/latte.jpg
 
 
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('MenuItem', 'Pasta karbonara', 'sastojci', '../../../../assets/images/pasta-carbonara.jpg', 'opis', 1, 100.0, 1);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Pasta karbonara', 'sastojci', '../../../../assets/images/pasta-carbonara.jpg', 'opis', 1, 100.0, 1, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Pica', 'sastojci', '../../../../assets/images/pizza.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Pica', 'sastojci', '../../../../assets/images/pizza.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Pileci file', 'sastojci', '../../../../assets/images/chicken.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Pileci file', 'sastojci', '../../../../assets/images/chicken.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Palacinke', 'sastojci', '../../../../assets/images/pancakes.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Palacinke', 'sastojci', '../../../../assets/images/pancakes.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Burger', 'sastojci', '../../../../assets/images/burger.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Burger', 'sastojci', '../../../../assets/images/burger.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Sladoled od pistaca', 'sastojci', '../../../../assets/images/ice-cream.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Sladoled od pistaca', 'sastojci', '../../../../assets/images/ice-cream.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Cizkejk', 'sastojci', '../../../../assets/images/cheesecake.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Cizkejk', 'sastojci', '../../../../assets/images/cheesecake.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Pomfrit', 'sastojci', '../../../../assets/images/fries.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Pomfrit', 'sastojci', '../../../../assets/images/fries.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Kroasan', 'sastojci', '../../../../assets/images/croissant.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Kroasan', 'sastojci', '../../../../assets/images/croissant.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Tuna sendvic', 'sastojci', '../../../../assets/images/tuna-sandwich.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Tuna sendvic', 'sastojci', '../../../../assets/images/tuna-sandwich.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time,price_id)
-values ('MenuItem', 'Engleski dorucak', 'sastojci', '../../../../assets/images/english-breakfast.jpg', 'opis', 1, 100.0, 2);
+INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
+values ('MenuItem', 'Engleski dorucak', 'sastojci', '../../../../assets/images/english-breakfast.jpg', 'opis', 1, 100.0, 2, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Espreso', 'sastojci', '../../../../assets/images/espreso.jpg', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Espreso', 'sastojci', '../../../../assets/images/espreso.jpg', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Koka kola', 'sastojci', '../../../../assets/images/cocacola.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Koka kola', 'sastojci', '../../../../assets/images/cocacola.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Iced kafa', 'sastojci', '../../../../assets/images/iced-coffee.jpg', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Iced kafa', 'sastojci', '../../../../assets/images/iced-coffee.jpg', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Pepsi', 'sastojci', '../../../../assets/images/pepsi.jpg', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Pepsi', 'sastojci', '../../../../assets/images/pepsi.jpg', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Limunada', 'sastojci', '../../../../assets/images/lemonade.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Limunada', 'sastojci', '../../../../assets/images/lemonade.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Fanta', 'sastojci', '../../../../assets/images/fanta.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Fanta', 'sastojci', '../../../../assets/images/fanta.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Rosa', 'sastojci', '../../../../assets/images/rosa.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Rosa', 'sastojci', '../../../../assets/images/rosa.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Belo vino', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac mi turpis.', '../../../../assets/images/white-wine.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Belo vino', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac mi turpis.', '../../../../assets/images/white-wine.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Kisela voda', 'sastojci', '../../../../assets/images/sparkling-water.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Kisela voda', 'sastojci', '../../../../assets/images/sparkling-water.png', 'opis', 1, 0.0, 3, false);
 
-INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id)
-values ('DrinkCardItem', 'Crveno vino', 'sastojci', '../../../../assets/images/red-wine.png', 'opis', 1, 0.0, 3);
+INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
+values ('DrinkCardItem', 'Crveno vino', 'sastojci', '../../../../assets/images/red-wine.png', 'opis', 1, 0.0, 3, false);
 
 
 UPDATE price SET item_id = 1 WHERE id = 1;

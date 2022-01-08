@@ -38,12 +38,12 @@ public class MenuItemServiceUnitTest {
     @BeforeEach
     public void setUp() {
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(new MenuItem(1,"piletina", "sastojci", "slika", "opis", new Price(1), new Menu(), 1));
+        menuItems.add(new MenuItem(1,"piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1));
 
         given(menuItemRepository.findAll()).willReturn(menuItems);
 
-        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", new Price(1), new Menu(), 1);
-        MenuItem savedMenuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", new Price(1), new Menu(), 1);
+        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1);
+        MenuItem savedMenuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1);
 
         given(menuItemRepository.findById(1))
                 .willReturn(java.util.Optional.of(menuItem));
@@ -55,7 +55,7 @@ public class MenuItemServiceUnitTest {
     @Test
     public void UpdateMenuItem_ValidMenuId_ReturnsMenuItem() throws Exception {
         MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
-                new Price(1), new Menu(), 1);
+                false, new Price(1), new Menu(), 1);
         MenuItem created = menuItemService.update(menuItem, 1);
 
         assertEquals("piletina", created.getName());
@@ -64,7 +64,7 @@ public class MenuItemServiceUnitTest {
     @Test
     public void UpdateMenuItem_InvalidMenuId_ThrowsNotFoundException() throws Exception {
         MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
-                new Price(1), new Menu(), 1);
+                false, new Price(1), new Menu(), 1);
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
             menuItemService.update(menuItem, 100);
@@ -75,7 +75,7 @@ public class MenuItemServiceUnitTest {
     @Test
     public void UpdateMenuItem_InvalidPriceId_ThrowsNotFoundException() throws Exception {
         MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
-                new Price(3), new Menu(), 1);
+                false, new Price(3), new Menu(), 1);
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
             menuItemService.update(menuItem, 1);

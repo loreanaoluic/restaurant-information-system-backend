@@ -13,6 +13,8 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
 
     void delete(Integer id);
 
+    void deleteByUsername(String username);
+
     @Override
     User findOne(Integer id);
 

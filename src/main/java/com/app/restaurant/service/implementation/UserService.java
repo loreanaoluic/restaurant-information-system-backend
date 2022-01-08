@@ -51,6 +51,13 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
+    public void deleteByUsername(String username) {
+        User user = this.findByUsername(username);
+        user.setDeleted(true);
+        this.save(user);
+    }
+
+    @Override
     public User findOne(Integer id) {
         return this.userRepository.findById(id).orElse(null);
     }

@@ -25,11 +25,11 @@ public class DrinkCardItemDTOToDrinkCardItem implements Converter<DrinkCardItemD
 
         if (drinkCardItemDTO.getPrice().getId() == null) {
             return new DrinkCardItem(drinkCardItemDTO.getId(), drinkCardItemDTO.getName(), drinkCardItemDTO.getIngredients(),
-                    drinkCardItemDTO.getImage(), drinkCardItemDTO.getDescription(), new Price(),
+                    drinkCardItemDTO.getImage(), drinkCardItemDTO.getDescription(), false, new Price(),
                     drinkCardService.findOne(drinkCardItemDTO.getId()));
         }
         return new DrinkCardItem(drinkCardItemDTO.getId(), drinkCardItemDTO.getName(), drinkCardItemDTO.getIngredients(),
-                drinkCardItemDTO.getImage(), drinkCardItemDTO.getDescription(), priceDTOToPrice.convert(drinkCardItemDTO.getPrice()),
+                drinkCardItemDTO.getImage(), drinkCardItemDTO.getDescription(), false, priceDTOToPrice.convert(drinkCardItemDTO.getPrice()),
                 drinkCardService.findOne(drinkCardItemDTO.getId()));
     }
 }

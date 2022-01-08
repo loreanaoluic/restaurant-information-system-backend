@@ -2,6 +2,7 @@ package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.exception.DuplicateEntityException;
 import com.app.restaurant.exception.NotFoundException;
+import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.MenuItemRepository;
@@ -44,6 +45,12 @@ public class MenuItemService implements IMenuItemService {
 //        }
 
         return menuItemRepository.save(menuItem);
+    }
+
+    @Override
+    public void delete(MenuItem menuItem) {
+        menuItem.setDeleted(true);
+        menuItemRepository.save(menuItem);
     }
 
     @Override

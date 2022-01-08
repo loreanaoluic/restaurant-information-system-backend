@@ -3,14 +3,11 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.*;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
-import com.app.restaurant.model.Request;
 import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.UserRepository;
-import com.app.restaurant.service.IManagerService;
-import com.app.restaurant.service.IRequestService;
-import com.app.restaurant.service.IUserService;
+import com.app.restaurant.service.*;
 import com.app.restaurant.support.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +28,8 @@ public class ManagerController {
     private final IRequestService requestService;
     private final IUserService userService;
     private final UserRepository userRepository;
+    private final IDrinkCardItemService drinkCardItemService;
+    private final IMenuItemService menuItemService;
 
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
     private final RequestDTOToRequest requestDTOtoRequest;
@@ -42,7 +41,7 @@ public class ManagerController {
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
                              RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
                              IUserService userService, UserRepository userRepository,
-                             DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
+                             IDrinkCardItemService drinkCardItemService, IMenuItemService menuItemService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
                              ManagerDTOToManager managerDTOToManager, UserToUserDTO userToUserDTO)
     {
 
@@ -53,6 +52,8 @@ public class ManagerController {
         this.requestService = requestService;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.drinkCardItemService = drinkCardItemService;
+        this.menuItemService = menuItemService;
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
 
         this.managerDTOToManager = managerDTOToManager;
@@ -83,6 +84,28 @@ public class ManagerController {
             return new ResponseEntity<>(drinkCardItem, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/delete-user/{username}")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        System.out.println(username);
+        userService.deleteByUsername(username);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/delete-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> deleteDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
+        drinkCardItemService.delete(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/delete-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> deleteMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+        menuItemService.delete(menuItemDTOToMenuItem.convert(menuItemDTO));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/update-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -192,7 +215,7 @@ public class ManagerController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    
+
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_DIRECTOR')")
     public ResponseEntity<?> getUsers() {

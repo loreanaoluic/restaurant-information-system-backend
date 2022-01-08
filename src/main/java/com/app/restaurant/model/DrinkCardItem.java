@@ -19,9 +19,9 @@ public class DrinkCardItem extends Item {
     @JsonIgnore
     private DrinkCard drinkCard;
 
-    public DrinkCardItem(Integer id, String name, String ingredients, String image, String description, Price price,
-                         DrinkCard drinkCard) {
-        super(id, name, ingredients, image, description, price);
+    public DrinkCardItem(Integer id, String name, String ingredients, String image, String description, Boolean deleted,
+                         Price price, DrinkCard drinkCard) {
+        super(id, name, ingredients, image, description, deleted, price);
         this.drinkCard = drinkCard;
     }
 

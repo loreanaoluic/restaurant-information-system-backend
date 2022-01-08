@@ -42,14 +42,14 @@ public class DrinkCardItemServiceUnitTest {
     public void setup() {
         List<DrinkCardItem> drinkCardItems = new ArrayList<>();
         drinkCardItems.add(new DrinkCardItem(100, "naziv", "sastojci", "slika", "opis",
-                new Price(1), new DrinkCard()));
+                false, new Price(1), new DrinkCard()));
 
         given(drinkCardItemRepository.findAll()).willReturn(drinkCardItems);
 
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
-                "opis", new Price(1), new DrinkCard());
+                "opis", false, new Price(1), new DrinkCard());
         DrinkCardItem savedDrinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
-                "opis", new Price(1), new DrinkCard());
+                "opis", false, new Price(1), new DrinkCard());
 
         given(drinkCardItemRepository.findById(100))
                 .willReturn(java.util.Optional.of(savedDrinkCardItem));
@@ -69,7 +69,7 @@ public class DrinkCardItemServiceUnitTest {
     @Test
     public void UpdateDrinkCardItem_ValidDrinkCardItemId_ReturnsDrinkCardItem() throws Exception {
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
-                "opis", new Price(1), new DrinkCard());
+                "opis", false, new Price(1), new DrinkCard());
         DrinkCardItem created = drinkCardItemService.update(drinkCardItem, 100);
 
         assertEquals("naziv", created.getName());
@@ -78,7 +78,7 @@ public class DrinkCardItemServiceUnitTest {
     @Test
     public void UpdateDrinkCardItem_InvalidDrinkCardItemId_ThrowsNotFoundException() throws Exception {
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
-                "opis", new Price(1), new DrinkCard());
+                "opis", false, new Price(1), new DrinkCard());
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
             drinkCardItemService.update(drinkCardItem, 60);
@@ -89,7 +89,7 @@ public class DrinkCardItemServiceUnitTest {
     @Test
     public void UpdateDrinkCardItem_InvalidPriceId_ThrowsNotFoundException() throws Exception {
         DrinkCardItem drinkCardItem = new DrinkCardItem(100, "naziv", "sastojci", "slika",
-                "opis", new Price(3), new DrinkCard());
+                "opis", false, new Price(3), new DrinkCard());
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
             drinkCardItemService.update(drinkCardItem, 100);

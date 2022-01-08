@@ -6,4 +6,5 @@ public interface IDrinkCardItemService extends IGenericService<DrinkCardItem> {
 
     DrinkCardItem update(DrinkCardItem drinkCardItem, Integer id) throws Exception;
 
+    void delete(DrinkCardItem drinkCardItem);
 }

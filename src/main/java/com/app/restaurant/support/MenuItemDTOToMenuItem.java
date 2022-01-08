@@ -25,11 +25,11 @@ public class MenuItemDTOToMenuItem implements Converter<MenuItemDTO, MenuItem> {
     public MenuItem convert(MenuItemDTO menuItemDTO) {
         if (menuItemDTO.getPrice().getId() == null) {
             return new MenuItem(menuItemDTO.getId(), menuItemDTO.getName(), menuItemDTO.getIngredients(), menuItemDTO.getImage(),
-                    menuItemDTO.getDescription(), new Price(), menuService.findOne(menuItemDTO.getId()),
+                    menuItemDTO.getDescription(), false, new Price(), menuService.findOne(menuItemDTO.getId()),
                     menuItemDTO.getPreparationTime());
         }
         return new MenuItem(menuItemDTO.getId(), menuItemDTO.getName(), menuItemDTO.getIngredients(), menuItemDTO.getImage(),
-                menuItemDTO.getDescription(), priceDTOToPrice.convert(menuItemDTO.getPrice()),
+                menuItemDTO.getDescription(), false, priceDTOToPrice.convert(menuItemDTO.getPrice()),
                 menuService.findOne(menuItemDTO.getId()), menuItemDTO.getPreparationTime());
     }
 }

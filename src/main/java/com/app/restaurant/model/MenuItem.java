@@ -17,9 +17,9 @@ public class MenuItem extends Item {
 
     private double preparationTime;
 
-    public MenuItem(Integer id, String name, String ingredients, String image, String description, Price price, Menu menu,
-                    double preparationTime) {
-        super(id, name, ingredients, image, description, price);
+    public MenuItem(Integer id, String name, String ingredients, String image, String description, Boolean deleted,
+                    Price price, Menu menu, double preparationTime) {
+        super(id, name, ingredients, image, description, deleted, price);
         this.menu = menu;
         this.preparationTime = preparationTime;
     }
