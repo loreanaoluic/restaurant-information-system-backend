@@ -7,25 +7,25 @@ INSERT INTO role (name) values ('ROLE_BARTENDER');
 INSERT INTO role (name) values ('ROLE_WAITER');
 
 INSERT INTO users (dtype,  name, last_name, username, email_address, password, deleted, role_id)
-values ('Director', 'Nemanja', 'Milutinovic', 'nemanja', 'nemanja@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 1);
+values ('Director', 'Nemanja', 'Milutinovic', 'nemanja', 'nemanja@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 1);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Manager', 'Dusan', 'Antic', 'dusan', 'dusan@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 2);
+values ('Manager', 'Dusan', 'Antic', 'dusan', 'dusan@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 2);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Chef', 'Loreana', 'Oluic', 'loreana', 'loreana@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 3);
+values ('Chef', 'Loreana', 'Oluic', 'loreana', 'loreana@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 3);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Cook', 'Mladen', 'Vasic', 'mladen', 'mladen@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 4);
+values ('Cook', 'Mladen', 'Vasic', 'mladen', 'mladen@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 4);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('HeadBartender', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 5);
+values ('HeadBartender', 'Nikola', 'Nikolic', 'nikola', 'nikola@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 5);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 6);
+values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 6);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 7); --waiter
+values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$VPwDVhCe69G71DmDg9iMXe3hXcS.YvhdkGf3f3GG93buXE60M73bG', false, 7); --waiter
 
 
 INSERT INTO menu (id)
@@ -45,80 +45,89 @@ values (1500.0, 1637177653457, 0);
 INSERT INTO price (value, start_date, end_date)
 values (120.0, 1637177653457, 0);
 
+INSERT INTO price (value, start_date, end_date)
+values (150.0, 1637177653457, 0);
+
+INSERT INTO price (value, start_date, end_date)
+values (100.0, 1637177653457, 0);
+
+INSERT INTO price (value, start_date, end_date)
+values (2000.0, 1637177653457, 0);
+
 
 INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
-values (800.0, 'Pasta bolognese', 'sastojci', 'opis', '../../../../assets/images/pasta-bolognese.jpg', 60.0, 3, false);
+values (800.0, 'Pasta bolognese', 'ingredients', 'description', '../../../../assets/images/pasta-bolognese.jpg', 60.0, 3, false);
 
 INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
-values (370.0, 'Cokoladna torta', 'sastojci', 'opis', '../../../../assets/images/choco-cake.jpg', 5.0, 3, false);
+values (370.0, 'Chocolate cake', 'ingredients', 'description', '../../../../assets/images/choco-cake.jpg', 5.0, 3, false);
 
 INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
-values (270.0, 'Latte', 'sastojci', 'opis', '../../../../assets/images/latte.jpg', 5.0, 5, false);
+values (270.0, 'Latte', 'ingredients', 'description', '../../../../assets/images/latte.jpg', 5.0, 5, false);
 
 
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Pasta karbonara', 'sastojci', '../../../../assets/images/pasta-carbonara.jpg', 'opis', 1, 100.0, 1, false);
+values ('MenuItem', 'Carbonara paste', 'ingredients', '../../../../assets/images/pasta-carbonara.jpg', 'description', 1, 100.0, 1, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Pica', 'sastojci', '../../../../assets/images/pizza.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Pizza', 'ingredients', '../../../../assets/images/pizza.jpg', 'description', 1, 100.0, 6, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Pileci file', 'sastojci', '../../../../assets/images/chicken.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Chicken fillet', 'ingredients', '../../../../assets/images/chicken.jpg', 'description', 1, 100.0, 6, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Palacinke', 'sastojci', '../../../../assets/images/pancakes.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Pancakes', 'ingredients', '../../../../assets/images/pancakes.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Burger', 'sastojci', '../../../../assets/images/burger.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Burger', 'ingredients', '../../../../assets/images/burger.jpg', 'description', 1, 100.0, 6, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Sladoled od pistaca', 'sastojci', '../../../../assets/images/ice-cream.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Pistachio ice cream', 'ingredients', '../../../../assets/images/ice-cream.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Cizkejk', 'sastojci', '../../../../assets/images/cheesecake.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Cheesecake', 'ingredients', '../../../../assets/images/cheesecake.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Pomfrit', 'sastojci', '../../../../assets/images/fries.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'French fries', 'ingredients', '../../../../assets/images/fries.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Kroasan', 'sastojci', '../../../../assets/images/croissant.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Croissant', 'ingredients', '../../../../assets/images/croissant.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Tuna sendvic', 'sastojci', '../../../../assets/images/tuna-sandwich.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'Tuna sandwich', 'ingredients', '../../../../assets/images/tuna-sandwich.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, menu_id, preparation_time, price_id, deleted)
-values ('MenuItem', 'Engleski dorucak', 'sastojci', '../../../../assets/images/english-breakfast.jpg', 'opis', 1, 100.0, 2, false);
+values ('MenuItem', 'English breakfast', 'ingredients', '../../../../assets/images/english-breakfast.jpg', 'description', 1, 100.0, 2, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Espreso', 'sastojci', '../../../../assets/images/espreso.jpg', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Espresso', 'ingredients', '../../../../assets/images/espreso.jpg', 'description', 1, 0.0, 3, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Koka kola', 'sastojci', '../../../../assets/images/cocacola.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Coca Cola', 'ingredients', '../../../../assets/images/cocacola.png', 'description', 1, 0.0, 4, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Iced kafa', 'sastojci', '../../../../assets/images/iced-coffee.jpg', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'iced coffee', 'ingredients', '../../../../assets/images/iced-coffee.jpg', 'description', 1, 0.0, 3, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Pepsi', 'sastojci', '../../../../assets/images/pepsi.jpg', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Pepsi', 'ingredients', '../../../../assets/images/pepsi.jpg', 'description', 1, 0.0, 4, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Limunada', 'sastojci', '../../../../assets/images/lemonade.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Lemonade', 'ingredients', '../../../../assets/images/lemonade.png', 'description', 1, 0.0, 4, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Fanta', 'sastojci', '../../../../assets/images/fanta.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Fanta', 'ingredients', '../../../../assets/images/fanta.png', 'description', 1, 0.0, 4, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Rosa', 'sastojci', '../../../../assets/images/rosa.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Rosa', 'ingredients', '../../../../assets/images/rosa.png', 'description', 1, 0.0, 5, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Belo vino', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac mi turpis.', '../../../../assets/images/white-wine.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'White wine', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac mi turpis.', '../../../../assets/images/white-wine.png', 'description', 1, 0.0, 3, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Kisela voda', 'sastojci', '../../../../assets/images/sparkling-water.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Sparkling water', 'ingredients', '../../../../assets/images/sparkling-water.png', 'description', 1, 0.0, 5, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'Crveno vino', 'sastojci', '../../../../assets/images/red-wine.png', 'opis', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Red wine', 'ingredients', '../../../../assets/images/red-wine.png', 'description', 1, 0.0, 4, false);
 
 
 UPDATE price SET item_id = 1 WHERE id = 1;
@@ -141,48 +150,52 @@ values (2, 1637193600);
 
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (2, 'poruka', 0, 1, 1);
+values (2, 'message', 0, 1, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka2', 0, 2, 1);
+values (1, 'message2', 0, 2, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka3', 0, 13, 1);
+values (1, 'message3', 0, 13, 1);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka4', 0, 14, 2);
+values (1, 'message4', 0, 14, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka5', 0, 3, 2);
+values (1, 'message5', 0, 3, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka', 1, 14, 2);
+values (1, 'message', 1, 14, 2);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'poruka', 1, 3, 2);
+values (1, 'message', 1, 3, 2);
 
 
 INSERT INTO restaurant_table (id, table_status)
 values (1, 0);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('nabavka salate', 2000,  1637193115, false);
+values ('purchase of salad', 2000,  1637193115, false);
 
 INSERT INTO expenses ( text, value, date, deleted)
-values ('nabavka vina', 2000,  1637193115, false);
+values ('procurement of wine', 2000,  1637193115, false);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('nabavka makarona', 2690,  1637193600, false);
+values ('purchase of pasta', 2690,  1637193600, false);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('nabavka pepsija i fante', 8000,  1637193600, true);
+values ('procurement of pepsi and fanta', 8000,  1637193600, true);
 
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (50000, 1640466900, -1, 2);
+values (50000, 1640466900, 0, 2);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (45000, 1640466900, -1, 3);
+values (45000, 1640466900, 0, 3);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (40000, 1640466900, -1, 4);
+values (40000, 1640466900, 0, 4);
 UPDATE users SET salary_id = 1 WHERE id = 2;
 UPDATE users SET salary_id = 2 WHERE id = 3;
 UPDATE users SET salary_id = 3 WHERE id = 4;
+UPDATE users SET salary_id = 1 WHERE id = 1;
+UPDATE users SET salary_id = 1 WHERE id = 5;
+UPDATE users SET salary_id = 3 WHERE id = 6;
+UPDATE users SET salary_id = 3 WHERE id = 7;
