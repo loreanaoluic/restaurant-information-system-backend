@@ -24,10 +24,12 @@ import java.util.Optional;
 public class UserService implements IUserService , IGenericService<User> {
 
     private final UserRepository userRepository;
+    private final SalaryService salaryService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, SalaryService salaryService) {
         this.userRepository = userRepository;
+        this.salaryService = salaryService;
     }
 
     @Override
@@ -72,19 +74,48 @@ public class UserService implements IUserService , IGenericService<User> {
         return this.userRepository.save(entity);
     }
 
+    public Salary updateSalary(int id,double salary) throws Exception {
+        User user = findOne(id);
+        Salary newSalary = new Salary();
+
+        if (user == null) {
+            throw new NotFoundException("User does not exist");
+        }
+
+        Salary salaryById=user.getSalary();
+
+            if (salaryById==null||salaryById.getValue() != salary) {
+                if(salaryById!=null){
+
+                    salaryById.setEndDate(System.currentTimeMillis());
+                    salaryService.save(salaryById);
+                }
+                newSalary.setValue(salary);
+                newSalary.setStartDate(System.currentTimeMillis());
+                salaryService.save(newSalary);
+                user.setSalary(newSalary);
+
+                userRepository.save(user);
+
+                return newSalary;
+            }
+
+        return salaryById;
+    }
+
     @Override
     public User update(User user) throws Exception {
         Optional<User> u = userRepository.findById(user.getId());
-        System.out.println(user);
         if (u.isPresent()) {
             u.get().setRole(user.getRole());
             u.get().setUsername(user.getUsername());
-            u.get().setSalary(user.getSalary());
             u.get().setDeleted(user.getDeleted());
             u.get().setPassword(user.getPassword());
             u.get().setEmailAddress(user.getEmailAddress());
             u.get().setName(user.getName());
             u.get().setLastName(user.getLastName());
+
+            u.get().setSalary(updateSalary(u.get().getId(),user.getSalary().getValue()));
             userRepository.save(u.get());
         }else
             throw new NotFoundException("User does not exist.");
@@ -116,6 +147,7 @@ public class UserService implements IUserService , IGenericService<User> {
     @Override
     public User updateDynamicUser(UserDTO dto) throws Exception {
         User u = null;
+
         switch(dto.getDtype()) {
             case "Manager":
                 u=new Manager();
@@ -151,19 +183,18 @@ public class UserService implements IUserService , IGenericService<User> {
             throw new NotFoundException("User with given id does not exist.");
         }
 
-        u.setId(tmp.get().getId());
-        u.setName(dto.getName());
-        u.setLastName(dto.getLastName());
-        u.setEmailAddress(dto.getEmailAddress());
-        u.setUsername(dto.getUsername());
-        u.setPassword(dto.getPassword());
-        u.setDeleted(dto.getDeleted());
-        u.setSalary(new Salary(dto.getSalary(), System.currentTimeMillis(), u));
-
+        //u.setId(tmp.get().getId());
+        tmp.get().setRole(u.getRole());
+        tmp.get().setName(dto.getName());
+        tmp.get().setLastName(dto.getLastName());
+        tmp.get().setEmailAddress(dto.getEmailAddress());
+        tmp.get().setUsername(dto.getUsername());
+        tmp.get().setSalary(updateSalary(tmp.get().getId(),dto.getSalary()));
 //        this.userRepository.delete(tmp.get());
 //        this.create(u);
-
-        this.save(u);
+        System.out.println(dto.getName());
+        System.out.println(tmp.get());
+        update(tmp.get());
 
         return u;
     }
@@ -217,10 +248,12 @@ public class UserService implements IUserService , IGenericService<User> {
         u.setUsername(dto.getUsername());
         u.setPassword(dto.getPassword());
         u.setDeleted(dto.getDeleted());
+        u.setSalary(new Salary(dto.getSalary(), System.currentTimeMillis(),u));
 
         this.create(u);
         return u;
     }
+
 
 
 }
