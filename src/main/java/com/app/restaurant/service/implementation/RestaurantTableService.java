@@ -1,6 +1,9 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.RestaurantTable;
+import com.app.restaurant.model.enums.ReceiptItemStatus;
+import com.app.restaurant.model.enums.TableStatus;
 import com.app.restaurant.repository.RestaurantTableRepository;
 import com.app.restaurant.service.IRestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,30 @@ public class RestaurantTableService implements IRestaurantTableService {
 
     @Override
     public List<RestaurantTable> findAll() {
-        return restaurantTableRepository.findAll();
+        List<RestaurantTable> restaurantTables = restaurantTableRepository.findAll();
+        for (RestaurantTable restaurantTable : restaurantTables) {
+            if (restaurantTable.getReceipt() != null) {
+                int counter = 0;
+                for (ReceiptItem receiptItem : restaurantTable.getReceipt().getReceiptItems()) {
+                    if (receiptItem.getItemStatus().equals(ReceiptItemStatus.DONE)) {
+                        counter++;
+                    }
+                }
+                if (counter == restaurantTable.getReceipt().getReceiptItems().size()) {
+                    restaurantTable.setTableStatus(TableStatus.NOT_OCCUPIED);
+                    restaurantTable.setReceipt(null);
+                    this.save(restaurantTable);
+                } else {
+                    restaurantTable.setTableStatus(TableStatus.OCCUPIED);
+                    this.save(restaurantTable);
+                }
+            } else {
+                restaurantTable.setTableStatus(TableStatus.NOT_OCCUPIED);
+                restaurantTable.setReceipt(null);
+                this.save(restaurantTable);
+            }
+        }
+        return restaurantTables;
     }
 
     @Override
