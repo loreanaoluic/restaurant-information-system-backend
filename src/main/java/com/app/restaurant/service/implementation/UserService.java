@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -110,7 +112,7 @@ public class UserService implements IUserService , IGenericService<User> {
             u.get().setRole(user.getRole());
             u.get().setUsername(user.getUsername());
             u.get().setDeleted(user.getDeleted());
-            u.get().setPassword(user.getPassword());
+            u.get().setPassword(hashPassword(user.getPassword()));
             u.get().setEmailAddress(user.getEmailAddress());
             u.get().setName(user.getName());
             u.get().setLastName(user.getLastName());
@@ -187,15 +189,15 @@ public class UserService implements IUserService , IGenericService<User> {
         tmp.get().setRole(u.getRole());
         tmp.get().setName(dto.getName());
         tmp.get().setLastName(dto.getLastName());
+        tmp.get().setPassword(hashPassword(dto.getPassword()));
         tmp.get().setEmailAddress(dto.getEmailAddress());
         tmp.get().setUsername(dto.getUsername());
         tmp.get().setSalary(updateSalary(tmp.get().getId(),dto.getSalary()));
 //        this.userRepository.delete(tmp.get());
 //        this.create(u);
-        System.out.println(dto.getName());
-        System.out.println(tmp.get());
-        update(tmp.get());
 
+        //update(tmp.get());
+        userRepository.save(tmp.get());
         return u;
     }
 
@@ -246,7 +248,7 @@ public class UserService implements IUserService , IGenericService<User> {
         u.setLastName(dto.getLastName());
         u.setEmailAddress(dto.getEmailAddress());
         u.setUsername(dto.getUsername());
-        u.setPassword(dto.getPassword());
+        u.setPassword(hashPassword(dto.getPassword()));
         u.setDeleted(dto.getDeleted());
         u.setSalary(new Salary(dto.getSalary(), System.currentTimeMillis(),u));
 
@@ -254,6 +256,24 @@ public class UserService implements IUserService , IGenericService<User> {
         return u;
     }
 
+    public String hashPassword(String pass) throws Exception{
+        if(pass=="")
+            throw new Exception("Invalid password");
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String bCryptedPassword = bCryptPasswordEncoder.encode(pass);
+
+        return  bCryptedPassword;
+    }
+
+    public boolean validatePassword(String pass1,String pass2) throws Exception{
+        if(pass2=="")
+            throw new Exception("Invalid password");
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String bCryptedPassword = bCryptPasswordEncoder.encode(pass2);
+
+        return bCryptPasswordEncoder.matches(pass1, pass2);
+    }
 
 }
