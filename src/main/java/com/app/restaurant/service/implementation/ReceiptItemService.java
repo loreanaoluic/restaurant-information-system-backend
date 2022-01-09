@@ -17,12 +17,10 @@ import java.util.List;
 public class ReceiptItemService implements IReceiptItemService {
 
     private final ReceiptItemRepository receiptItemRepository;
-    private final UserService userService;
 
     @Autowired
-    public ReceiptItemService(ReceiptItemRepository receiptItemRepository, UserService userService) {
+    public ReceiptItemService(ReceiptItemRepository receiptItemRepository) {
         this.receiptItemRepository = receiptItemRepository;
-        this.userService = userService;
     }
 
     @Override
@@ -38,6 +36,31 @@ public class ReceiptItemService implements IReceiptItemService {
     @Override
     public ReceiptItem save(ReceiptItem entity) {
         return this.receiptItemRepository.save(entity);
+    }
+
+    @Override
+    public void deleteReceiptItem(Integer id) {
+        ReceiptItem found = this.findOne(id);
+
+        if (found == null) {
+            throw new NotFoundException("Receipt item with given id does not exist.");
+        }
+
+        found.setDeleted(true);
+        this.save(found);
+    }
+
+    @Override
+    public ReceiptItem updateReceiptItemNote(ReceiptItem receiptItem) {
+        ReceiptItem found = this.findOne(receiptItem.getId());
+
+        if (found == null) {
+            throw new NotFoundException("Receipt item with given id does not exist.");
+        }
+
+        found.setAdditionalNote(receiptItem.getAdditionalNote());
+        this.save(found);
+        return found;
     }
 
     @Override

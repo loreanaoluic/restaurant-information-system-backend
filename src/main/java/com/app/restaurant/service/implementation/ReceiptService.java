@@ -8,6 +8,7 @@ import com.app.restaurant.service.IReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,6 +35,19 @@ public class ReceiptService implements IReceiptService {
     @Override
     public Receipt save(Receipt entity) {
         return this.receiptRepository.save(entity);
+    }
+
+    @Override
+    public List<ReceiptItem> findAllReceiptItems(Integer id) {
+
+        Receipt receipt = this.findOne(id);
+        List<ReceiptItem> receiptItems = new ArrayList<>();
+        for (ReceiptItem receiptItem : receipt.getReceiptItems()) {
+            if (!receiptItem.getDeleted()) {
+                receiptItems.add(receiptItem);
+            }
+        }
+        return receiptItems;
     }
 
     @Override

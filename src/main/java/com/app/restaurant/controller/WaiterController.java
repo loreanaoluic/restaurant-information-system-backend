@@ -1,15 +1,13 @@
 package com.app.restaurant.controller;
 
-import com.app.restaurant.dto.ReceiptItemDTO;
-import com.app.restaurant.dto.WaiterDTO;
+import com.app.restaurant.dto.*;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.users.Waiter;
-import com.app.restaurant.service.IReceiptItemService;
-import com.app.restaurant.service.IWaiterService;
+import com.app.restaurant.service.*;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
-import com.app.restaurant.service.IDrinkCardItemService;
-import com.app.restaurant.service.IMenuItemService;
+import com.app.restaurant.support.DrinkCardItemDTOToDrinkCardItem;
+import com.app.restaurant.support.MenuItemDTOToMenuItem;
 import com.app.restaurant.support.ReceiptItemDTOToReceiptItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,18 +31,24 @@ public class WaiterController {
     private final IDrinkCardItemService drinkCardItemService;
     private final IWaiterService waiterService;
     private final IReceiptItemService receiptItemService;
+    private final IReceiptService receiptService;
 
+    private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
+    private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
     private final ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem;
 
     @Autowired
     public WaiterController(IMenuItemService menuItemService, IDrinkCardItemService drinkCardItemService,
-                            IWaiterService waiterService, ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem,
-                            IReceiptItemService receiptItemService) {
+                            IWaiterService waiterService, IReceiptService receiptService,
+                            IReceiptItemService receiptItemService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem, MenuItemDTOToMenuItem menuItemDTOToMenuItem, ReceiptItemDTOToReceiptItem receiptItemDTOToReceiptItem) {
         this.menuItemService = menuItemService;
         this.drinkCardItemService = drinkCardItemService;
         this.waiterService = waiterService;
-        this.receiptItemDTOToReceiptItem = receiptItemDTOToReceiptItem;
+        this.receiptService = receiptService;
         this.receiptItemService = receiptItemService;
+        this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
+        this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;
+        this.receiptItemDTOToReceiptItem = receiptItemDTOToReceiptItem;
     }
 
     @GetMapping(value = "/all-menu-items", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +81,7 @@ public class WaiterController {
     }
 
     @PostMapping(value = "/update-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
     public ResponseEntity<?> updateWaiter(@RequestBody WaiterDTO waiterDTO) {
         Waiter waiter = null;
         try {
@@ -95,16 +99,30 @@ public class WaiterController {
     @PostMapping(value = "/order/{table-id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<?> newReceipt(@PathVariable("table-id") Integer tableId) {
-        waiterService.newReceipt(tableId);
+        return new ResponseEntity<>(waiterService.newReceipt(tableId), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/order-drink/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<?> addDrinkToReceipt(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
+                                               @RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
+        waiterService.addItemToReceipt(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO), tableId, receiptId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/order/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/order-meal/{table-id}/{receipt-id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
-    public ResponseEntity<?> newOrder(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
-                                      @RequestBody ReceiptItemDTO receiptItemDTO) throws Exception {
-        waiterService.newOrder(receiptItemDTOToReceiptItem.convert(receiptItemDTO), tableId, receiptId);
+    public ResponseEntity<?> addMealToReceipt(@PathVariable("table-id") Integer tableId,
+                                              @PathVariable("receipt-id") Integer receiptId,
+                                              @RequestBody MenuItemDTO menuItemDTO) throws Exception {
+        waiterService.addItemToReceipt(menuItemDTOToMenuItem.convert(menuItemDTO), tableId, receiptId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/receipt-items/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<List<ReceiptItem>> getReceiptItems( @PathVariable("id") Integer id) {
+        return new ResponseEntity<>(receiptService.findAllReceiptItems(id), HttpStatus.OK);
     }
 
     @GetMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,5 +140,21 @@ public class WaiterController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(receiptItem, HttpStatus.OK);
+    }
+
+    @PostMapping("/update-receipt-item")
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<?> updateReceiptItem(@RequestBody ReceiptItemDTO receiptItemDTO) {
+
+        return new ResponseEntity<>(this.receiptItemService.updateReceiptItemNote(this.receiptItemDTOToReceiptItem.convert(receiptItemDTO)),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/delete-receipt-item/{id}")
+    @PreAuthorize("hasAuthority('ROLE_WAITER')")
+    public ResponseEntity<?> deleteReceiptItem(@PathVariable Integer id) {
+
+        this.receiptItemService.deleteReceiptItem(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

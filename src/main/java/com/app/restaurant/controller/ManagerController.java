@@ -228,7 +228,7 @@ public class ManagerController {
     }
 
     @GetMapping(value = "/restaurant-tables", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_WAITER')")
     public ResponseEntity<?> getRestaurantTables() {
         return new ResponseEntity<>(restaurantTableService.findAll(), HttpStatus.OK);
     }
