@@ -162,8 +162,14 @@ INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, recei
 values (1, 'poruka', 1, 3, 2);
 
 
-INSERT INTO restaurant_table (id, table_status)
-values (1, 0);
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (1, 1, 0.0, 0.0, false);
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (0, 0, 0.0, 0.0, false);
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (1, 0, 0.0, 0.0, false);
 
 INSERT INTO expenses (text, value, date, deleted)
 values ('nabavka salate', 2000,  1637193115, false);

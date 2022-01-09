@@ -33,4 +33,23 @@ public class RestaurantTableService implements IRestaurantTableService {
     public RestaurantTable save(RestaurantTable restaurantTable) {
         return restaurantTableRepository.save(restaurantTable);
     }
+
+    @Override
+    public void delete(Integer id) {
+        RestaurantTable restaurantTable = this.findOne(id);
+        restaurantTable.setDeleted(true);
+        this.save(restaurantTable);
+    }
+
+    @Override
+    public RestaurantTable update(RestaurantTable restaurantTable) {
+        RestaurantTable found = this.findOne(restaurantTable.getId());
+        found.setTableStatus(restaurantTable.getTableStatus());
+        found.setTableShape(restaurantTable.getTableShape());
+        found.setCoordinateX(restaurantTable.getCoordinateX());
+        found.setCoordinateY(restaurantTable.getCoordinateY());
+        found.setDeleted(restaurantTable.getDeleted());
+        this.save(found);
+        return found;
+    }
 }

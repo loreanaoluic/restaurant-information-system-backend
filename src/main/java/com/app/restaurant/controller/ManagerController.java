@@ -3,6 +3,7 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.*;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
+import com.app.restaurant.model.RestaurantTable;
 import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
@@ -30,30 +31,29 @@ public class ManagerController {
     private final UserRepository userRepository;
     private final IDrinkCardItemService drinkCardItemService;
     private final IMenuItemService menuItemService;
+    private final IRestaurantTableService restaurantTableService;
 
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
-    private final RequestDTOToRequest requestDTOtoRequest;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
     private final UserToUserDTO userToUserDTO;
 
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
-                             RequestDTOToRequest requestDTOtoRequest, IRequestService requestService,
-                             IUserService userService, UserRepository userRepository,
-                             IDrinkCardItemService drinkCardItemService, IMenuItemService menuItemService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
+                             IRequestService requestService, IUserService userService, UserRepository userRepository,
+                             IDrinkCardItemService drinkCardItemService, IMenuItemService menuItemService, IRestaurantTableService restaurantTableService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
                              ManagerDTOToManager managerDTOToManager, UserToUserDTO userToUserDTO)
     {
 
 
         this.managerService = managerService;
         this.menuItemDTOToMenuItem = menuItemDTOToMenuItem;
-        this.requestDTOtoRequest = requestDTOtoRequest;
         this.requestService = requestService;
         this.userService = userService;
         this.userRepository = userRepository;
         this.drinkCardItemService = drinkCardItemService;
         this.menuItemService = menuItemService;
+        this.restaurantTableService = restaurantTableService;
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
 
         this.managerDTOToManager = managerDTOToManager;
@@ -89,7 +89,6 @@ public class ManagerController {
     @PostMapping(value = "/delete-user/{username}")
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> deleteUser(@PathVariable String username) {
-        System.out.println(username);
         userService.deleteByUsername(username);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -195,6 +194,7 @@ public class ManagerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Double value) {
@@ -225,5 +225,31 @@ public class ManagerController {
             return new ResponseEntity<List<UserDTO>>(this.userToUserDTO.convert(users), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<List<UserDTO>>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/restaurant-tables", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> getRestaurantTables() {
+        return new ResponseEntity<>(restaurantTableService.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add-restaurant-table", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> addRestaurantTable(@RequestBody RestaurantTable restaurantTable) throws Exception {
+        return new ResponseEntity<>(restaurantTableService.save(restaurantTable), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/delete-restaurant-table/{id}")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) {
+        restaurantTableService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/update-restaurant-table", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) {
+        restaurantTableService.update(restaurantTable);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
