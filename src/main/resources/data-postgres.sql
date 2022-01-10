@@ -106,7 +106,7 @@ INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, p
 values ('DrinkCardItem', 'Coca Cola', 'ingredients', '../../../../assets/images/cocacola.png', 'description', 1, 0.0, 4, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
-values ('DrinkCardItem', 'iced coffee', 'ingredients', '../../../../assets/images/iced-coffee.jpg', 'description', 1, 0.0, 3, false);
+values ('DrinkCardItem', 'Iced coffee', 'ingredients', '../../../../assets/images/iced-coffee.jpg', 'description', 1, 0.0, 3, false);
 
 INSERT INTO item (dtype, name, ingredients, image, description, drink_card_id, preparation_time, price_id, deleted)
 values ('DrinkCardItem', 'Pepsi', 'ingredients', '../../../../assets/images/pepsi.jpg', 'description', 1, 0.0, 4, false);
@@ -139,40 +139,47 @@ UPDATE price SET item_id = 3 WHERE id = 3;
 
 ------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO receipts (id, issue_date)
-values (1, 1637193115);
+INSERT INTO receipts (issue_date)
+values (1637193115);
 
-INSERT INTO receipts (id, issue_date)
-values (2, 1637193600);
-
-
+INSERT INTO receipts (issue_date)
+values (1637193600);
 
 
 
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (2, 'message', 0, 1, 1);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message2', 0, 2, 1);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message3', 0, 13, 1);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message4', 0, 14, 2);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message5', 0, 3, 2);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message', 1, 14, 2);
-
-INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id)
-values (1, 'message', 1, 3, 2);
 
 
-INSERT INTO restaurant_table (id, table_status)
-values (1, 0);
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (2, 'message', 0, 1, 1, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message2', 0, 2, 1, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message3', 0, 13, 1, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message4', 0, 14, 2, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message5', 0, 3, 2, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message', 1, 14, 2, false);
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (1, 'message', 1, 3, 2, false);
+
+
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (1, 1, 0.0, 0.0, false);
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (0, 0, 0.0, 0.0, false);
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (1, 0, 0.0, 0.0, false);
 
 INSERT INTO expenses (text, value, date, deleted)
 values ('purchase of salad', 2000,  1637193115, false);

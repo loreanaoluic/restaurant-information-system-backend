@@ -2,13 +2,15 @@ package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.exception.DuplicateEntityException;
 import com.app.restaurant.exception.NotFoundException;
-import com.app.restaurant.model.Receipt;
-import com.app.restaurant.model.ReceiptItem;
-import com.app.restaurant.model.RestaurantTable;
+import com.app.restaurant.model.*;
+import com.app.restaurant.model.enums.ReceiptItemStatus;
 import com.app.restaurant.model.enums.TableStatus;
+import com.app.restaurant.model.users.User;
 import com.app.restaurant.model.users.Waiter;
 import com.app.restaurant.repository.WaiterRepository;
 import com.app.restaurant.service.IWaiterService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,11 +23,13 @@ public class WaiterService implements IWaiterService {
     private final WaiterRepository waiterRepository;
     private final ReceiptService receiptService;
     private final RestaurantTableService restaurantTableService;
+    private final ReceiptItemService receiptItemService;
 
-    public WaiterService(WaiterRepository waiterRepository, ReceiptService receiptService, RestaurantTableService restaurantTableService) {
+    public WaiterService(WaiterRepository waiterRepository, ReceiptService receiptService, RestaurantTableService restaurantTableService, ReceiptItemService receiptItemService) {
         this.waiterRepository = waiterRepository;
         this.receiptService = receiptService;
         this.restaurantTableService = restaurantTableService;
+        this.receiptItemService = receiptItemService;
     }
 
     @Override
@@ -60,7 +64,7 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
-    public void newReceipt(Integer tableId) {
+    public Receipt newReceipt(Integer tableId) {
         Receipt receipt = new Receipt();
         receipt.setIssueDate(System.currentTimeMillis());
         List<ReceiptItem> receiptItems = new ArrayList<>();
@@ -71,10 +75,11 @@ public class WaiterService implements IWaiterService {
         restaurantTable.setReceipt(receipt);
         restaurantTable.setTableStatus(TableStatus.OCCUPIED);
         restaurantTableService.save(restaurantTable);
+        return receipt;
     }
 
     @Override
-    public boolean newOrder(ReceiptItem receiptItem, Integer tableId, Integer receiptId) throws Exception {
+    public void addItemToReceipt(Item item, Integer tableId, Integer receiptId) throws Exception {
 
         Receipt receipt = receiptService.findOne(receiptId);
 
@@ -82,11 +87,28 @@ public class WaiterService implements IWaiterService {
             throw new NotFoundException("Receipt with given id does not exist.");
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
         List<ReceiptItem> receiptItems = receipt.getReceiptItems();
-        receiptItems.add(receiptItem);
+
+        boolean exists = false;
+        for (ReceiptItem receiptItem : receiptItems) {
+            if (receiptItem.getItem().getName().equals(item.getName())) {
+                int value = receiptItem.getQuantity() + 1;
+                receiptItem.setQuantity(value);
+                exists = true;
+            }
+        }
+
+        if (receiptItems.size() == 0 || !exists) {
+            ReceiptItem newReceiptItem = new ReceiptItem(1, ReceiptItemStatus.ORDERED, receipt, item, user);
+            receiptItems.add(newReceiptItem);
+            receiptItemService.save(newReceiptItem);
+        }
+
         receipt.setReceiptItems(receiptItems);
         receiptService.save(receipt);
-
-        return true;
     }
+
 }

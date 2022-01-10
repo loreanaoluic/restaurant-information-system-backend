@@ -16,7 +16,12 @@ public class ReceiptItemDTOToReceiptItem implements Converter<ReceiptItemDTO, Re
 
     @Override
     public ReceiptItem convert(ReceiptItemDTO receiptItemDTO) {
-        return new ReceiptItem(receiptItemDTO.getQuantity(), receiptItemDTO.getAdditionalNote(),
-                receiptItemDTO.getItemStatus(), receiptDTOToReceipt.convert(receiptItemDTO.getReceipt()));
+        if (receiptItemDTO.getId() == null) {
+            return new ReceiptItem(receiptItemDTO.getQuantity(), receiptItemDTO.getAdditionalNote(),
+                    receiptItemDTO.getItemStatus(), receiptDTOToReceipt.convert(receiptItemDTO.getReceipt()));
+        } else {
+            return new ReceiptItem(receiptItemDTO.getId(), receiptItemDTO.getQuantity(), receiptItemDTO.getAdditionalNote(),
+                    receiptItemDTO.getItemStatus(), receiptDTOToReceipt.convert(receiptItemDTO.getReceipt()));
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.app.restaurant.model;
 
+import com.app.restaurant.model.enums.TableShape;
 import com.app.restaurant.model.enums.TableStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,14 @@ public class RestaurantTable {
 
     @Column(name = "table_status", nullable = false)
     private TableStatus tableStatus;
+
+    private TableShape tableShape;
+
+    private double coordinateX;
+
+    private double coordinateY;
+
+    private Boolean deleted = Boolean.FALSE;
 
     @OneToOne
     private Receipt receipt;

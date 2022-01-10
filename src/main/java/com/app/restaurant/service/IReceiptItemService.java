@@ -15,4 +15,8 @@ public interface IReceiptItemService extends IGenericService<ReceiptItem> {
     List<ReceiptItem> waiterOrders();
 
     ReceiptItem changeStatusToDone(Integer receiptItemId) throws Exception;
+
+    ReceiptItem updateReceiptItemNote(ReceiptItem receiptItem);
+
+    void deleteReceiptItem(Integer id);
 }

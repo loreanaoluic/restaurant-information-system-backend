@@ -1,6 +1,6 @@
 package com.app.restaurant.service;
 
-import com.app.restaurant.model.ReceiptItem;
+import com.app.restaurant.model.*;
 import com.app.restaurant.model.users.Waiter;
 
 public interface IWaiterService {
@@ -11,7 +11,7 @@ public interface IWaiterService {
 
     Waiter update(Waiter entity) throws Exception;
 
-    void newReceipt(Integer tableId);
+    Receipt newReceipt(Integer tableId);
 
-    boolean newOrder(ReceiptItem receiptItem, Integer tableId, Integer receiptId) throws Exception;
+    void addItemToReceipt(Item item, Integer tableId, Integer receiptId) throws Exception;
 }
