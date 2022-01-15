@@ -24,28 +24,16 @@ public class ActionsTest {
         driver = new ChromeDriver();
     }
 
-    //TEST METODA NIJE VEZANA ZA NAS PROJEKAT SAMO DA SVAKO POKRENE DA VIDI DA LI RADE DEPENDESI 
+    //TEST METODA NIJE VEZANA ZA NAS PROJEKAT SAMO DA SVAKO POKRENE DA VIDI DA LI RADE DEPENDESI
     @Test
     public void shouldPerformCompositeAction() {
 
-        driver.get("http://guidebook.seleniumacademy.com/Selectable.html");
+        driver.get("http://localhost:4200/login");
 
-        WebElement one = driver.findElement(By.name("one"));
-        WebElement three = driver.findElement(By.name("three"));
-        WebElement five = driver.findElement(By.name("five"));
+        WebElement username = driver.findElement(By.xpath("//*[@id='username']"));
+        WebElement password = driver.findElement(By.xpath("//*[@id='password']"));
 
-        // Add all the actions into the Actions actions.
-        Actions actions = new Actions(driver);
-        actions.keyDown(Keys.CONTROL)
-                .click(one)
-                .click(three)
-                .click(five)
-                .keyUp(Keys.CONTROL);
-
-        // Generate the composite action.
-        Action compositeAction = actions.build();
-
-        // Perform the composite action.
-        compositeAction.perform();
+        username.sendKeys("dusan");
+        password.sendKeys("1234");
     }
 }
