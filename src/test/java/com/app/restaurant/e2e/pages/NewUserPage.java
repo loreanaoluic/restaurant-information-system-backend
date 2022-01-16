@@ -33,7 +33,7 @@ public class NewUserPage {
     private WebElement password2Input;
 
     @FindBy(name = "saveChangesModal")
-    private WebElement saveChangesButton;
+    public WebElement saveChangesButton;
 
     public NewUserPage(WebDriver driver) {
         this.driver = driver;

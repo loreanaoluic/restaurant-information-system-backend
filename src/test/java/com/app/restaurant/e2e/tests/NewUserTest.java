@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -53,10 +54,6 @@ public class NewUserTest {
 
         WebElement newEmployeeBtn = driver.findElement(By.name("newEmployeeBtn"));
         Utilities.clickableWait(driver, newEmployeeBtn, 10).click();
-
-        //obradi slucajeve- dodaj neki response kad nije dobar unos
-        //dodati username koji vec postoji i pokusati snimiti
-        //ne poslati sve parametre
 
         newUserPage.setUsernameInput("mirko");
         newUserPage.setNameInput("mirko");
