@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -63,6 +64,32 @@ public class ActionsTest {
         Utilities.urlWait(driver,"http://localhost:4200/manager/employees",10);
         assertEquals("http://localhost:4200/manager/employees", driver.getCurrentUrl());
 
+    }
+
+    @Test
+    public void shouldPerformLogOutAction() {
+
+        driver.get("http://localhost:4200/login");
+
+        assertEquals("http://localhost:4200/login",
+                driver.getCurrentUrl());
+
+        loginPage.setUsernameInput("dusan");
+        loginPage.setPasswordInput("1234");
+
+        loginPage.submitBtnClick();
+        loginPage.submitBtnClick();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/employees",10);
+        assertEquals("http://localhost:4200/manager/employees", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement logOut=driver.findElement(By.cssSelector("#logOut"));
+        logOut.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/login",10);
+        assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
     }
 
     @AfterTest

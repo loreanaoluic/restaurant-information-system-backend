@@ -2,18 +2,15 @@ package com.app.restaurant.e2e.tests;
 
 import com.app.restaurant.e2e.pages.LoginPage;
 import com.app.restaurant.e2e.pages.NewUserPage;
-import com.app.restaurant.e2e.pages.UpdateUser;
+import com.app.restaurant.e2e.pages.UpdateUserPage;
 import com.app.restaurant.e2e.pages.Utilities;
-import org.hamcrest.CoreMatchers;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -24,12 +21,12 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 
-public class managerHomePage {
+public class ManagerHome {
 
     WebDriver driver;
     NewUserPage newUserPage;
     LoginPage loginPage;
-    UpdateUser updateUser;
+    UpdateUserPage updateUser;
 
     @BeforeMethod
     public void setup() throws IOException {
@@ -40,7 +37,7 @@ public class managerHomePage {
         driver.manage().window().maximize();
         newUserPage= PageFactory.initElements(driver,NewUserPage.class);
         loginPage= PageFactory.initElements(driver,LoginPage.class);
-        updateUser= PageFactory.initElements(driver,UpdateUser.class);
+        updateUser= PageFactory.initElements(driver, UpdateUserPage.class);
     }
 
     @Test
@@ -142,6 +139,65 @@ public class managerHomePage {
         List<WebElement> searchResults = driver.findElements(By.name("UsernameInTable"));
 
         assertThat(searchResults.size()==1);
+    }
+
+    @Test
+    public void shouldPerformNavBarCardsAction() {
+
+        driver.get("http://localhost:4200/login");
+
+        assertEquals("http://localhost:4200/login",
+                driver.getCurrentUrl());
+
+        loginPage.setUsernameInput("dusan");
+        loginPage.setPasswordInput("1234");
+
+        loginPage.submitBtnClick();
+        loginPage.submitBtnClick();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/employees",10);
+        assertEquals("http://localhost:4200/manager/employees", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement drinkCard=driver.findElement(By.xpath("//a[@href='manager/drinkCard']"));
+        drinkCard.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/drinkCard",10);
+        assertEquals("http://localhost:4200/manager/drinkCard", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement menu=driver.findElement(By.xpath("//a[@href='manager/menu']"));
+        menu.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/menu",10);
+        assertEquals("http://localhost:4200/manager/menu", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement table=driver.findElement(By.xpath("//a[@href='manager/table']"));
+        table.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/table",10);
+        assertEquals("http://localhost:4200/manager/table", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement itemRequests=driver.findElement(By.xpath("//a[@href='manager/itemRequests']"));
+        itemRequests.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/itemRequests",10);
+        assertEquals("http://localhost:4200/manager/itemRequests", driver.getCurrentUrl());
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+
+        WebElement profile=driver.findElement(By.xpath("//a[@href='manager/profile']"));
+        profile.click();
+
+        Utilities.urlWait(driver,"http://localhost:4200/manager/profile",10);
+        assertEquals("http://localhost:4200/manager/profile", driver.getCurrentUrl());
+
     }
 
     @AfterMethod

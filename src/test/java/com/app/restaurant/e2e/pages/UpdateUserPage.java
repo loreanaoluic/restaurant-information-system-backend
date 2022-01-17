@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class UpdateUser {
+public class UpdateUserPage {
     private WebDriver driver;
 
     @FindBy(name = "username")
@@ -28,7 +28,7 @@ public class UpdateUser {
     @FindBy(name = "saveChanges")
     public WebElement saveChangesButton;
 
-    public UpdateUser(WebDriver driver) {
+    public UpdateUserPage(WebDriver driver) {
         this.driver = driver;
     }
 
