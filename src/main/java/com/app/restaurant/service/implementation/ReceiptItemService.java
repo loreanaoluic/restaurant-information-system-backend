@@ -64,7 +64,7 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
-    public ReceiptItem changeStatusToReady(Integer receiptItemId) throws Exception {
+    public ReceiptItem changeStatusToReady(Integer receiptItemId) {
         ReceiptItem receiptItem = this.findOne(receiptItemId);
 
         if (receiptItem == null) {
@@ -81,7 +81,7 @@ public class ReceiptItemService implements IReceiptItemService {
     }
 
     @Override
-    public ReceiptItem changeStatusToDone(Integer receiptItemId) throws Exception {
+    public ReceiptItem changeStatusToDone(Integer receiptItemId) {
         ReceiptItem receiptItem = this.findOne(receiptItemId);
 
         if (receiptItem == null) {

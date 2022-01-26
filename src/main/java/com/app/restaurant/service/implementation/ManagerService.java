@@ -55,7 +55,6 @@ public class ManagerService implements IManagerService {
             throw new NotFoundException("Manager with given id does not exist.");
         }
 
-        //managerRepository.delete(manager);
         manager.setDeleted(true);
         this.save(manager);
     }

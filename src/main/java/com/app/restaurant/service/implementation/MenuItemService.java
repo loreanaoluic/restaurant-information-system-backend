@@ -36,14 +36,6 @@ public class MenuItemService implements IMenuItemService {
 
     @Override
     public MenuItem save(MenuItem menuItem){
-
-        //had to comment lines below because they broke my functionality - Mladen
-//        if(menuItem.getId() != null){
-//            if(this.findOne(menuItem.getId()) != null){
-//                throw new DuplicateEntityException(String.format("Menuitem with id %s already exists", menuItem.getId()));
-//            }
-//        }
-
         return menuItemRepository.save(menuItem);
     }
 

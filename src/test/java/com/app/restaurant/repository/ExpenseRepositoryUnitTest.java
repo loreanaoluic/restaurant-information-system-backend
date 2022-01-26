@@ -21,10 +21,23 @@ public class ExpenseRepositoryUnitTest {
     ExpenseRepository expenseRepository;
 
     @Test
+    public void FindAll_FindingAllNotDeletedExpenses_ReturnsExpensesList(){
+        List<Expense> expenseList = expenseRepository.findAll();
+        assertEquals(2, expenseList.size());
+    }
+
+    @Test
     public void FindByDates_FindingAllExpensesByDates_ReturnsExpenseList(){
 
         List<Expense> expenseList = expenseRepository.findByDates(1, 1637193115);
         assertEquals(1, expenseList.size());
+    }
+
+    @Test
+    public void FindByDates_FindingAllExpensesByDates_ReturnsEmptyExpenseList(){
+
+        List<Expense> expenseList = expenseRepository.findByDates(1, 1);
+        assertEquals(0, expenseList.size());
     }
 
     @Test
@@ -34,5 +47,10 @@ public class ExpenseRepositoryUnitTest {
         assertEquals(1, expenseList.size());
     }
 
+    @Test
+    public void FindByDate_FindingAllExpensesByDate_ReturnsEmptyExpenseList(){
 
+        List<Expense> expenseList = expenseRepository.findByDate(1);
+        assertEquals(0, expenseList.size());
+    }
 }

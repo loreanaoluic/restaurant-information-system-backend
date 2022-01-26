@@ -1,7 +1,6 @@
 package com.app.restaurant.repository;
 
 import com.app.restaurant.model.Receipt;
-import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,25 @@ public class ReceiptRepositoryUnitTest {
 
     @Test
     public void FindByDates_FindingAllReceiptsByDates_ReturnsReceiptList(){
-        List<Receipt> receipts = receiptRepository.findByDates(1637193114,1637193116);
+        List<Receipt> receipts = receiptRepository.findByDates(1637193114, 1637193116);
         assertEquals(1, receipts.size());
+    }
+
+    @Test
+    public void FindByDates_FindingAllReceiptsByDates_ReturnsEmptyReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDates(1, 1);
+        assertEquals(0, receipts.size());
     }
 
     @Test
     public void FindByDate_FindingAllReceiptsByDate_ReturnsReceiptList(){
         List<Receipt> receipts = receiptRepository.findByDate(1637193115);
         assertEquals(1, receipts.size());
+    }
+
+    @Test
+    public void FindByDate_FindingAllReceiptsByDate_ReturnsEmptyReceiptList(){
+        List<Receipt> receipts = receiptRepository.findByDate(1);
+        assertEquals(0, receipts.size());
     }
 }

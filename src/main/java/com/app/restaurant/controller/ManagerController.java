@@ -190,7 +190,7 @@ public class ManagerController {
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        User user = userService.updateDynamicUser(userDTO);
+        userService.updateDynamicUser(userDTO);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -198,13 +198,13 @@ public class ManagerController {
     @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Double value) {
-        User user=null;
+        User user = null;
         try {
-            Optional<User> tmp= userRepository.findById(id);
+            Optional<User> tmp = userRepository.findById(id);
             if(tmp.isPresent()){
-                user=tmp.get();
+                user = tmp.get();
                 user.setSalary(new Salary(value,System.currentTimeMillis(),user));
-                user=userService.update(user);
+                user = userService.update(user);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +222,7 @@ public class ManagerController {
         List<User> users=userRepository.findAll();
 
         if(users != null) {
-            return new ResponseEntity<List<UserDTO>>(this.userToUserDTO.convert(users), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(this.userToUserDTO.convert(users), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<List<UserDTO>>(HttpStatus.BAD_REQUEST);
     }
@@ -241,14 +241,14 @@ public class ManagerController {
 
     @PostMapping(value = "/delete-restaurant-table/{id}")
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) throws Exception {
         restaurantTableService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/update-restaurant-table", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) {
+    public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) throws Exception {
         restaurantTableService.update(restaurantTable);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -1,6 +1,5 @@
 package com.app.restaurant.repository;
 
-import com.app.restaurant.model.Receipt;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,6 @@
 package com.app.restaurant.service.implementation;
 
-import com.app.restaurant.exception.NotFoundException;
-import com.app.restaurant.model.Price;
 import com.app.restaurant.model.Salary;
-import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.SalaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -60,11 +60,13 @@ public class WaiterService implements IWaiterService {
             waiter.setUsername(entity.getUsername());
             waiterRepository.save(waiter);
         }
-        throw new NotFoundException("Waiter does not exist.");
+        else
+            throw new NotFoundException("Waiter does not exist.");
+        return man.get();
     }
 
     @Override
-    public Receipt newReceipt(Integer tableId) {
+    public Receipt newReceipt(Integer tableId) throws Exception {
         Receipt receipt = new Receipt();
         receipt.setIssueDate(System.currentTimeMillis());
         List<ReceiptItem> receiptItems = new ArrayList<>();
@@ -72,6 +74,11 @@ public class WaiterService implements IWaiterService {
         receiptService.save(receipt);
 
         RestaurantTable restaurantTable = restaurantTableService.findOne(tableId);
+
+        if (restaurantTable == null) {
+            throw new NotFoundException("Table with given id does not exist.");
+        }
+
         restaurantTable.setReceipt(receipt);
         restaurantTable.setTableStatus(TableStatus.OCCUPIED);
         restaurantTableService.save(restaurantTable);
@@ -79,7 +86,7 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
-    public void addItemToReceipt(Item item, Integer tableId, Integer receiptId) throws Exception {
+    public void addItemToReceipt(Item item, Integer receiptId) throws Exception {
 
         Receipt receipt = receiptService.findOne(receiptId);
 

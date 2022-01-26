@@ -17,13 +17,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.app.restaurant.security.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @RestController
@@ -31,31 +29,26 @@ import java.sql.Timestamp;
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 
-    private TokenUtils tokenUtils;
+    private final TokenUtils tokenUtils;
+    private final AuthenticationManager authenticationManager;
 
-    private AuthenticationManager authenticationManager;
-
-    private UserService userService;
+    private final UserService userService;
     private final UserToUserDTO userToUserDTO;
-
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthenticationController(TokenUtils t, AuthenticationManager aM, UserService us,
-                                    UserToUserDTO userToUserDTO, PasswordEncoder pe){
+                                    UserToUserDTO userToUserDTO){
         this.tokenUtils = t;
         this.authenticationManager = aM;
         this.userService = us;
         this.userToUserDTO = userToUserDTO;
-        this.passwordEncoder = pe;
     }
 
 
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
-                                                                    HttpServletResponse response) {
+    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
 
         UsernamePasswordAuthenticationToken u = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                 authenticationRequest.getPassword());
@@ -64,9 +57,9 @@ public class AuthenticationController {
         //
         Authentication authentication;
 
-        try{
+        try {
             authentication = authenticationManager.authenticate(u);
-        }catch(BadCredentialsException e){
+        } catch(BadCredentialsException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
@@ -83,9 +76,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-
-
-
     // U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
     @PostMapping(value = "/refresh")
     public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
@@ -97,7 +87,6 @@ public class AuthenticationController {
         if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = tokenUtils.refreshToken(token);
             int expiresIn = tokenUtils.getExpiredIn();
-
             return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
         } else {
             UserTokenState userTokenState = new UserTokenState();
@@ -127,15 +116,6 @@ public class AuthenticationController {
         User user = this.userService.findOne(id);
         return new ResponseEntity<>(user.getLastPasswordResetDate(), HttpStatus.OK);
     }
-
-    /*@PostMapping("/changePassword/{id}")
-    public ResponseEntity<Boolean> changePassword(@PathVariable Long id, @RequestBody String newPassword){
-        // TODO do we need to check if id is same as logged in user?
-        newPassword = newPassword.substring(0, newPassword.length() - 1);
-
-        return new ResponseEntity<>(this.userService.changePassword(id, passwordEncoder.encode(newPassword)),
-                                    HttpStatus.OK);
-    }*/
 
     @GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity logoutUser() {

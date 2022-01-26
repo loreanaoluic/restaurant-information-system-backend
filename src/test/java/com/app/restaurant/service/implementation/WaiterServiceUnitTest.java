@@ -32,10 +32,6 @@ public class WaiterServiceUnitTest {
 
     @Autowired
     private ReceiptService receiptService;
-    @Autowired
-    private RestaurantTableService restaurantTableService;
-    @Autowired
-    private WaiterService waiterService;
 
     @MockBean
     private WaiterRepository waiterRepository;

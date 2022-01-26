@@ -19,11 +19,9 @@ import java.util.Optional;
 public class UserContoller {
 
     private final IUserService userService;
-    private final UserRepository userRepository;
 
-    public UserContoller(IUserService userService, UserRepository userRepository) {
+    public UserContoller(IUserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/{username}")
@@ -42,20 +40,4 @@ public class UserContoller {
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
         return new ResponseEntity<>(this.userService.updateDynamicUser(userDTO),HttpStatus.OK);
     }
-
-    /* //LOGICKO BRISANJE, IMAMO VEC IMPLEMENTIRANO FIZICKO TAKO DA JE OVO VISAK :D
-    @PostMapping(value = "/delete-user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
-
-        Optional<User> tmp= userRepository.findById(id);
-        if(tmp.isPresent()){
-            User user=tmp.get();
-            user.setDeleted(true);
-            userRepository.save(user);
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
-
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }*/
 }
