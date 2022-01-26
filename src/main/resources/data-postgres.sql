@@ -140,11 +140,13 @@ UPDATE price SET item_id = 3 WHERE id = 3;
 ------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO receipts (issue_date)
-values (1637193115);
+values (1637193115000);
 
 INSERT INTO receipts (issue_date)
-values (1637193600);
+values (1637193600000);
 
+INSERT INTO receipts (issue_date)
+values (1637063911000);
 
 
 
@@ -171,6 +173,12 @@ INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, recei
 values (1, 'message', 1, 3, 2, false);
 
 
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (2, 'message', 0, 1, 3, false);
+
+
+INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
+values (2, 'message', 0, 13, 3, false);
 
 INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
 values (1, 1, 0.0, 0.0, false);
@@ -181,17 +189,23 @@ values (0, 0, 0.0, 0.0, false);
 INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
 values (1, 0, 0.0, 0.0, false);
 
+
 INSERT INTO expenses (text, value, date, deleted)
-values ('purchase of salad', 2000,  1637193115, false);
+values ('purchase of salad', 2000,  1637193115000, false);
+
+
+INSERT INTO expenses (text, value, date, deleted)
+values ('purchase of salad', 2000,  1637063911000, false);
+
 
 INSERT INTO expenses ( text, value, date, deleted)
-values ('procurement of wine', 2000,  1637193115, false);
+values ('procurement of wine', 2000,  1637193115000, false);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('purchase of pasta', 2690,  1637193600, false);
+values ('purchase of pasta', 2690,  1637193600000, false);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('procurement of pepsi and fanta', 8000,  1637193600, true);
+values ('procurement of pepsi and fanta', 8000,  1637193600000, true);
 
 INSERT INTO salary (value, start_date, end_date, user_id)
 values (50000, 1640466900, 0, 2);
