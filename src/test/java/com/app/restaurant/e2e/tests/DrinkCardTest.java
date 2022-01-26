@@ -1,6 +1,6 @@
 package com.app.restaurant.e2e.tests;
 
-import com.app.restaurant.e2e.pages.FoodMenuPage;
+import com.app.restaurant.e2e.pages.DrinkCardPage;
 import com.app.restaurant.e2e.pages.LoginPage;
 import com.app.restaurant.e2e.pages.Utilities;
 import org.openqa.selenium.By;
@@ -19,12 +19,11 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-public class FoodMenu {
-
+public class DrinkCardTest {
 
     WebDriver driver;
     LoginPage loginPage;
-    FoodMenuPage foodMenuPage;
+    DrinkCardPage drinkCardPage;
 
     @BeforeMethod
     public void setup() throws IOException {
@@ -32,14 +31,14 @@ public class FoodMenu {
         System.setProperty("webdriver.chrome.driver",
                 "./src/test/resources/drivers/chromedriver.exe");
         driver = new ChromeDriver();
-        loginPage= PageFactory.initElements(driver,LoginPage.class);
-        foodMenuPage= PageFactory.initElements(driver,FoodMenuPage.class);
+        loginPage = PageFactory.initElements(driver,LoginPage.class);
+        drinkCardPage = PageFactory.initElements(driver,DrinkCardPage.class);
         driver.manage().window().maximize();
 
     }
 
     @Test
-    public void shouldPerformUpdateFoodIteamAction() {
+    public void shouldPerformUpdateDrinkCardAction() {
 
         driver.get("http://localhost:4200/login");
         loginPage.setUsernameInput("dusan");
@@ -53,11 +52,11 @@ public class FoodMenu {
 
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-        WebElement foodCard=driver.findElement(By.xpath("//a[@href='manager/menu']"));
-        foodCard.click();
+        WebElement drinkCard=driver.findElement(By.xpath("//a[@href='manager/drinkCard']"));
+        drinkCard.click();
 
-        Utilities.urlWait(driver,"http://localhost:4200/manager/menu",10);
-        assertEquals("http://localhost:4200/manager/menu", driver.getCurrentUrl());
+        Utilities.urlWait(driver,"http://localhost:4200/manager/drinkCard",10);
+        assertEquals("http://localhost:4200/manager/drinkCard", driver.getCurrentUrl());
 
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
@@ -65,18 +64,17 @@ public class FoodMenu {
         WebElement target = driver.findElement(By.cssSelector("#productImage"));
         actions.moveToElement(target).perform();
 
-        List<WebElement> editButtons = driver.findElements(By.cssSelector("#editFood"));
+        List<WebElement> editButtons = driver.findElements(By.cssSelector("#editDrink"));
         Utilities.clickableWait(driver, editButtons.get(0), 10).click();
 
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-        foodMenuPage.setItemNameInput("Carbonara paste");
-        foodMenuPage.setDescriptionInput("description2");
-        foodMenuPage.setIngredientsInput("ingridient");
-        foodMenuPage.setPriceInput(1400);
-        foodMenuPage.setPreparationTimeInput(120);
+        drinkCardPage.setItemNameInput("Espresso");
+        drinkCardPage.setDescriptionInput("description2");
+        drinkCardPage.setIngredientsInput("ingridient");
+        drinkCardPage.setPriceInput(120);
 
-        foodMenuPage.saveChangesButtonClick();
+        drinkCardPage.saveChangesButtonClick();
     }
 
     @AfterMethod

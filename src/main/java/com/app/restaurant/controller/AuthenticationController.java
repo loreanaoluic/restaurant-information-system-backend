@@ -17,7 +17,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.app.restaurant.security.*;
@@ -31,31 +30,26 @@ import java.sql.Timestamp;
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 
-    private TokenUtils tokenUtils;
+    private final TokenUtils tokenUtils;
+    private final AuthenticationManager authenticationManager;
 
-    private AuthenticationManager authenticationManager;
-
-    private UserService userService;
+    private final UserService userService;
     private final UserToUserDTO userToUserDTO;
-
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthenticationController(TokenUtils t, AuthenticationManager aM, UserService us,
-                                    UserToUserDTO userToUserDTO, PasswordEncoder pe){
+                                    UserToUserDTO userToUserDTO){
         this.tokenUtils = t;
         this.authenticationManager = aM;
         this.userService = us;
         this.userToUserDTO = userToUserDTO;
-        this.passwordEncoder = pe;
     }
 
 
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
-                                                                    HttpServletResponse response) {
+    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
 
         UsernamePasswordAuthenticationToken u = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                 authenticationRequest.getPassword());
@@ -64,9 +58,9 @@ public class AuthenticationController {
         //
         Authentication authentication;
 
-        try{
+        try {
             authentication = authenticationManager.authenticate(u);
-        }catch(BadCredentialsException e){
+        } catch(BadCredentialsException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
@@ -83,9 +77,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
-
-
-
     // U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
     @PostMapping(value = "/refresh")
     public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
@@ -97,7 +88,6 @@ public class AuthenticationController {
         if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = tokenUtils.refreshToken(token);
             int expiresIn = tokenUtils.getExpiredIn();
-
             return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
         } else {
             UserTokenState userTokenState = new UserTokenState();

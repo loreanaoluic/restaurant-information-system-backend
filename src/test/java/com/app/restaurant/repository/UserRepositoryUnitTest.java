@@ -1,6 +1,7 @@
 package com.app.restaurant.repository;
 
 import com.app.restaurant.model.Expense;
+import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.users.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,12 @@ public class UserRepositoryUnitTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Test
+    public void FindAll_FindingAllNotDeletedUsers_ReturnsUsersList(){
+        List<User> users = userRepository.findAll();
+        assertEquals(7, users.size());
+    }
 
     @Test
     public void FindByUsername_ValidUsername_ReturnsUser(){
