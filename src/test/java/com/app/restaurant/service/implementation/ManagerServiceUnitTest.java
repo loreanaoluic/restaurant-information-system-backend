@@ -45,7 +45,7 @@ public class ManagerServiceUnitTest {
 
 
     @Before
-    public void setUp(){
+    public void SetUp(){
         Manager manager = new Manager();
         manager.setRole(new Role(2, "ROLE_MANAGER"));
         manager.setName("Pera");
@@ -94,17 +94,17 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void delete_validId_setsDeletedToTrue(){
+    public void Delete_validId_setsDeletedToTrue(){
         assertDoesNotThrow(() -> this.managerService.delete(15));
     }
 
     @Test
-    public void delete_nonExistingId_throwsNotFound(){
-        NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.managerService.delete(55));
+    public void Delete_nonExistingId_throwsNotFound(){
+        assertThrows(NotFoundException.class, () -> this.managerService.delete(55));
     }
 
     @Test
-    public void create_newManager_returnsManager() throws Exception {
+    public void Create_newManager_returnsManager() throws Exception {
         Manager manager = this.managerRepository.findByUsername("peraperic");
         manager.setUsername("zikazikic");
         assertEquals(manager, this.managerService.create(manager));
@@ -112,7 +112,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void create_existingManager_throwsDuplicateEntity(){
+    public void Create_existingManager_throwsDuplicateEntity(){
         Manager manager = this.managerRepository.findByUsername("peraperic");
         DuplicateEntityException dee = assertThrows(DuplicateEntityException.class, () -> this.managerService.create(manager));
 
@@ -120,7 +120,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void update_existingManager_updatesProperly() throws Exception {
+    public void Update_existingManager_updatesProperly() throws Exception {
         Manager manager = this.managerRepository.findByUsername("peraperic");
 
         assertDoesNotThrow(() -> this.managerService.update(manager));
@@ -128,7 +128,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void update_nonExistingManager_throwsNotFound() throws Exception {
+    public void Update_nonExistingManager_throwsNotFound() throws Exception {
         Manager manager = this.managerRepository.findByUsername("peraperic");
         manager.setId(2);
 
@@ -137,21 +137,21 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void createNewDrinkCardItem_newDrinkItem_returnsCreated(){
+    public void CreateNewDrinkCardItem_newDrinkItem_returnsCreated(){
         DrinkCardItem dci = this.drinkCardItemService.findOne(3);
         assertNotNull(this.managerService.createNewDrinkCardItem(dci, 1000));
         assertEquals(dci, this.managerService.createNewDrinkCardItem(dci, 1000));
     }
 
     @Test
-    public void createNewMenuItem_newMenu_returnsCreated(){
+    public void CreateNewMenuItem_newMenu_returnsCreated(){
         MenuItem mi = this.menuItemService.findOne(2);
         assertNotNull(this.managerService.createNewMenuItem(mi, 250));
         assertEquals(mi, this.managerService.createNewMenuItem(mi, 250));
     }
 
     @Test
-    public void updateDrinkCardItem_nonExistingPrice_throwsNotFound(){
+    public void UpdateDrinkCardItem_nonExistingPrice_throwsNotFound(){
         DrinkCardItem dci = this.drinkCardItemService.findOne(3);
         dci.getPrice().setId(9);
 
@@ -161,7 +161,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void updateDrinkCardItem_validInfo_returnsUpdated() throws Exception {
+    public void UpdateDrinkCardItem_validInfo_returnsUpdated() throws Exception {
         DrinkCardItem dci = this.drinkCardItemService.findOne(3);
         System.out.println(dci.getPrice().getId());
         dci.getPrice().setId(3);
@@ -171,7 +171,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void updateMenuItem_nonExistingPrice_throwsNotFound(){
+    public void UpdateMenuItem_nonExistingPrice_throwsNotFound(){
         MenuItem mi = this.menuItemService.findOne(2);
         mi.getPrice().setId(9);
 
@@ -181,7 +181,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void updateMenuItem_validInfo_returnsUpdated() throws Exception {
+    public void UpdateMenuItem_validInfo_returnsUpdated() throws Exception {
         MenuItem mi = this.menuItemService.findOne(2);
         assertDoesNotThrow(() -> this.managerService.updateMenuItem(mi));
 

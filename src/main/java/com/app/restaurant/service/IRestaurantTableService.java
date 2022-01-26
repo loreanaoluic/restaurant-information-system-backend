@@ -4,7 +4,7 @@ import com.app.restaurant.model.RestaurantTable;
 
 public interface IRestaurantTableService extends IGenericService<RestaurantTable> {
 
-    void delete(Integer id);
+    void delete(Integer id) throws Exception;
 
-    RestaurantTable update(RestaurantTable restaurantTable);
+    RestaurantTable update(RestaurantTable restaurantTable) throws Exception;
 }

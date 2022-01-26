@@ -20,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -38,7 +39,7 @@ public class UserService implements IUserService , IGenericService<User> {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(s);
         if (user == null) {
-            throw new UsernameNotFoundException("No user found for "+ s + ".");
+            throw new NotFoundException("No user found for "+ s + ".");
         }
         return user;
     }
@@ -51,12 +52,18 @@ public class UserService implements IUserService , IGenericService<User> {
     @Override
     public void delete(Integer id) {
         User user = userRepository.getById(id);
+        if (user == null) {
+            throw new NotFoundException("User with given id does not exist.");
+        }
         userRepository.delete(user);
     }
 
     @Override
     public void deleteByUsername(String username) {
         User user = this.findByUsername(username);
+        if (user == null) {
+            throw new NotFoundException("User with given username does not exist.");
+        }
         user.setDeleted(true);
         this.save(user);
     }
@@ -78,49 +85,48 @@ public class UserService implements IUserService , IGenericService<User> {
 
     public Salary updateSalary(int id,double salary) throws Exception {
         User user = findOne(id);
-        Salary newSalary = new Salary();
-
         if (user == null) {
-            throw new NotFoundException("User does not exist");
+            throw new NotFoundException("User with given id does not exist.");
         }
 
+        Salary newSalary = new Salary();
         Salary salaryById=user.getSalary();
 
-            if (salaryById==null||salaryById.getValue() != salary) {
-                if(salaryById!=null){
+        if (salaryById == null || salaryById.getValue() != salary) {
 
-                    salaryById.setEndDate(System.currentTimeMillis());
-                    salaryService.save(salaryById);
-                }
-                newSalary.setValue(salary);
-                newSalary.setStartDate(System.currentTimeMillis());
-                salaryService.save(newSalary);
-                user.setSalary(newSalary);
-
-                userRepository.save(user);
-
-                return newSalary;
+            if(salaryById != null){
+                salaryById.setEndDate(System.currentTimeMillis());
+                salaryService.save(salaryById);
             }
 
+            newSalary.setValue(salary);
+            newSalary.setStartDate(System.currentTimeMillis());
+            salaryService.save(newSalary);
+            user.setSalary(newSalary);
+            userRepository.save(user);
+            return newSalary;
+        }
         return salaryById;
     }
 
     @Override
     public User update(User user) throws Exception {
-        Optional<User> u = userRepository.findById(user.getId());
-        if (u.isPresent()) {
-            u.get().setRole(user.getRole());
-            u.get().setUsername(user.getUsername());
-            u.get().setDeleted(user.getDeleted());
-            u.get().setPassword(hashPassword(user.getPassword()));
-            u.get().setEmailAddress(user.getEmailAddress());
-            u.get().setName(user.getName());
-            u.get().setLastName(user.getLastName());
+        Optional<User> updatedUser = userRepository.findById(user.getId());
 
-            u.get().setSalary(updateSalary(u.get().getId(),user.getSalary().getValue()));
-            userRepository.save(u.get());
-        }else
-            throw new NotFoundException("User does not exist.");
+        if (updatedUser.isPresent()) {
+            updatedUser.get().setRole(user.getRole());
+            updatedUser.get().setUsername(user.getUsername());
+            updatedUser.get().setDeleted(user.getDeleted());
+            updatedUser.get().setPassword(hashPassword(user.getPassword()));
+            updatedUser.get().setEmailAddress(user.getEmailAddress());
+            updatedUser.get().setName(user.getName());
+            updatedUser.get().setLastName(user.getLastName());
+            updatedUser.get().setSalary(updateSalary(updatedUser.get().getId(),user.getSalary().getValue()));
+
+            userRepository.save(updatedUser.get());
+        }
+        else
+            throw new NotFoundException("User with given id does not exist.");
 
         return user;
     }
@@ -147,117 +153,113 @@ public class UserService implements IUserService , IGenericService<User> {
     }
 
     @Override
-    public User updateDynamicUser(UserDTO dto) throws Exception {
-        User u = null;
+    public User updateDynamicUser(UserDTO userDTO) throws Exception {
+        User user = null;
 
-        switch(dto.getDtype()) {
+        switch(userDTO.getDtype()) {
             case "Manager":
-                u=new Manager();
-                u.setRole(new Role(2,"Manager"));
+                user = new Manager();
+                user.setRole(new Role(2,"Manager"));
                 break;
             case "Director":
-                u=new Director();
-                u.setRole(new Role(1,"Director"));
+                user = new Director();
+                user.setRole(new Role(1,"Director"));
                 break;
             case "Bartender":
-                u=new Bartender();
-                u.setRole(new Role(6,"Bartender"));
+                user = new Bartender();
+                user.setRole(new Role(6,"Bartender"));
                 break;
             case "Chef":
-                u=new Chef();
-                u.setRole(new Role(3,"Chef"));
+                user = new Chef();
+                user.setRole(new Role(3,"Chef"));
                 break;
             case "Cook":
-                u=new Cook();
-                u.setRole(new Role(4,"Cook"));
+                user = new Cook();
+                user.setRole(new Role(4,"Cook"));
                 break;
             case "HeadBartender":
-                u=new HeadBartender();
-                u.setRole(new Role(5,"HeadBartender"));
+                user = new HeadBartender();
+                user.setRole(new Role(5,"HeadBartender"));
                 break;
             case "Waiter":
-                u=new Waiter();
-                u.setRole(new Role(7,"Waiter"));
+                user = new Waiter();
+                user.setRole(new Role(7,"Waiter"));
                 break;
         }
-        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(dto.getUsername()));
-        if(!tmp.isPresent()){
+        Optional<User> updatedUser= Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
+        if(!updatedUser.isPresent()){
             throw new NotFoundException("User with given id does not exist.");
         }
 
-        //u.setId(tmp.get().getId());
-        tmp.get().setRole(u.getRole());
-        tmp.get().setName(dto.getName());
-        tmp.get().setLastName(dto.getLastName());
-        tmp.get().setPassword(hashPassword(dto.getPassword()));
-        tmp.get().setEmailAddress(dto.getEmailAddress());
-        tmp.get().setUsername(dto.getUsername());
-        tmp.get().setSalary(updateSalary(tmp.get().getId(),dto.getSalary()));
-//        this.userRepository.delete(tmp.get());
-//        this.create(u);
+        updatedUser.get().setRole(user.getRole());
+        updatedUser.get().setName(userDTO.getName());
+        updatedUser.get().setLastName(userDTO.getLastName());
+        updatedUser.get().setPassword(hashPassword(userDTO.getPassword()));
+        updatedUser.get().setEmailAddress(userDTO.getEmailAddress());
+        updatedUser.get().setUsername(userDTO.getUsername());
+        updatedUser.get().setSalary(updateSalary(updatedUser.get().getId(),userDTO.getSalary()));
 
-        //update(tmp.get());
-        userRepository.save(tmp.get());
-        return u;
+        userRepository.save(updatedUser.get());
+        return updatedUser.get();
     }
 
     @Override
-    public User createDynamicUser(UserDTO dto) throws Exception {
-        User u = null ;
+    public User createDynamicUser(UserDTO userDTO) throws Exception {
+        User user = null ;
 
-        switch(dto.getDtype()) {
+        switch(userDTO.getDtype()) {
             case "Manager":
-                u=new Manager();
-                u.setRole(new Role(2,"Manager"));
+                user = new Manager();
+                user.setRole(new Role(2,"Manager"));
                 break;
             case "Director":
-                u=new Director();
-                u.setRole(new Role(1,"Director"));
+                user = new Director();
+                user.setRole(new Role(1,"Director"));
                 break;
             case "Bartender":
-                u=new Bartender();
-                u.setRole(new Role(6,"Bartender"));
+                user = new Bartender();
+                user.setRole(new Role(6,"Bartender"));
                 break;
             case "Chef":
-                u=new Chef();
-                u.setRole(new Role(3,"Chef"));
+                user = new Chef();
+                user.setRole(new Role(3,"Chef"));
                 break;
             case "Cook":
-                u=new Cook();
-                u.setRole(new Role(2,"Cook"));
+                user = new Cook();
+                user.setRole(new Role(2,"Cook"));
                 break;
             case "HeadBartender":
-                u=new HeadBartender();
-                u.setRole(new Role(5,"HeadBartender"));
+                user = new HeadBartender();
+                user.setRole(new Role(5,"HeadBartender"));
                 break;
             case "Waiter":
-                u=new Waiter();
-                u.setRole(new Role(7,"Waiter"));
+                user = new Waiter();
+                user.setRole(new Role(7,"Waiter"));
                 break;
         }
-        if(dto.getName().equals("")||dto.getLastName().equals("")||dto.getEmailAddress().equals("")||dto.getUsername().equals("")||dto.getPassword().equals("")){
+        if(userDTO.getName().equals("") || userDTO.getLastName().equals("") || userDTO.getEmailAddress().equals("") || userDTO.getUsername().equals("") || userDTO.getPassword().equals("")){
             throw new Exception("Bad input Parameters");
         }
 
-        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(dto.getUsername()));
+        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if(tmp.isPresent()){
             throw new DuplicateEntityException("Duplicate username");
         }
 
-        u.setName(dto.getName());
-        u.setLastName(dto.getLastName());
-        u.setEmailAddress(dto.getEmailAddress());
-        u.setUsername(dto.getUsername());
-        u.setPassword(hashPassword(dto.getPassword()));
-        u.setDeleted(dto.getDeleted());
-        u.setSalary(new Salary(dto.getSalary(), System.currentTimeMillis(),u));
+        user.setName(userDTO.getName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmailAddress(userDTO.getEmailAddress());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(hashPassword(userDTO.getPassword()));
+        user.setDeleted(userDTO.getDeleted());
+        user.setSalary(new Salary(userDTO.getSalary(), System.currentTimeMillis(),user));
 
-        this.create(u);
-        return u;
+        this.create(user);
+        return user;
     }
 
     public String hashPassword(String pass) throws Exception{
-        if(pass=="")
+        if(Objects.equals(pass, ""))
             throw new Exception("Invalid password");
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -265,15 +267,4 @@ public class UserService implements IUserService , IGenericService<User> {
 
         return  bCryptedPassword;
     }
-
-    public boolean validatePassword(String pass1,String pass2) throws Exception{
-        if(pass2=="")
-            throw new Exception("Invalid password");
-
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String bCryptedPassword = bCryptPasswordEncoder.encode(pass2);
-
-        return bCryptPasswordEncoder.matches(pass1, pass2);
-    }
-
 }

@@ -98,7 +98,7 @@ public class WaiterController {
 
     @PostMapping(value = "/order/{table-id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
-    public ResponseEntity<?> newReceipt(@PathVariable("table-id") Integer tableId) {
+    public ResponseEntity<?> newReceipt(@PathVariable("table-id") Integer tableId) throws Exception {
         return new ResponseEntity<>(waiterService.newReceipt(tableId), HttpStatus.CREATED);
     }
 
@@ -106,7 +106,7 @@ public class WaiterController {
     @PreAuthorize("hasAuthority('ROLE_WAITER')")
     public ResponseEntity<?> addDrinkToReceipt(@PathVariable("table-id") Integer tableId, @PathVariable("receipt-id") Integer receiptId,
                                                @RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
-        waiterService.addItemToReceipt(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO), tableId, receiptId);
+        waiterService.addItemToReceipt(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO), receiptId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -115,7 +115,7 @@ public class WaiterController {
     public ResponseEntity<?> addMealToReceipt(@PathVariable("table-id") Integer tableId,
                                               @PathVariable("receipt-id") Integer receiptId,
                                               @RequestBody MenuItemDTO menuItemDTO) throws Exception {
-        waiterService.addItemToReceipt(menuItemDTOToMenuItem.convert(menuItemDTO), tableId, receiptId);
+        waiterService.addItemToReceipt(menuItemDTOToMenuItem.convert(menuItemDTO), receiptId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

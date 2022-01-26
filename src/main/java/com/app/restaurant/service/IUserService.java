@@ -8,19 +8,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface IUserService extends UserDetailsService ,IGenericService<User>{
-    @Override
     public List<User> findAll();
 
     void delete(Integer id);
 
     void deleteByUsername(String username);
 
-    @Override
     User findOne(Integer id);
 
     User findByUsername(String username);
 
-    @Override
     User save(User entity);
 
     User update(User user) throws Exception;
@@ -32,6 +29,4 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
     User createDynamicUser(UserDTO dto) throws Exception;
 
     User updateDynamicUser(UserDTO dto) throws Exception;
-
-
 }

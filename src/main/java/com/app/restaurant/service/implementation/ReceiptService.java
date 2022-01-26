@@ -41,6 +41,10 @@ public class ReceiptService implements IReceiptService {
     public List<ReceiptItem> findAllReceiptItems(Integer id) {
 
         Receipt receipt = this.findOne(id);
+        if (receipt == null) {
+            throw new NotFoundException("Receipt with given id does not exist.");
+        }
+
         List<ReceiptItem> receiptItems = new ArrayList<>();
         for (ReceiptItem receiptItem : receipt.getReceiptItems()) {
             if (!receiptItem.getDeleted()) {
@@ -53,7 +57,6 @@ public class ReceiptService implements IReceiptService {
     @Override
     public Receipt updateReceipt(Receipt receipt) throws Exception {
         if(this.findOne(receipt.getId()) != null){
-
             receiptRepository.save(receipt);
             return receipt;
         }
@@ -71,15 +74,10 @@ public class ReceiptService implements IReceiptService {
 
     public double calculateValue(List<Receipt> receipts){
         double value = 0;
-        for (Receipt r: receipts
-        ) {
-
-            for (ReceiptItem rr:r.getReceiptItems()
-            ) {
-
-                value += (rr.getQuantity()*rr.getItem().getPrice().getValue());
+        for (Receipt receipt : receipts){
+            for (ReceiptItem receiptItem : receipt.getReceiptItems()) {
+                value += (receiptItem.getQuantity() * receiptItem.getItem().getPrice().getValue());
             }
-
         }
         return value;
     }

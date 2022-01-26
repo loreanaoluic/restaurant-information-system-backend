@@ -11,7 +11,7 @@ public interface IWaiterService {
 
     Waiter update(Waiter entity) throws Exception;
 
-    Receipt newReceipt(Integer tableId);
+    Receipt newReceipt(Integer tableId) throws Exception;
 
-    void addItemToReceipt(Item item, Integer tableId, Integer receiptId) throws Exception;
+    void addItemToReceipt(Item item, Integer receiptId) throws Exception;
 }
