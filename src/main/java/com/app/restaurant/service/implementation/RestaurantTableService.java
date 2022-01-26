@@ -25,6 +25,11 @@ public class RestaurantTableService implements IRestaurantTableService {
     @Override
     public List<RestaurantTable> findAll() {
         List<RestaurantTable> restaurantTables = restaurantTableRepository.findAll();
+        this.checkAvailability(restaurantTables);
+        return restaurantTables;
+    }
+
+    public void checkAvailability (List<RestaurantTable> restaurantTables) {
         for (RestaurantTable restaurantTable : restaurantTables) {
             if (restaurantTable.getReceipt() != null) {
                 int counter = 0;
@@ -47,7 +52,6 @@ public class RestaurantTableService implements IRestaurantTableService {
                 this.save(restaurantTable);
             }
         }
-        return restaurantTables;
     }
 
     @Override

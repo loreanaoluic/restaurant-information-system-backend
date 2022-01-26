@@ -68,7 +68,7 @@ public class WaiterController {
     public ResponseEntity<?> createWaiter(@RequestBody WaiterDTO waiterDTO) {
         Waiter waiter = null;
         try {
-            Waiter man=new Waiter(waiterDTO);
+            Waiter man = new Waiter(waiterDTO);
             waiter = waiterService.create(man);
         } catch (Exception e) {
             e.printStackTrace();

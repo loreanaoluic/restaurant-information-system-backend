@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import com.app.restaurant.security.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @RestController
@@ -117,15 +116,6 @@ public class AuthenticationController {
         User user = this.userService.findOne(id);
         return new ResponseEntity<>(user.getLastPasswordResetDate(), HttpStatus.OK);
     }
-
-    /*@PostMapping("/changePassword/{id}")
-    public ResponseEntity<Boolean> changePassword(@PathVariable Long id, @RequestBody String newPassword){
-        // TODO do we need to check if id is same as logged in user?
-        newPassword = newPassword.substring(0, newPassword.length() - 1);
-
-        return new ResponseEntity<>(this.userService.changePassword(id, passwordEncoder.encode(newPassword)),
-                                    HttpStatus.OK);
-    }*/
 
     @GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity logoutUser() {

@@ -1,7 +1,5 @@
 package com.app.restaurant.controller;
 
-import com.app.restaurant.dto.MenuItemDTO;
-import com.app.restaurant.model.MenuItem;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.service.IReceiptItemService;
 import org.springframework.beans.factory.annotation.Autowired;

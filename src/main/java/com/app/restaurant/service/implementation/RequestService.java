@@ -51,7 +51,7 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public Integer createItem(Request request) throws Exception { //1 - request author is neither head bartender or chef
+    public Integer createItem(Request request) {
         if(request.getUser() instanceof Chef){
             MenuItem approvedMenuItem = new MenuItem(0, this.menuService.findOne(1), request.getPreparationTime());
             approvedMenuItem.setPreparationTime(request.getPreparationTime());
