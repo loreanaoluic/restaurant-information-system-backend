@@ -241,14 +241,14 @@ public class ManagerController {
 
     @PostMapping(value = "/delete-restaurant-table/{id}")
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) throws Exception {
         restaurantTableService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/update-restaurant-table", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) {
+    public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) throws Exception {
         restaurantTableService.update(restaurantTable);
         return new ResponseEntity<>(HttpStatus.OK);
     }
