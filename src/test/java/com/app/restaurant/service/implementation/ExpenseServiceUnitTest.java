@@ -6,6 +6,7 @@ import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.model.Price;
 import com.app.restaurant.repository.ExpenseRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -60,6 +61,16 @@ public class ExpenseServiceUnitTest {
     }
 
     @Test
+    public void UpdateExpense_InvalidExpense_ThrowsNotFoundException() throws Exception {
+        Expense expense = new Expense(60,"nabavka salate", 2000,  1637193115, false);
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            Expense created = expenseService.update(expense);
+        });
+        assertEquals("Expense with given id does not exist.", thrown.getMessage());
+    }
+
+    @Test
     public void DeleteExpense_ValidExpenseId_ReturnsVoid() throws Exception {
         assertDoesNotThrow(() -> expenseService.delete(1));
     }
@@ -67,5 +78,10 @@ public class ExpenseServiceUnitTest {
     @Test
     public void DeleteExpense_InvalidExpenseId_ThrowsNotFoundException() throws Exception {
         assertThrows(NotFoundException.class, () -> expenseService.delete(100));
+    }
+
+    @Test
+    public void calculateValue_InvalidExpenseList_ThrowsNotFoundException() throws Exception {
+        assertThrows(NotFoundException.class, () -> expenseService.calculateValue(null));
     }
 }

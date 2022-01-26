@@ -88,6 +88,11 @@ public class ExpenseService implements IExpenseService {
     }
 
     public double calculateValue(List<Expense> expenses){
+
+        if (expenses == null) {
+            throw new NotFoundException("Expenses with given id does not exist.");
+        }
+
         double value = 0;
 
         for (Expense e: expenses) {
@@ -95,7 +100,4 @@ public class ExpenseService implements IExpenseService {
         }
         return value;
     }
-
-
-
 }

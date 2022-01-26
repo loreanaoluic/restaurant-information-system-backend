@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.RestaurantTable;
 import com.app.restaurant.model.enums.ReceiptItemStatus;
@@ -20,7 +21,6 @@ public class RestaurantTableService implements IRestaurantTableService {
     public RestaurantTableService(RestaurantTableRepository restaurantTableRepository) {
         this.restaurantTableRepository = restaurantTableRepository;
     }
-
 
     @Override
     public List<RestaurantTable> findAll() {
@@ -65,15 +65,25 @@ public class RestaurantTableService implements IRestaurantTableService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws Exception {
         RestaurantTable restaurantTable = this.findOne(id);
+
+        if (restaurantTable == null) {
+            throw new NotFoundException("Restaurant table with given id does not exist.");
+        }
+
         restaurantTable.setDeleted(true);
         this.save(restaurantTable);
     }
 
     @Override
-    public RestaurantTable update(RestaurantTable restaurantTable) {
+    public RestaurantTable update(RestaurantTable restaurantTable) throws Exception{
         RestaurantTable found = this.findOne(restaurantTable.getId());
+
+        if (found == null) {
+            throw new NotFoundException("Restaurant table with given id does not exist.");
+        }
+
         found.setTableStatus(restaurantTable.getTableStatus());
         found.setTableShape(restaurantTable.getTableShape());
         found.setCoordinateX(restaurantTable.getCoordinateX());
