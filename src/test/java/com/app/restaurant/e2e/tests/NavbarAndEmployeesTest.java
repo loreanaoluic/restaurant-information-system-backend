@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 
-public class ManagerHome {
+public class NavbarAndEmployeesTest {
 
     WebDriver driver;
     NewUserPage newUserPage;
@@ -89,7 +89,7 @@ public class ManagerHome {
         deleteButton.click();
 
         List<WebElement> left = driver.findElements(By.xpath("//*[@id='employeeTable']/td[@name='UsernameInTable']"));
-        assertThat(left.size()==6);
+        Assert.assertEquals(left.size(), 6);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class ManagerHome {
 
         List<WebElement> searchResults = driver.findElements(By.name("UsernameInTable"));
 
-        assertThat(searchResults.size()==1);
+        Assert.assertEquals(searchResults.size(), 1);
     }
 
     @Test
