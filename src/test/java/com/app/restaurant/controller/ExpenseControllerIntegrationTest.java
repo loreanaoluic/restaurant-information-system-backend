@@ -53,7 +53,7 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    public void testGetAll(){
+    public void GetAll_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
 
@@ -69,7 +69,7 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    public void testGetByDate(){
+    public void GetByDate_ValidDate_ReturnsOk(){
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/date/1637193115", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
@@ -86,7 +86,7 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    public void testGetByDates(){
+    public void GetByDates_ValidDates_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/1637193115/1637193600", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
 
@@ -104,7 +104,7 @@ public class ExpenseControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testUpdateExpense(){
+    public void UpdateExpense_ValidId_ReturnsOk(){
         Expense e = expenseService.findOne(1);
         int current_size = expenseService.findAll().size();
         e.setDeleted(true);
@@ -119,7 +119,7 @@ public class ExpenseControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testCreateExpense(){
+    public void CreateExpense_ValidExpense_ReturnsOk(){
 
         int current_size = expenseService.findAll().size();
         Expense e = new Expense(15,"nabavka posudja", 20000, 1637193800, false);
@@ -129,13 +129,11 @@ public class ExpenseControllerIntegrationTest {
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(current_size+1, expenseService.findAll().size());
-
-
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testDeleteExpense(){
+    public void DeleteExpense_ValidId_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<Void> responseEntity = restTemplate.exchange("/expenses/1", HttpMethod.DELETE, httpEntity, void.class );
 
