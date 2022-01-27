@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class WaiterRepositoryUnitTest {
+public class WaiterRepositoryIntegrationTest {
 
     @Autowired
     private WaiterRepository waiterRepository;
