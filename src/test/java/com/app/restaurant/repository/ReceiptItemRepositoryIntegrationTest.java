@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties")
-public class ReceiptItemRepositoryUnitTest {
+public class ReceiptItemRepositoryIntegrationTest {
 
     @Autowired
     private ReceiptItemRepository receiptItemRepository;

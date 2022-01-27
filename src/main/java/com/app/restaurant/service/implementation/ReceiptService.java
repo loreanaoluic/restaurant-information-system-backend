@@ -55,8 +55,8 @@ public class ReceiptService implements IReceiptService {
     }
 
     @Override
-    public Receipt updateReceipt(Receipt receipt) throws Exception {
-        if(this.findOne(receipt.getId()) != null){
+    public Receipt updateReceipt(Receipt receipt) {
+        if (this.findOne(receipt.getId()) != null){
             receiptRepository.save(receipt);
             return receipt;
         }
@@ -64,7 +64,7 @@ public class ReceiptService implements IReceiptService {
     }
 
 
-    public List<Receipt> findByDates(long start_date, long end_date){
+    public List<Receipt> findByDates(long start_date, long end_date) {
         return receiptRepository.findByDates(start_date, end_date);
     }
 
@@ -72,7 +72,7 @@ public class ReceiptService implements IReceiptService {
         return receiptRepository.findByDate(date);
     }
 
-    public double calculateValue(List<Receipt> receipts){
+    public double calculateValue(List<Receipt> receipts) {
         double value = 0;
         for (Receipt receipt : receipts){
             for (ReceiptItem receiptItem : receipt.getReceiptItems()) {

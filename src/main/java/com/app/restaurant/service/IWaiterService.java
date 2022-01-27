@@ -3,7 +3,7 @@ package com.app.restaurant.service;
 import com.app.restaurant.model.*;
 import com.app.restaurant.model.users.Waiter;
 
-public interface IWaiterService {
+public interface IWaiterService extends IGenericService<Waiter> {
 
     void delete(Integer id);
 

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface IUserService extends UserDetailsService ,IGenericService<User>{
-    public List<User> findAll();
+    List<User> findAll();
 
     void delete(Integer id);
 

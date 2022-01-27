@@ -61,27 +61,42 @@ public class ExpenseServiceUnitTest {
     }
 
     @Test
-    public void UpdateExpense_InvalidExpense_ThrowsNotFoundException() throws Exception {
+    public void UpdateExpense_InvalidExpense_ThrowsNotFoundException() {
         Expense expense = new Expense(60,"nabavka salate", 2000,  1637193115, false);
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
-            Expense created = expenseService.update(expense);
+            expenseService.update(expense);
         });
         assertEquals("Expense with given id does not exist.", thrown.getMessage());
     }
 
     @Test
-    public void DeleteExpense_ValidExpenseId_ReturnsVoid() throws Exception {
+    public void DeleteExpense_ValidExpenseId_ReturnsVoid() {
         assertDoesNotThrow(() -> expenseService.delete(1));
     }
 
     @Test
-    public void DeleteExpense_InvalidExpenseId_ThrowsNotFoundException() throws Exception {
+    public void DeleteExpense_InvalidExpenseId_ThrowsNotFoundException() {
         assertThrows(NotFoundException.class, () -> expenseService.delete(100));
     }
 
     @Test
-    public void calculateValue_InvalidExpenseList_ThrowsNotFoundException() throws Exception {
+    public void CalculateValue_InvalidExpenseList_ThrowsNotFoundException() {
         assertThrows(NotFoundException.class, () -> expenseService.calculateValue(null));
+    }
+
+    @Test
+    public void CalculateValue_ExpenseList_ReturnsCalculatedValue() {
+        List<Expense> expenses = new ArrayList<>();
+        expenses.add(new Expense(1,"nabavka salate", 2000,  1637193115, false));
+        expenses.add(new Expense(2,"nabavka salate", 2000,  1637193115, false));
+        expenses.add(new Expense(3,"nabavka salate", 5000,  1637193115, false));
+        assertEquals(9000, expenseService.calculateValue(expenses));
+    }
+
+    @Test
+    public void CalculateValue_EmptyExpenseList_ReturnsZero() {
+        List<Expense> expenses = new ArrayList<>();
+        assertEquals(0, expenseService.calculateValue(expenses));
     }
 }

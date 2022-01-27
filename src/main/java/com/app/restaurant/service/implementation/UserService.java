@@ -2,6 +2,7 @@ package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.dto.UserDTO;
 import com.app.restaurant.exception.DuplicateEntityException;
+import com.app.restaurant.exception.EmptyParameterException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Role;
 import com.app.restaurant.model.Salary;
@@ -51,11 +52,12 @@ public class UserService implements IUserService , IGenericService<User> {
 
     @Override
     public void delete(Integer id) {
-        User user = userRepository.getById(id);
+        User user = this.findOne(id);
         if (user == null) {
             throw new NotFoundException("User with given id does not exist.");
         }
-        userRepository.delete(user);
+        user.setDeleted(true);
+        this.save(user);
     }
 
     @Override
@@ -83,14 +85,14 @@ public class UserService implements IUserService , IGenericService<User> {
         return this.userRepository.save(entity);
     }
 
-    public Salary updateSalary(int id,double salary) throws Exception {
-        User user = findOne(id);
+    public Salary updateSalary(int id, double salary) {
+        User user = this.findOne(id);
         if (user == null) {
             throw new NotFoundException("User with given id does not exist.");
         }
 
         Salary newSalary = new Salary();
-        Salary salaryById=user.getSalary();
+        Salary salaryById = user.getSalary();
 
         if (salaryById == null || salaryById.getValue() != salary) {
 
@@ -121,7 +123,7 @@ public class UserService implements IUserService , IGenericService<User> {
             updatedUser.get().setEmailAddress(user.getEmailAddress());
             updatedUser.get().setName(user.getName());
             updatedUser.get().setLastName(user.getLastName());
-            updatedUser.get().setSalary(updateSalary(updatedUser.get().getId(),user.getSalary().getValue()));
+            updatedUser.get().setSalary(updateSalary(updatedUser.get().getId(), user.getSalary().getValue()));
 
             userRepository.save(updatedUser.get());
         }
@@ -134,7 +136,7 @@ public class UserService implements IUserService , IGenericService<User> {
     @Override
     public User create(User entity) throws Exception {
         if (userRepository.findByUsername(entity.getUsername()) != null)
-            throw new DuplicateEntityException("User already exists.");
+            throw new DuplicateEntityException("User with given username already exists.");
         else
             userRepository.save(entity);
 
@@ -187,8 +189,8 @@ public class UserService implements IUserService , IGenericService<User> {
                 break;
         }
         Optional<User> updatedUser= Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
-        if(!updatedUser.isPresent()){
-            throw new NotFoundException("User with given id does not exist.");
+        if(updatedUser.isEmpty()){
+            throw new NotFoundException("User with given username does not exist.");
         }
 
         updatedUser.get().setRole(user.getRole());
@@ -238,12 +240,12 @@ public class UserService implements IUserService , IGenericService<User> {
                 break;
         }
         if(userDTO.getName().equals("") || userDTO.getLastName().equals("") || userDTO.getEmailAddress().equals("") || userDTO.getUsername().equals("") || userDTO.getPassword().equals("")){
-            throw new Exception("Bad input Parameters");
+            throw new EmptyParameterException("Bad input parameters.");
         }
 
-        Optional<User> tmp= Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
+        Optional<User> tmp = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if(tmp.isPresent()){
-            throw new DuplicateEntityException("Duplicate username");
+            throw new DuplicateEntityException("User with given username already exists.");
         }
 
         user.setName(userDTO.getName());
@@ -258,13 +260,12 @@ public class UserService implements IUserService , IGenericService<User> {
         return user;
     }
 
-    public String hashPassword(String pass) throws Exception{
+    public String hashPassword(String pass) {
         if(Objects.equals(pass, ""))
-            throw new Exception("Invalid password");
+            throw new EmptyParameterException("Invalid password.");
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String bCryptedPassword = bCryptPasswordEncoder.encode(pass);
 
-        return  bCryptedPassword;
+        return bCryptPasswordEncoder.encode(pass);
     }
 }

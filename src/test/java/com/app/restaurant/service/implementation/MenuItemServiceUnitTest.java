@@ -43,7 +43,7 @@ public class MenuItemServiceUnitTest {
         given(menuItemRepository.findAll()).willReturn(menuItems);
 
         MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1);
-        MenuItem savedMenuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1);
+        MenuItem savedMenuItem = new MenuItem(1,"druga_piletina", "sastojci", "slika", "opis", false, new Price(1), new Menu(), 1);
 
         given(menuItemRepository.findById(1))
                 .willReturn(java.util.Optional.of(menuItem));
@@ -54,16 +54,16 @@ public class MenuItemServiceUnitTest {
 
     @Test
     public void UpdateMenuItem_ValidMenuId_ReturnsMenuItem() throws Exception {
-        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+        MenuItem menuItem = new MenuItem(1,"druga_piletina", "sastojci", "slika", "opis",
                 false, new Price(1), new Menu(), 1);
         MenuItem created = menuItemService.update(menuItem, 1);
 
-        assertEquals("piletina", created.getName());
+        assertEquals("druga_piletina", created.getName());
     }
 
     @Test
-    public void UpdateMenuItem_InvalidMenuId_ThrowsNotFoundException() throws Exception {
-        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+    public void UpdateMenuItem_InvalidMenuId_ThrowsNotFoundException() {
+        MenuItem menuItem = new MenuItem(1,"druga_piletina", "sastojci", "slika", "opis",
                 false, new Price(1), new Menu(), 1);
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
@@ -73,8 +73,8 @@ public class MenuItemServiceUnitTest {
     }
 
     @Test
-    public void UpdateMenuItem_InvalidPriceId_ThrowsNotFoundException() throws Exception {
-        MenuItem menuItem = new MenuItem(1,"piletina", "sastojci", "slika", "opis",
+    public void UpdateMenuItem_InvalidPriceId_ThrowsNotFoundException() {
+        MenuItem menuItem = new MenuItem(1,"druga_piletina", "sastojci", "slika", "opis",
                 false, new Price(3), new Menu(), 1);
 
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {

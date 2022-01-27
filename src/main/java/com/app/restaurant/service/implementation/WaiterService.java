@@ -33,8 +33,26 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
+    public List<Waiter> findAll() {
+        return this.waiterRepository.findAll();
+    }
+
+    @Override
+    public Waiter findOne(Integer id) {
+        return this.waiterRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Waiter save(Waiter entity) throws Exception {
+        return this.waiterRepository.save(entity);
+    }
+
+    @Override
     public void delete(Integer id) {
-        Waiter waiter = waiterRepository.getById(id);
+        Waiter waiter = this.findOne(id);
+        if (waiter == null) {
+            throw new NotFoundException("Waiter with given id does not exist.");
+        }
         waiterRepository.delete(waiter);
     }
 
@@ -42,31 +60,30 @@ public class WaiterService implements IWaiterService {
     public Waiter create(Waiter entity) throws Exception {
 
         if (waiterRepository.findByUsername(entity.getUsername()) != null)
-            throw new DuplicateEntityException("Waiter already exists.");
+            throw new DuplicateEntityException("Waiter with given username already exists.");
         else
-            waiterRepository.save(entity);
+            this.save(entity);
 
         return entity;
     }
 
     @Override
     public Waiter update(Waiter entity) throws Exception {
-        Optional<Waiter> man = waiterRepository.findById(entity.getId());
-        if (man.isPresent()) {
-            Waiter waiter = man.get();
+        Waiter waiter = this.findOne(entity.getId());
+        if (waiter != null) {
             waiter.setName(entity.getName());
             waiter.setLastName(entity.getLastName());
             waiter.setEmailAddress(entity.getEmailAddress());
             waiter.setUsername(entity.getUsername());
-            waiterRepository.save(waiter);
+            this.save(waiter);
         }
         else
-            throw new NotFoundException("Waiter does not exist.");
-        return man.get();
+            throw new NotFoundException("Waiter with given username does not exist.");
+        return waiter;
     }
 
     @Override
-    public Receipt newReceipt(Integer tableId) throws Exception {
+    public Receipt newReceipt(Integer tableId) {
         Receipt receipt = new Receipt();
         receipt.setIssueDate(System.currentTimeMillis());
         List<ReceiptItem> receiptItems = new ArrayList<>();
@@ -86,7 +103,7 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
-    public void addItemToReceipt(Item item, Integer receiptId) throws Exception {
+    public void addItemToReceipt(Item item, Integer receiptId) {
 
         Receipt receipt = receiptService.findOne(receiptId);
 
@@ -117,5 +134,4 @@ public class WaiterService implements IWaiterService {
         receipt.setReceiptItems(receiptItems);
         receiptService.save(receipt);
     }
-
 }
