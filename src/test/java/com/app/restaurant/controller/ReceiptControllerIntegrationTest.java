@@ -34,7 +34,7 @@ public class ReceiptControllerIntegrationTest {
     public void login() {
         ResponseEntity<UserTokenState> responseEntity =
                 restTemplate.postForEntity("/api/auth/login",
-                        new JwtAuthenticationRequest("ana", "123"),
+                        new JwtAuthenticationRequest("ana", "1234"),
                         UserTokenState.class);
         String accessToken = Objects.requireNonNull(responseEntity.getBody()).getAccessToken();
         headers = new HttpHeaders();

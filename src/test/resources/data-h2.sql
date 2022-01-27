@@ -38,8 +38,8 @@ INSERT INTO item (dtype, name, ingredients, image, description, menu_id, prepara
 values ('DrinkCardItem', 'Coca Cola', 'ingredients', 'image', 'description', 1, 0.0, 2, false);
 
 
-INSERT INTO receipts (issue_date)
-values (1637193115);
+INSERT INTO receipts (id,issue_date)
+values (1,1637193115);
 
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
@@ -72,7 +72,7 @@ INSERT INTO users (dtype, name, last_name, username, email_address, password, de
 values ('Bartender', 'Milica', 'Mitrovic', 'milica', 'milica@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 6);
 
 INSERT INTO users (dtype, name, last_name, username, email_address, password, deleted, role_id)
-values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$ErYpjyxQT6hhXaJz4c0vDu0vG8XaS8U2N6VbaKl.06S4.dHJUD3u2', false, 7);
+values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry', false, 7);
 
 
 INSERT INTO salary (value, start_date, end_date, user_id)

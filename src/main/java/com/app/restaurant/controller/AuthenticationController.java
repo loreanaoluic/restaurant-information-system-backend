@@ -44,7 +44,6 @@ public class AuthenticationController {
         this.userToUserDTO = userToUserDTO;
     }
 
-
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
     @PostMapping("/login")
@@ -52,17 +51,12 @@ public class AuthenticationController {
 
         UsernamePasswordAuthenticationToken u = new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                 authenticationRequest.getPassword());
-
-
-        //
         Authentication authentication;
-
         try {
             authentication = authenticationManager.authenticate(u);
         } catch(BadCredentialsException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
 
         // Ubaci korisnika u trenutni security kontekst
         SecurityContextHolder.getContext().setAuthentication(authentication);
