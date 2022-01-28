@@ -78,6 +78,7 @@ values ('Waiter', 'Ana', 'Kokic', 'ana', 'ana@gmail.com', '$2a$10$vnbp6TE0PEATtx
 INSERT INTO salary (value, start_date, end_date, user_id)
 values (50000, 1640466900, 0, 2);
 
+UPDATE users SET salary_id = 1 WHERE id = 2;
 
 INSERT INTO request (price, item_name, ingredients, description, image, preparation_time, user_id, deleted)
 values (370.0, 'Chocolate cake', 'ingredients', 'description', '../../../../assets/images/choco-cake.jpg', 5.0, 3, false);
