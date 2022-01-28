@@ -24,7 +24,7 @@ public interface IUserService extends UserDetailsService ,IGenericService<User>{
 
     User create(User entity) throws Exception;
 
-    User getLoggedInUser();
+//    User getLoggedInUser();
 
     User createDynamicUser(UserDTO dto) throws Exception;
 
