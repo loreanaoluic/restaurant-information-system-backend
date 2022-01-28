@@ -1,9 +1,11 @@
 package com.app.restaurant.controller;
 
 import com.app.restaurant.dto.ExpenseDTO;
+import com.app.restaurant.dto.ReceiptItemDTO;
 import com.app.restaurant.dto.UserTokenState;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.model.ReceiptItem;
+import com.app.restaurant.model.enums.ReceiptItemStatus;
 import com.app.restaurant.security.auth.JwtAuthenticationRequest;
 import com.app.restaurant.service.IReceiptItemService;
 import com.app.restaurant.service.implementation.ExpenseService;
@@ -53,5 +55,38 @@ public class BartenderContollerIntegrationTest {
 
     }
 
+    @Test
+    public void GetOrders_ReturnsOk(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ReceiptItemDTO[]> responseEntity = restTemplate.exchange("/api/bartender/orders", HttpMethod.GET, httpEntity, ReceiptItemDTO[].class );
 
+        ReceiptItemDTO[] receiptItems = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("message", receiptItems[0].getAdditionalNote());
+
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void ChangeStatus_ValidReceiptItem_ReturnsOk(){
+        HttpEntity<ReceiptItemDTO> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ReceiptItemDTO> responseEntity = restTemplate.exchange("/api/bartender/1/change-status", HttpMethod.POST, httpEntity, ReceiptItemDTO.class );
+
+        ReceiptItemDTO receiptItem = responseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(ReceiptItemStatus.READY, receiptItem.getItemStatus());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void ChangeStatus_InvalidReceiptItem_ReturnsBadRequest(){
+        HttpEntity<ReceiptItemDTO> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ReceiptItemDTO> responseEntity = restTemplate.exchange("/api/bartender/3/change-status", HttpMethod.POST, httpEntity, ReceiptItemDTO.class );
+
+        ReceiptItemDTO receiptItem = responseEntity.getBody();
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
 }

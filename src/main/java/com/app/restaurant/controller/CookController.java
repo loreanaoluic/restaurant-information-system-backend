@@ -35,9 +35,6 @@ public class CookController {
     public ResponseEntity<?> changeStatus(@PathVariable("id") Integer id) throws Exception {
         ReceiptItem receiptItem = receiptItemService.changeStatusToReady(id);
 
-        if (receiptItem == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(receiptItem, HttpStatus.OK);
     }
 }
