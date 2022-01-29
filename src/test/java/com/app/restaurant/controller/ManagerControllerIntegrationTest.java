@@ -3,6 +3,7 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.*;
 import com.app.restaurant.model.*;
 import com.app.restaurant.model.enums.ReceiptItemStatus;
+import com.app.restaurant.repository.PriceRepository;
 import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.security.auth.JwtAuthenticationRequest;
 import com.app.restaurant.service.*;
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -59,6 +61,8 @@ public class ManagerControllerIntegrationTest {
     private ManagerDTOToManager managerDTOToManager;
     @Autowired
     private UserToUserDTO userToUserDTO;
+    @Autowired
+    private PriceRepository priceRepository;
 
     private HttpHeaders headers;
 
@@ -79,21 +83,32 @@ public class ManagerControllerIntegrationTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void CreateWaiter_ValidWaiter_ReturnsCreated(){
 
-        int current_size = waiterService.findAll().size();
         WaiterDTO waiterDTO = new WaiterDTO(15,"Waiter", "Milorad", "Micic", "mico", "$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry",  false);
         HttpEntity<WaiterDTO> httpEntity = new HttpEntity<>(waiterDTO, headers);
         ResponseEntity<WaiterDTO> responseEntity = restTemplate.exchange("/api/manager/new-waiter", HttpMethod.POST, httpEntity, WaiterDTO.class );
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        //assertEquals(current_size+1, waiterService.findAll().size()); NIJE DODAO OVOG
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void CreateWaiter_InvalidWaiter_ReturnsBadRequest(){
+
+        WaiterDTO waiterDTO = new WaiterDTO(15,"Waiter", "Milorad", "Micic", "mladen", "$2a$10$vnbp6TE0PEATtxRoxzzGHOUfb76RxBI.O9l8WAJAA.L.aZIE6O5ry",  false);
+        HttpEntity<WaiterDTO> httpEntity = new HttpEntity<>(waiterDTO, headers);
+        ResponseEntity<WaiterDTO> responseEntity = restTemplate.exchange("/api/manager/new-waiter", HttpMethod.POST, httpEntity, WaiterDTO.class );
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void CreateMenuItem_ValidMenuItemDTO_ReturnsCreated(){
 
+        PriceDTO priceDTO=new PriceDTO();
+        priceDTO.setValue(4000);
         int current_size = menuItemService.findAll().size();
-        MenuItemDTO menuItemDTO = new MenuItemDTO(15,"MenuItemNew","ing","img","desc",new PriceDTO(),1,10);
+        MenuItemDTO menuItemDTO = new MenuItemDTO(15,"MenuItemNew","ing","img","desc",priceDTO,1,10);
 
         HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO, headers);
         ResponseEntity<MenuItemDTO> responseEntity = restTemplate.exchange("/api/manager/new-menu-item", HttpMethod.POST, httpEntity, MenuItemDTO.class );
@@ -104,10 +119,26 @@ public class ManagerControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void CreateDrinkCardItem_ValidDrinkCardItemDTO_ReturnsCreated(){
+    public void CreateMenuItem_InvalidMenuItemPrice_ReturnsInternalServerError(){
 
+        PriceDTO priceDTO=new PriceDTO();
+        priceDTO.setValue(-4);
+        int current_size = menuItemService.findAll().size();
+        MenuItemDTO menuItemDTO = new MenuItemDTO(15,"MenuItemNew","ing","img","desc",priceDTO,1,10);
+
+        HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO, headers);
+        ResponseEntity<MenuItemDTO> responseEntity = restTemplate.exchange("/api/manager/new-menu-item", HttpMethod.POST, httpEntity, MenuItemDTO.class );
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void CreateDrinkCardItem_ValidDrinkCardItemDTO_ReturnsCreated(){
+        PriceDTO priceDTO=new PriceDTO();
+        priceDTO.setValue(4000);
         int current_size = drinkCardItemService.findAll().size();
-        DrinkCardItemDTO drinkCardItemDTO = new DrinkCardItemDTO(15,"MenuItemNew","ing","img","desc",new PriceDTO(),1);
+        DrinkCardItemDTO drinkCardItemDTO = new DrinkCardItemDTO(15,"MenuItemNew","ing","img","desc",priceDTO,1);
 
         HttpEntity<DrinkCardItemDTO> httpEntity = new HttpEntity<>(drinkCardItemDTO, headers);
         ResponseEntity<DrinkCardItemDTO> responseEntity = restTemplate.exchange("/api/manager/new-drink-card-item", HttpMethod.POST, httpEntity, DrinkCardItemDTO.class );
@@ -118,15 +149,37 @@ public class ManagerControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void CreateDrinkCardItem_InvalidDrinkCardItemDTO_ReturnsInternalServerError(){
+        PriceDTO priceDTO=new PriceDTO();
+        priceDTO.setValue(-4);
+        DrinkCardItemDTO drinkCardItemDTO = new DrinkCardItemDTO(15,"MenuItemNew","ing","img","desc",priceDTO,1);
+
+        HttpEntity<DrinkCardItemDTO> httpEntity = new HttpEntity<>(drinkCardItemDTO, headers);
+        ResponseEntity<DrinkCardItemDTO> responseEntity = restTemplate.exchange("/api/manager/new-drink-card-item", HttpMethod.POST, httpEntity, DrinkCardItemDTO.class );
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void DeleteUser_ValidUsername_ReturnsOk(){
 
         int current_size = userService.findAll().size();
 
-        HttpEntity<DrinkCardItemDTO> httpEntity = new HttpEntity<>(headers);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<?> responseEntity = restTemplate.exchange("/api/manager/delete-user/ana", HttpMethod.POST, httpEntity, ResponseEntity.class );
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(current_size-1, userService.findAll().size());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void DeleteUser_InvalidUsername_ReturnsNotFound(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<UserDTO> responseEntity = restTemplate.exchange("/api/manager/delete-user/anaana", HttpMethod.POST, httpEntity, UserDTO.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
@@ -144,7 +197,18 @@ public class ManagerControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void DeleteMenuItem_ValidMenuItemDTO_ReturnsOk(){
+    public void DeleteDrinkCardItem_InvalidDrinkCardItemDTO_ReturnsNotFound(){
+
+        DrinkCardItemDTO drinkCardItemDTO = new DrinkCardItemDTO(15, "Coca Cola", "ingredients", "image", "description", new PriceDTO(),1);
+        HttpEntity<DrinkCardItemDTO> httpEntity = new HttpEntity<>(drinkCardItemDTO,headers);
+        ResponseEntity<DrinkCardItemDTO> responseEntity = restTemplate.exchange("/api/manager/delete-drink-card-item", HttpMethod.POST, httpEntity, DrinkCardItemDTO.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void DeleteMenuItem_ValidMenuItemDTOId_ReturnsOk(){
 
         MenuItemDTO menuItemDTO = new MenuItemDTO(1, "Pizza", "ingredients", "image", "description", new PriceDTO(),1,100);
         HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO,headers);
@@ -157,15 +221,41 @@ public class ManagerControllerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void UpdateMenuItem_ValidMenuItemDTO_ReturnsCreated(){
-        //NESTO NIJE U REDU SA ITEM posto je abstract
-        MenuItemDTO menuItemDTO = new MenuItemDTO(1, "Pizza", "new ing", "image", "description", new PriceDTO(1,1000,1637177653457L,0,menuItemService.findOne(1)),1,100);
-        HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO,headers);
-        ResponseEntity<MenuItem> responseEntity = restTemplate.exchange("/api/manager/update-menu-item", HttpMethod.POST, httpEntity, MenuItem.class );
+    public void DeleteMenuItem_InvalidMenuItemDTOId_ReturnsNotFound(){
 
-        //MenuItem menuItem=menuItemService.findOne(1);
-        //assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        //assertEquals("new ing", menuItem.getIngredients());
+        MenuItemDTO menuItemDTO = new MenuItemDTO(15, "Pizza", "ingredients", "image", "description", new PriceDTO(),1,100);
+        HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO,headers);
+        ResponseEntity<MenuItemDTO> responseEntity = restTemplate.exchange("/api/manager/delete-menu-item", HttpMethod.POST, httpEntity, MenuItemDTO.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void UpdateMenuItem_ValidMenuItemDTO_ReturnsCreated(){
+        Optional<Price> price = priceRepository.findById(1);
+        PriceDTO priceDTO = new PriceDTO();
+        priceDTO.setId(price.get().getId());
+        priceDTO.setValue(price.get().getValue());
+        MenuItemDTO menuItemDTO = new MenuItemDTO(1, "Pizza", "new ing", "image", "description",priceDTO,1,100);
+        HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO,headers);
+        ResponseEntity<MenuItemDTO> responseEntity = restTemplate.exchange("/api/manager/update-menu-item", HttpMethod.POST, httpEntity, MenuItemDTO.class );
+
+        MenuItem menuItem=menuItemService.findOne(1);
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals("new ing", menuItem.getIngredients());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void UpdateMenuItem_InvalidMenuItemDTOPrice_ReturnsNotFound(){
+        PriceDTO priceDTO = new PriceDTO();
+        priceDTO.setId(15);
+        MenuItemDTO menuItemDTO = new MenuItemDTO(1, "Pizza", "new ing", "image", "description",priceDTO,1,100);
+        HttpEntity<MenuItemDTO> httpEntity = new HttpEntity<>(menuItemDTO,headers);
+        ResponseEntity<MenuItemDTO> responseEntity = restTemplate.exchange("/api/manager/update-menu-item", HttpMethod.POST, httpEntity, MenuItemDTO.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
@@ -191,6 +281,23 @@ public class ManagerControllerIntegrationTest {
     }
 
     @Test
+    public void CreateManager_InvalidUser_ReturnsBadRequest(){
+
+        ManagerDTO userDTO = new ManagerDTO();
+        userDTO.setName("Mirko");
+        userDTO.setLastName("Zmirko");
+        userDTO.setEmailAddress("mirko@gmail.com");
+        userDTO.setUsername("mladen");
+        userDTO.setPassword("1234");
+        userDTO.setDeleted(false);
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(userDTO, headers);
+        ResponseEntity<ManagerDTO> responseEntity = restTemplate.exchange("/api/manager/new-manager", HttpMethod.POST, httpEntity, ManagerDTO.class);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void GetAllRequests_ReturnsAccepted(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<RequestDTO[]> responseEntity = restTemplate.exchange("/api/manager/requests", HttpMethod.GET, httpEntity, RequestDTO[].class );
@@ -202,10 +309,10 @@ public class ManagerControllerIntegrationTest {
     }
 
     @Test
-    public void UpdateManager_ValidUser_ReturnsOk(){
+    public void UpdateManager_InvalidUser_ReturnsNotFound(){
 
         ManagerDTO userDTO = new ManagerDTO();
-        userDTO.setId(2);
+        userDTO.setId(15);
         userDTO.setName("Miki");
         userDTO.setLastName("Mikic");
         userDTO.setEmailAddress("miladen@gmail.com");
@@ -214,13 +321,9 @@ public class ManagerControllerIntegrationTest {
         userDTO.setDeleted(false);
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(userDTO, headers);
-        ResponseEntity<ManagerDTO> responseEntity =
-                restTemplate.exchange("/api/manager/update-manager", HttpMethod.POST, httpEntity, ManagerDTO.class);
+        ResponseEntity<ManagerDTO> responseEntity = restTemplate.exchange("/api/manager/update-manager", HttpMethod.POST, httpEntity, ManagerDTO.class);
 
-        ManagerDTO user = responseEntity.getBody();
-
-        assertEquals(HttpStatus.ACCEPTED, responseEntity.getStatusCode());
-        assertEquals("Miki", user.getName());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
     @Test
@@ -243,6 +346,24 @@ public class ManagerControllerIntegrationTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Miki", user.getName());
+    }
+
+    @Test
+    public void UpdateUser_InvalidUsername_ReturnsNotFound(){
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setDtype("Manager");
+        userDTO.setName("Miki");
+        userDTO.setLastName("Mikic");
+        userDTO.setEmailAddress("miladen@gmail.com");
+        userDTO.setUsername("mladen12");
+        userDTO.setPassword("1234");
+        userDTO.setDeleted(false);
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(userDTO, headers);
+        ResponseEntity<UserDTO> responseEntity = restTemplate.exchange("/api/manager/update-user", HttpMethod.POST, httpEntity, UserDTO.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
@@ -277,11 +398,19 @@ public class ManagerControllerIntegrationTest {
     }
 
     @Test
-    public void DeleteRestaurantTable_ValidRestaurantTableId_Ok(){
+    public void DeleteRestaurantTable_ValidRestaurantTableId_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<?> responseEntity = restTemplate.exchange("/api/manager/delete-restaurant-table/1", HttpMethod.POST, httpEntity, ResponseEntity.class );
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void DeleteRestaurantTable_InvalidRestaurantTableId_ReturnsNotFound(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/manager/delete-restaurant-table/15", HttpMethod.POST, httpEntity, ResponseEntity.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
@@ -293,5 +422,13 @@ public class ManagerControllerIntegrationTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void UpdateRestaurantTable_InvalidRestaurantTable_ReturnsNotFound(){
+        RestaurantTable restaurantTable = new RestaurantTable();
+        restaurantTable.setId(15);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(restaurantTable,headers);
+        ResponseEntity<RestaurantTable> responseEntity = restTemplate.exchange("/api/manager/update-restaurant-table", HttpMethod.POST, httpEntity, RestaurantTable.class );
 
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
 }

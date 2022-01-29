@@ -144,7 +144,7 @@ public class ManagerServiceUnitTest {
     }
 
     @Test
-    public void CreateNewMenuItem_newMenu_returnsCreated(){
+    public void CreateNewMenuItem_newMenu_returnsCreated() throws Exception {
         MenuItem mi = this.menuItemService.findOne(2);
         assertNotNull(this.managerService.createNewMenuItem(mi, 250));
         assertEquals(mi, this.managerService.createNewMenuItem(mi, 250));

@@ -68,6 +68,7 @@ public class ManagerController {
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception {
+
         MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
         if (menuItem != null) {
@@ -98,14 +99,14 @@ public class ManagerController {
 
     @PostMapping(value = "/delete-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
+    public ResponseEntity<?> deleteDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
         drinkCardItemService.delete(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/delete-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+    public ResponseEntity<?> deleteMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception{
         menuItemService.delete(menuItemDTOToMenuItem.convert(menuItemDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -242,6 +243,8 @@ public class ManagerController {
     @PostMapping(value = "/delete-restaurant-table/{id}")
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) throws Exception {
+        if(restaurantTableService.findOne(id) == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         restaurantTableService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
