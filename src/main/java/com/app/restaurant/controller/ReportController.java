@@ -42,7 +42,7 @@ public class ReportController {
         List<Receipt> receipts = receiptService.findAll();
         List<Expense> expenses = expenseService.findAll();
         List<Salary> salaries = salaryService.findAll();
-        return getReportDTOResponseEntity(receipts, expenses, salaries);
+        return getReportDTOResponseEntity(receipts, expenses, salaries, 0, System.currentTimeMillis());
     }
 
     @GetMapping("/{start_date}/{end_date}")
@@ -52,18 +52,23 @@ public class ReportController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         List<Receipt> receipts = receiptService.findByDates(start_date, end_date);
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
-        List<Salary> salaries = salaryService.findByDates(start_date, end_date);
+        List<Salary> salaries = null;
 
-        return getReportDTOResponseEntity(receipts, expenses, salaries);
+        salaries = salaryService.findByDates(start_date, end_date);
+
+
+
+        return getReportDTOResponseEntity(receipts, expenses, salaries, start_date, end_date);
     }
 
 
     private ResponseEntity<ReportDTO> getReportDTOResponseEntity(List<Receipt> receipts, List<Expense> expenses,
-                                                                 List<Salary> salaries) {
+                                                                 List<Salary> salaries, long start_date, long end_date) {
 
         double income = receiptService.calculateValue(receipts);
         double expense = expenseService.calculateValue(expenses);
-        double salary = salaryService.calculateValue(salaries);
+        double salary = salaryService.calculateValue(salaries, start_date, end_date);
+
         expense += salary;
         Report rep = new Report(income, expense);
         ReportDTO repDTO = new ReportDTO(rep);

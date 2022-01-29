@@ -49,6 +49,7 @@ public class ReceiptService implements IReceiptService {
         for (ReceiptItem receiptItem : receipt.getReceiptItems()) {
             if (!receiptItem.getDeleted()) {
                 receiptItems.add(receiptItem);
+                System.out.println("VRIJEDNOST "+receiptItem.getQuantity());
             }
         }
         return receiptItems;
@@ -76,9 +77,11 @@ public class ReceiptService implements IReceiptService {
     @Override
     public double calculateValue(List<Receipt> receipts) {
         double value = 0;
+
         for (Receipt receipt : receipts){
             for (ReceiptItem receiptItem : receipt.getReceiptItems()) {
                 value += (receiptItem.getQuantity() * receiptItem.getItem().getPrice().getValue());
+
             }
         }
         return value;
