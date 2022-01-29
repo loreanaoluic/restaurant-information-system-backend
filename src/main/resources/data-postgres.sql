@@ -271,19 +271,22 @@ INSERT INTO expenses (text, value, date, deleted)
 values ('procurement of pepsi and fanta', 8000,  1637193600000, true);
 
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (100000, 1640466900, 0, 1);
+values (100000, 1640466900000, 1864415292000, 1);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (80000, 1640466900, 0, 2);
+values (80000, 1640466900000, 1864415292000, 2);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (70000, 1640466900, 0, 3);
+values (70000, 1640466900000, 1864415292000, 3);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (60000, 1640466900, 0, 4);
+values (60000, 1640466900000, 1864415292000, 4);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (50000, 1640466900, 0, 5);
+values (50000, 1640466900000, 1864415292000, 5);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (45000, 1640466900, 0, 6);
+values (45000, 1640466900000, 1864415292000, 6);
 INSERT INTO salary (value, start_date, end_date, user_id)
-values (40000, 1640466900, 0, 7);
+values (40000, 1640466900000, 1641848892000, 7);
+
+INSERT INTO salary (value, start_date, end_date, user_id)
+values (140000, 1642702215000, 1864415292000, 7);
 
 UPDATE users SET salary_id = 1 WHERE id = 1;
 UPDATE users SET salary_id = 2 WHERE id = 2;
