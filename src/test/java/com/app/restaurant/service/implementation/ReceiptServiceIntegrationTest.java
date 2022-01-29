@@ -7,13 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -36,6 +38,56 @@ public class ReceiptServiceIntegrationTest {
 
     @Autowired
     ReceiptItemService receiptItemService;
+
+    @Test
+    public void findAll_successfullyFindsAll(){
+        List<Receipt> allReceipts = this.receiptService.findAll();
+
+        assertEquals(2, allReceipts.size());
+    }
+
+    @Test
+    public void findOne_existingId_returnsReceipt(){
+        Receipt receipt = this.receiptService.findOne(1);
+
+        assertNotNull(receipt);
+        assertEquals(1, receipt.getId());
+    }
+
+    @Test
+    public void findOne_nonExistingId_returnsNull(){
+        Receipt receipt = this.receiptService.findOne(111);
+
+        assertNull(receipt);
+    }
+
+    @Test
+    public void save_validReceipt_returnsSaved(){
+        Receipt receipt = new Receipt();
+
+        receipt.setIssueDate(System.currentTimeMillis());
+
+        Receipt saved = this.receiptService.save(receipt);
+
+        assertNotNull(saved);
+        assertEquals(receipt.getIssueDate(), saved.getIssueDate());
+    }
+
+    @Test
+    public void save_missingSomeFields_returnsSaved(){
+        Receipt receipt = new Receipt();
+
+        Receipt saved = this.receiptService.save(receipt);
+
+        assertNotNull(saved);
+    }
+
+    @Test
+    public void save_nullEntity_throwsInvalidDataAccessApiUsage(){
+        InvalidDataAccessApiUsageException idaaue = assertThrows(InvalidDataAccessApiUsageException.class, ()-> this.receiptService.save(null));
+        assertEquals("Entity must not be null.; nested exception is java.lang.IllegalArgumentException: Entity must not be null.",
+                idaaue.getMessage());
+    }
 
     @Test
     public void findAll(){

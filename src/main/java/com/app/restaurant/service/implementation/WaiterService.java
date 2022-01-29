@@ -78,7 +78,7 @@ public class WaiterService implements IWaiterService {
             this.save(waiter);
         }
         else
-            throw new NotFoundException("Waiter with given username does not exist.");
+            throw new NotFoundException("Waiter with given id does not exist.");
         return waiter;
     }
 
