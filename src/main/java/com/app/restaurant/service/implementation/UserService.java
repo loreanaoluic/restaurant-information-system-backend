@@ -92,7 +92,7 @@ public class UserService implements IUserService , IGenericService<User> {
             throw new NotFoundException("User with given id does not exist.");
         }
 
-        if(salary < 0) throw new InvalidValueException("Salary cannot be a negative integer.");
+        if(salary < 0) throw new InvalidValueException("Salary cannot be a negative value.");
 
         Salary newSalary = new Salary();
         Salary salaryById = user.getSalary();
