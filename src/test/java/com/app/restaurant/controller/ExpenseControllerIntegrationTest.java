@@ -128,7 +128,6 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void UpdateExpense_ValidId_ReturnsOk(){
         Expense e = expenseService.findOne(1);
         int current_size = expenseService.findAll().size();
@@ -143,7 +142,6 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void UpdateExpense_InvalidId_ReturnsNotFound(){
         ExpenseDTO eDTO = new ExpenseDTO();
         eDTO.setId(15);
@@ -155,7 +153,6 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void CreateExpense_ValidExpense_ReturnsOk(){
 
         int current_size = expenseService.findAll().size();
@@ -169,18 +166,16 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void CreateExpense_InvalidExpense_ReturnsInternalServerError(){
+    public void CreateExpense_InvalidExpense_ReturnNotFound(){
         Expense e = new Expense(15,"", 20000, 1637193800, false);
         ExpenseDTO eDTO = new ExpenseDTO(e);
         HttpEntity<ExpenseDTO> httpEntity = new HttpEntity<>(eDTO, headers);
         ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/expenses", HttpMethod.POST, httpEntity, ExpenseDTO.class );
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void DeleteExpense_ValidId_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<Void> responseEntity = restTemplate.exchange("/expenses/1", HttpMethod.DELETE, httpEntity, void.class );
@@ -191,7 +186,6 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void DeleteExpense_InvalidId_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<Void> responseEntity = restTemplate.exchange("/expenses/15", HttpMethod.DELETE, httpEntity, void.class );

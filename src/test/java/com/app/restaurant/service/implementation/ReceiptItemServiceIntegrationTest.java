@@ -46,7 +46,7 @@ public class ReceiptItemServiceIntegrationTest {
     @Test
     public void testCookOrders(){
         List<ReceiptItem> receiptItems = receiptItemService.cookOrders();
-        assertEquals(2, receiptItems.size());
+        assertEquals(1, receiptItems.size());
     }
 
     @Test

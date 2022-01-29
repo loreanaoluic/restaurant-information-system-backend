@@ -60,7 +60,7 @@ public class ReportControllerIntegrationalTest {
         ReportDTO report = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(4690, report.getExpense());
+        assertEquals(54690, report.getExpense());
         assertEquals(2300, report.getIncome());
 
     }
