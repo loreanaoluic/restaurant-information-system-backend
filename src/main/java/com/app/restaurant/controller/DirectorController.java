@@ -29,7 +29,7 @@ public class DirectorController {
     public ResponseEntity<?> getUsers() {
 
         List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(users, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }

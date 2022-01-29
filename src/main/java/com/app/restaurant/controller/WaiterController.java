@@ -63,23 +63,6 @@ public class WaiterController {
         return new ResponseEntity<>(drinkCardItemService.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/new-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> createWaiter(@RequestBody WaiterDTO waiterDTO) {
-        Waiter waiter = null;
-        try {
-            Waiter man = new Waiter(waiterDTO);
-            waiter = waiterService.create(man);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(waiter != null) {
-            return new ResponseEntity<>(waiter, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
     @PostMapping(value = "/update-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_WAITER', 'ROLE_MANAGER')")
     public ResponseEntity<?> updateWaiter(@RequestBody WaiterDTO waiterDTO) {

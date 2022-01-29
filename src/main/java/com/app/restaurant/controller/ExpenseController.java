@@ -1,6 +1,8 @@
 package com.app.restaurant.controller;
 
 import com.app.restaurant.dto.ExpenseDTO;
+import com.app.restaurant.exception.InvalidValueException;
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.service.implementation.ExpenseService;
 import com.app.restaurant.support.ExpenseDTOToExpense;
@@ -43,6 +45,8 @@ public class ExpenseController {
     @GetMapping("/{start_date}/{end_date}")
     @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<List<ExpenseDTO>> getByDates(@PathVariable Long start_date, @PathVariable Long end_date){
+        if(start_date>System.currentTimeMillis()||start_date>end_date)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         List<Expense> expenses = expenseService.getByDates(start_date, end_date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
         for (Expense e: expenses
@@ -55,14 +59,14 @@ public class ExpenseController {
 
     @GetMapping("/date/{date}")
     @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
-    public ResponseEntity<List<ExpenseDTO>> getByDate(@PathVariable Long date){
+    public ResponseEntity<List<ExpenseDTO>> getByDate(@PathVariable Long date) throws Exception{
+        if(date>System.currentTimeMillis())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         List<Expense> expenses = expenseService.getByDate(date);
         List<ExpenseDTO> expensesDTO = new ArrayList<>();
-        for (Expense e: expenses
-        ) {
+        for (Expense e: expenses) {
             expensesDTO.add(new ExpenseDTO(e));
         }
-
         return new ResponseEntity<>(expensesDTO, HttpStatus.OK);
     }
 
@@ -71,22 +75,20 @@ public class ExpenseController {
     public ResponseEntity<ExpenseDTO> getById(@PathVariable Integer id){
         Expense exp = expenseService.findOne(id);
         ExpenseDTO expDTO = new ExpenseDTO(exp);
-
         return new ResponseEntity<>(expDTO, HttpStatus.OK);
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
-    public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO){
+    public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO) throws Exception {
         Expense e = expenseService.create(expenseConverter.convertNewExpense(expenseDTO));
-
         ExpenseDTO eDTO = new ExpenseDTO(e);
 
         return new ResponseEntity<>(eDTO, HttpStatus.CREATED);
 
     }
 
-    @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateExpense", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> updateExpense( @RequestBody ExpenseDTO expenseDTO) throws Exception {
         Expense e = expenseService.update(expenseConverter.convert(expenseDTO));
@@ -103,7 +105,7 @@ public class ExpenseController {
     public ResponseEntity<?> deleteExpense(@PathVariable Integer id) throws Exception {
 
         expenseService.delete(id);
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
 
