@@ -63,15 +63,17 @@ public class ReceiptService implements IReceiptService {
         throw new NotFoundException("Receipt with given id does not exist.");
     }
 
-
+    @Override
     public List<Receipt> findByDates(long start_date, long end_date) {
         return receiptRepository.findByDates(start_date, end_date);
     }
 
+    @Override
     public List<Receipt> findByDate(long date){
         return receiptRepository.findByDate(date);
     }
 
+    @Override
     public double calculateValue(List<Receipt> receipts) {
         double value = 0;
         for (Receipt receipt : receipts){

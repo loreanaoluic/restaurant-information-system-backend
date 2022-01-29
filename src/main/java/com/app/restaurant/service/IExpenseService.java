@@ -12,6 +12,6 @@ public interface IExpenseService extends IGenericService<Expense> {
     void delete(Integer id) throws Exception;
     Expense create(Expense e);
     Expense update(Expense e) throws Exception;
-
+    double calculateValue(List<Expense> expenses);
 
 }
