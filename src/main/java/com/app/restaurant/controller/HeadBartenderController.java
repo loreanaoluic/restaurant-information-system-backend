@@ -28,7 +28,7 @@ public class HeadBartenderController {
 
     @PostMapping(value = "/new-request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_HEAD_BARTENDER')")
-    public ResponseEntity<?> createRequest(@RequestBody RequestDTO requestDTO) {
+    public ResponseEntity<?> createRequest(@RequestBody RequestDTO requestDTO) throws Exception {
         Request request = requestService.createRequest(requestDTOtoRequest.convert(requestDTO));
 
         if(request != null) {

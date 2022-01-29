@@ -1,16 +1,12 @@
 package com.app.restaurant.controller;
 
-import com.app.restaurant.dto.ExpenseDTO;
 import com.app.restaurant.dto.UserTokenState;
-import com.app.restaurant.model.Expense;
-import com.app.restaurant.model.Report;
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.model.Request;
-import com.app.restaurant.model.users.Bartender;
 import com.app.restaurant.model.users.Chef;
-import com.app.restaurant.model.users.User;
 import com.app.restaurant.security.auth.JwtAuthenticationRequest;
 import com.app.restaurant.service.IRequestService;
-import com.app.restaurant.service.implementation.ExpenseService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,12 +54,24 @@ public class ChefControllerIntegrationTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void createRequest_ValidExpense_ReturnsOk(){
         int current_size = requestService.findAll().size();
-        Request request = new Request(3,370.0, "Chocolate cake", "ingredients", "description", "../../../../assets/images/choco-cake.jpg", 5.0, false, new Chef());
+        Request request = new Request(3,370.0, "ingredients", "description", "../../../../assets/images/choco-cake.jpg", "Chocolate cake", 5.0, false, new Chef());
 
         HttpEntity<Request> httpEntity = new HttpEntity<>(request, headers);
         ResponseEntity<Request> responseEntity = restTemplate.exchange("/api/chef/new-request", HttpMethod.POST, httpEntity, Request.class );
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(current_size+1, requestService.findAll().size());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void createRequest_InvalidExpense_ReturnsInternalServerError(){
+        int current_size = requestService.findAll().size();
+        Request request = new Request(3,370.0, "ingredients", "description", "../../../../assets/images/choco-cake.jpg", "", 5.0, false, new Chef());
+
+        HttpEntity<Request> httpEntity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<InvalidValueException> thrown = restTemplate.exchange("/api/chef/new-request", HttpMethod.POST, httpEntity, InvalidValueException.class );
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, thrown.getStatusCode());
     }
 }

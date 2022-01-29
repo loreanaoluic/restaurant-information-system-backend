@@ -28,13 +28,8 @@ public class ChefController {
 
     @PostMapping(value = "/new-request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_CHEF')")
-    public ResponseEntity<?> createRequest(@RequestBody RequestDTO requestDTO) {
+    public ResponseEntity<?> createRequest(@RequestBody RequestDTO requestDTO) throws Exception {
         Request request = requestService.createRequest(requestDTOtoRequest.convert(requestDTO));
-
-        if(request != null) {
-            return new ResponseEntity<>(request, HttpStatus.CREATED);
-        }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(request, HttpStatus.CREATED);
     }
 }

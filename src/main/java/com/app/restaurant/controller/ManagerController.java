@@ -154,7 +154,6 @@ public class ManagerController {
     @GetMapping(value = "/requests", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> getAllRequests() {
-
         return new ResponseEntity<>(this.requestService.findAllNotDeleted(), HttpStatus.ACCEPTED);
     }
 
@@ -193,12 +192,11 @@ public class ManagerController {
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        userService.updateDynamicUser(userDTO);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        UserToUserDTO support = new UserToUserDTO();
+        return new ResponseEntity<>( support.convert(userService.updateDynamicUser(userDTO)), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/update-salary/{id}/{value}",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Double value) {
         User user = null;
@@ -212,9 +210,8 @@ public class ManagerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>( HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

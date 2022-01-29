@@ -3,6 +3,7 @@ package com.app.restaurant.controller;
 import com.app.restaurant.dto.ExpenseDTO;
 import com.app.restaurant.dto.ReceiptItemDTO;
 import com.app.restaurant.dto.UserTokenState;
+import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.model.ReceiptItem;
 import com.app.restaurant.model.enums.ReceiptItemStatus;
@@ -81,7 +82,7 @@ public class BartenderContollerIntegrationTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void ChangeStatus_InvalidReceiptItem_ReturnsBadRequest(){
+    public void ChangeStatus_InvalidReceiptItem_ReturnsNotFound(){
         HttpEntity<ReceiptItemDTO> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ReceiptItemDTO> responseEntity = restTemplate.exchange("/api/bartender/3/change-status", HttpMethod.POST, httpEntity, ReceiptItemDTO.class );
 
@@ -89,4 +90,6 @@ public class BartenderContollerIntegrationTest {
 
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
+
+
 }

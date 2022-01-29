@@ -1,8 +1,10 @@
 package com.app.restaurant.controller;
 
 import com.app.restaurant.dto.UserTokenState;
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.model.Request;
 import com.app.restaurant.model.users.Bartender;
+import com.app.restaurant.model.users.Chef;
 import com.app.restaurant.security.auth.JwtAuthenticationRequest;
 import com.app.restaurant.service.IRequestService;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,5 +62,16 @@ public class HeadBartenderControllerIntegrationTest {
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(current_size+1, requestService.findAll().size());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void createRequest_InvalidExpense_ReturnsInternalServerError(){
+        Request request = new Request(4,270.0, "ingredients", "description", "../../../../assets/images/latte.jpg", "",  5, false, new Bartender());
+
+        HttpEntity<Request> httpEntity = new HttpEntity<>(request, headers);
+
+        ResponseEntity<InvalidValueException> thrown = restTemplate.exchange("/api/head-bartender/new-request", HttpMethod.POST, httpEntity, InvalidValueException.class );
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, thrown.getStatusCode());
     }
 }

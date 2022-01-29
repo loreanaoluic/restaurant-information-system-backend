@@ -103,7 +103,7 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
-    public void addItemToReceipt(Item item, Integer receiptId) {
+    public void addItemToReceipt(Item item, Integer receiptId) throws Exception{
 
         Receipt receipt = receiptService.findOne(receiptId);
 
