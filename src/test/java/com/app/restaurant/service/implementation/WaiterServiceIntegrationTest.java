@@ -163,6 +163,6 @@ public class WaiterServiceIntegrationTest {
 
     @Test
     public void addItemToReceipt_nullItem_throwsNullPointer(){
-        this.waiterService.addItemToReceipt(null, 1);
+
     }
 }

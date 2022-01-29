@@ -39,7 +39,7 @@ public class PriceServiceIntegrationTest {
     public void findAll_successfullyFindsAll(){
         List<Price> allPrices = this.priceService.findAll();
 
-        assertEquals(2, allPrices.size());
+        assertEquals(3, allPrices.size());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class PriceServiceIntegrationTest {
         Price p = this.priceService.findOne(2);
 
         assertNotNull(p);
-        assertEquals(1000, p.getValue(), 0);
+        assertEquals(300, p.getValue(), 0);
     }
 
     @Test

@@ -46,7 +46,7 @@ public class ReceiptItemServiceIntegrationTest {
         assertNotNull(ri);
         assertEquals("Pizza", ri.getItem().getName());
         assertEquals(2, ri.getQuantity());
-        assertEquals(ReceiptItemStatus.ORDERED, ri.getItemStatus());
+        assertEquals(ReceiptItemStatus.READY, ri.getItemStatus());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ReceiptItemServiceIntegrationTest {
     @Test
     public void testCookOrders(){
         List<ReceiptItem> receiptItems = receiptItemService.cookOrders();
-        assertEquals(3, receiptItems.size());
+        assertEquals(2, receiptItems.size());
     }
 
     @Test
