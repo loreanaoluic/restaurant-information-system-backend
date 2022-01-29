@@ -6,7 +6,6 @@ import com.app.restaurant.exception.EmptyParameterException;
 import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Role;
-import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.Cook;
 import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.UserRepository;
@@ -22,8 +21,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
@@ -50,21 +49,23 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void loadUserByUsername_nonExistingUsername_throwsNotFound(){
-        assertThrows(NotFoundException.class, () -> this.userService.loadUserByUsername("dddddd"));
+        NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.userService.loadUserByUsername("dddddd"));
+        assertEquals("No user found for "+ "dddddd" + ".", nfe.getMessage());
     }
 
     @Test
     public void delete_validId_setsDeletedToTrue(){
-        this.userService.delete(7);
-        User u = this.userService.findOne(7);
+        this.userService.delete(5);
+        User u = this.userService.findOne(5);
 
         assertTrue(u.getDeleted());
-        assertEquals((Integer)7, u.getId());
+        assertEquals((Integer)5, u.getId());
     }
 
     @Test
     public void delete_invalidId_throwsNotFound(){
-        assertThrows(NotFoundException.class, () -> this.userService.delete(555));
+        NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.userService.delete(555));
+        assertEquals("User with given id does not exist.", nfe.getMessage());
     }
 
     @Test
@@ -77,7 +78,8 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void deleteByUsername_nonExistingUsername_throwsNotFound(){
-        assertThrows(NotFoundException.class, () -> this.userService.deleteByUsername("janko"));
+        NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.userService.deleteByUsername("janko"));
+        assertEquals("User with given username does not exist.", nfe.getMessage());
     }
 
 
@@ -96,7 +98,8 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void updateSalary_nonExistingId_throwsNotFound(){
-        assertThrows(NotFoundException.class, ()-> this.userService.updateSalary(22, 77777));
+        NotFoundException nfe = assertThrows(NotFoundException.class, ()-> this.userService.updateSalary(22, 77777));
+        assertEquals("User with given id does not exist.", nfe.getMessage());
     }
 
     @Test
@@ -114,7 +117,8 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void updateSalary_invalidSalary_throwsInvalidValue(){
-        assertThrows(InvalidValueException.class, ()-> this.userService.updateSalary(2, -77777));
+        InvalidValueException ive = assertThrows(InvalidValueException.class, ()-> this.userService.updateSalary(2, -77777));
+        assertEquals("Salary cannot be a negative value.", ive.getMessage());
     }
 
     @Test
@@ -136,7 +140,8 @@ public class UserServiceIntegrationTest {
         newInfo.setName("Dusancic");
         newInfo.setRole(new Role(4, "ROLE_COOK"));
 
-        assertThrows(NotFoundException.class ,() -> this.userService.update(newInfo));
+        NotFoundException nfe = assertThrows(NotFoundException.class ,() -> this.userService.update(newInfo));
+        assertEquals("User with given id does not exist.", nfe.getMessage());
     }
 
     @Test
@@ -176,7 +181,8 @@ public class UserServiceIntegrationTest {
         newUser.setName("Janko");
         newUser.setLastName("Jankovic");
 
-        assertThrows(DuplicateEntityException.class, () -> this.userService.create(newUser));
+        DuplicateEntityException dee = assertThrows(DuplicateEntityException.class, () -> this.userService.create(newUser));
+        assertEquals("User with given username already exists.", dee.getMessage());
     }
 
     @Test
@@ -187,7 +193,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("Mi");
         dto.setEmailAddress("n@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
         User beforeUpdate = this.userService.findByUsername("nemanja");
 
@@ -212,7 +218,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
         User beforeUpdate = this.userService.findByUsername("nemanja");
 
@@ -238,9 +244,10 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
-        assertThrows(NotFoundException.class, () -> this.userService.updateDynamicUser(dto));
+        NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.userService.updateDynamicUser(dto));
+        assertEquals("User with given username does not exist.", nfe.getMessage());
     }
 
     @Test
@@ -251,10 +258,11 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
         dto.setSalary(-55555);
 
-        assertThrows(InvalidValueException.class, () -> this.userService.updateDynamicUser(dto));
+        InvalidValueException ive = assertThrows(InvalidValueException.class, () -> this.userService.updateDynamicUser(dto));
+        assertEquals("Salary may not be negative.", ive.getMessage());
     }
 
     @Test
@@ -291,7 +299,8 @@ public class UserServiceIntegrationTest {
         dto.setSalary(45000);
         dto.setDeleted(false);
 
-        assertThrows(EmptyParameterException.class, () -> this.userService.createDynamicUser(dto));
+        EmptyParameterException epe = assertThrows(EmptyParameterException.class, () -> this.userService.createDynamicUser(dto));
+        assertEquals("Bad input parameters.", epe.getMessage());
     }
 
     @Test
@@ -306,7 +315,8 @@ public class UserServiceIntegrationTest {
         dto.setSalary(45000);
         dto.setDeleted(false);
 
-        assertThrows(DuplicateEntityException.class, () -> this.userService.createDynamicUser(dto));
+        DuplicateEntityException dee = assertThrows(DuplicateEntityException.class, () -> this.userService.createDynamicUser(dto));
+        assertEquals("User with given username already exists.", dee.getMessage());
     }
 
     @Test
@@ -321,6 +331,7 @@ public class UserServiceIntegrationTest {
         dto.setSalary(-45000);
         dto.setDeleted(false);
 
-        assertThrows(InvalidValueException.class, () -> this.userService.createDynamicUser(dto));
+        InvalidValueException ive = assertThrows(InvalidValueException.class, () -> this.userService.createDynamicUser(dto));
+        assertEquals("Salary may not be negative.", ive.getMessage());
     }
 }

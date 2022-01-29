@@ -78,7 +78,7 @@ public class WaiterService implements IWaiterService {
             this.save(waiter);
         }
         else
-            throw new NotFoundException("Waiter with given username does not exist.");
+            throw new NotFoundException("Waiter with given id does not exist.");
         return waiter;
     }
 
@@ -103,7 +103,7 @@ public class WaiterService implements IWaiterService {
     }
 
     @Override
-    public void addItemToReceipt(Item item, Integer receiptId) {
+    public void addItemToReceipt(Item item, Integer receiptId) throws Exception{
 
         Receipt receipt = receiptService.findOne(receiptId);
 

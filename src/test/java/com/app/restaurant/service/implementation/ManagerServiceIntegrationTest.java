@@ -5,6 +5,7 @@ import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.*;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.repository.ManagerRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
@@ -13,11 +14,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -41,6 +45,71 @@ public class ManagerServiceIntegrationTest {
     DrinkCardItemService drinkCardItemService;
     @Autowired
     PriceService priceService;
+
+
+    @Test
+    public void findAll_successfullyFindsAll(){
+        List<Manager> allMngrs = this.managerService.findAll();
+
+        for(Manager m : allMngrs) System.out.println(m);
+
+        assertEquals(2, allMngrs.size());
+    }
+
+    @Test
+    public void findOne_existingId_returnsManager(){
+        Manager m = this.managerService.findOne(2);
+
+        assertNotNull(m);
+        assertEquals("Dusancic", m.getName());
+        assertEquals("dusan@gmail.com", m.getEmailAddress());
+    }
+
+    @Test
+    public void findOne_nonExistingId_returnsNull(){
+        Manager m = this.managerService.findOne(55);
+
+        assertNull(m);
+    }
+
+    @Test
+    public void save_validManager_returnsSaved(){
+        Manager m = new Manager();
+        m.setRole(new Role(2, "ROLE_MANAGER"));
+        m.setDeleted(false);
+        m.setEmailAddress("man@maildrop.cc");
+        m.setPassword("sifra");
+        m.setUsername("marko");
+        m.setName("Marko");
+        m.setLastName("Markovic");
+
+        Manager saved = this.managerService.save(m);
+
+        assertNotNull(saved);
+        assertEquals(m.getName(), saved.getName());
+        assertEquals(m.getEmailAddress(), saved.getEmailAddress());
+        assertEquals(m.getUsername(), saved.getUsername());
+    }
+
+    @Test
+    public void save_missingSomeFields_throwsDataIntegrityViolation(){
+        Manager m = new Manager();
+        m.setRole(new Role(2, "ROLE_MANAGER"));
+        m.setDeleted(false);
+        m.setPassword("sifra");
+        m.setName("Marko");
+        m.setLastName("Markovic");
+
+        DataIntegrityViolationException dive = Assertions.assertThrows(DataIntegrityViolationException.class, ()->this.managerService.save(m));
+    }
+
+    @Test
+    public void save_nullEntity_throwsInvalidDataAccessApiUsage(){
+        InvalidDataAccessApiUsageException idaaue = Assertions.assertThrows(InvalidDataAccessApiUsageException.class, ()->this.managerService.save(null));
+        assertEquals("Entity must not be null.; nested exception is java.lang.IllegalArgumentException: Entity must not be null.",
+                idaaue.getMessage());
+    }
+
 
     @Test
     @Order(1)
@@ -73,7 +142,7 @@ public class ManagerServiceIntegrationTest {
 
         assertDoesNotThrow(() -> this.managerService.create(manager));
 
-        assertEquals(2, this.managerService.findAll().size());
+        assertEquals(1, this.managerService.findAll().size());
 
         if(this.managerRepository.findByUsername("peraperic") == null) throw new Exception("New manager not found!");
     }

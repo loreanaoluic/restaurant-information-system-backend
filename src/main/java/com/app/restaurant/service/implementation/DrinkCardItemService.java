@@ -3,13 +3,13 @@ package com.app.restaurant.service.implementation;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.Price;
-import com.app.restaurant.model.users.User;
 import com.app.restaurant.repository.DrinkCardItemRepository;
 import com.app.restaurant.service.IDrinkCardItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DrinkCardItemService implements IDrinkCardItemService {
@@ -39,7 +39,10 @@ public class DrinkCardItemService implements IDrinkCardItemService {
     }
 
     @Override
-    public void delete(DrinkCardItem drinkCardItem) {
+    public void delete(DrinkCardItem drinkCardItem) throws Exception{
+        Optional<DrinkCardItem> drinkcardItemFound = drinkCardItemRepository.findById(drinkCardItem.getId());
+        if(!drinkcardItemFound.isPresent())
+            throw new NotFoundException();
         drinkCardItem.setDeleted(true);
         drinkCardItemRepository.save(drinkCardItem);
     }
@@ -47,7 +50,6 @@ public class DrinkCardItemService implements IDrinkCardItemService {
     @Override
     public DrinkCardItem update(DrinkCardItem drinkCardItem, Integer id) throws Exception {
         DrinkCardItem updated = this.findOne(id);
-
         if (updated == null) {
             throw new NotFoundException("Drink card item with given id does not exist.");
         }

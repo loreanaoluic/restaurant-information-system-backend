@@ -14,7 +14,7 @@ INSERT INTO expenses (text, value, date, deleted)
 values ('nabavka makarona', 2690,  1637193600, false);
 
 INSERT INTO expenses (text, value, date, deleted)
-values ('nabavka salate', 2000,  1637193115, true);
+values ('nabavka buradi vina', 10000,  1643414556, true);
 
 
 INSERT INTO menu (id)
@@ -46,11 +46,14 @@ INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, recei
 values (1, 'message', 0, 2, 1, false);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
-values (2, 'message', 0, 1, 1, false);
+values (2, 'message', 1, 1, 1, false);
 
 
 INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
 values (0, 0, 0.0, 0.0, false);
+
+INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)
+values (0, 0, 420.0, 200.0, false);
 
 
 INSERT INTO users (dtype,  name, last_name, username, email_address, password, deleted, role_id)

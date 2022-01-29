@@ -10,7 +10,7 @@ public interface IRequestService extends IGenericService<Request>{
 
     Integer createItem(Request request) throws Exception;
 
-    Request createRequest(Request request);
+    Request createRequest(Request request) throws Exception;
 
     void deleteRequest(Request request);
 }

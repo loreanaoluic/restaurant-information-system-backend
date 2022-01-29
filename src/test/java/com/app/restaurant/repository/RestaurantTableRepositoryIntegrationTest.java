@@ -26,6 +26,6 @@ public class RestaurantTableRepositoryIntegrationTest {
     @Test
     public void FindAll_FindingAllNotDeletedRestaurantTables_ReturnsRestaurantTablesList(){
         List<RestaurantTable> restaurantTables = restaurantTableRepository.findAll();
-        assertEquals(1, restaurantTables.size());
+        assertEquals(2, restaurantTables.size());
     }
 }

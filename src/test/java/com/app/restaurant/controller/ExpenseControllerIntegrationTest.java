@@ -2,6 +2,7 @@ package com.app.restaurant.controller;
 
 import com.app.restaurant.dto.ExpenseDTO;
 import com.app.restaurant.dto.UserTokenState;
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.security.auth.JwtAuthenticationRequest;
 import com.app.restaurant.service.implementation.ExpenseService;
@@ -55,16 +56,16 @@ public class ExpenseControllerIntegrationTest {
     @Test
     public void GetAll_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
+        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/api/expense", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
 
         ExpenseDTO[] expenses = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("nabavka salate", expenses[0].getText());
-        assertEquals(2000, expenses[0].getValue());
-        assertEquals(1637193115, expenses[0].getDate());
+        assertEquals("nabavka makarona", expenses[0].getText());
+        assertEquals(2690, expenses[0].getValue());
+        assertEquals(1637193600, expenses[0].getDate());
 
-        assertEquals(2, expenses.length);
+        assertEquals(1, expenses.length);
 
     }
 
@@ -72,7 +73,7 @@ public class ExpenseControllerIntegrationTest {
     public void GetByDate_ValidDate_ReturnsOk(){
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/date/1637193115", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
+        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/api/expense/date/1637193115", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
 
         ExpenseDTO[] expenses = responseEntity.getBody();
 
@@ -81,36 +82,54 @@ public class ExpenseControllerIntegrationTest {
         assertEquals(2000, expenses[0].getValue());
         assertEquals(1637193115, expenses[0].getDate());
         assertEquals(1, expenses.length);
+    }
 
+    @Test
+    public void GetByDate_InvalidDate_ReturnsBadRequest(){
+        //DATUM U BUDUCNOSTI
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/expense/date/2648467317123", HttpMethod.GET, httpEntity, ResponseEntity.class );
 
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
     @Test
     public void GetByDates_ValidDates_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/expenses/1637193115/1637193600", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
+        ResponseEntity<ExpenseDTO[]> responseEntity = restTemplate.exchange("/api/expense/1637193115/1637193600", HttpMethod.GET, httpEntity, ExpenseDTO[].class );
 
         ExpenseDTO[] expenses = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("nabavka salate", expenses[0].getText());
-        assertEquals(2000, expenses[0].getValue());
-        assertEquals(1637193115, expenses[0].getDate());
-        assertEquals("nabavka makarona", expenses[1].getText());
-        assertEquals(2690, expenses[1].getValue());
-        assertEquals(1637193600, expenses[1].getDate());
-        assertEquals(2, expenses.length);
+        assertEquals("nabavka makarona", expenses[0].getText());
+
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void GetByDates_InvalidStartDate_ReturnsBadRequest(){
+        //DATUM U BUDUCNOSTI
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/expense/2648467317123/1637193600", HttpMethod.GET, httpEntity, ResponseEntity.class );
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
+    public void GetByDateS_StartDateGraterThanEndDate_ReturnsBadRequest(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/expense/1637193600/1637193115", HttpMethod.GET, httpEntity, ResponseEntity.class );
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void UpdateExpense_ValidId_ReturnsOk(){
         Expense e = expenseService.findOne(1);
         int current_size = expenseService.findAll().size();
         e.setDeleted(true);
         ExpenseDTO eDTO = new ExpenseDTO(e);
         HttpEntity<ExpenseDTO> httpEntity = new HttpEntity<>(eDTO, headers);
-        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/expenses", HttpMethod.PUT, httpEntity, ExpenseDTO.class );
+        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/api/expense/updateExpense", HttpMethod.PUT, httpEntity, ExpenseDTO.class );
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(current_size-1, expenseService.findAll().size());
@@ -118,27 +137,55 @@ public class ExpenseControllerIntegrationTest {
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void UpdateExpense_InvalidId_ReturnsNotFound(){
+        ExpenseDTO eDTO = new ExpenseDTO();
+        eDTO.setId(15);
+        HttpEntity<ExpenseDTO> httpEntity = new HttpEntity<>(eDTO, headers);
+        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/api/expense/updateExpense", HttpMethod.PUT, httpEntity, ExpenseDTO.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+
+    }
+
+    @Test
     public void CreateExpense_ValidExpense_ReturnsOk(){
 
         int current_size = expenseService.findAll().size();
         Expense e = new Expense(15,"nabavka posudja", 20000, 1637193800, false);
         ExpenseDTO eDTO = new ExpenseDTO(e);
         HttpEntity<ExpenseDTO> httpEntity = new HttpEntity<>(eDTO, headers);
-        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/expenses", HttpMethod.POST, httpEntity, ExpenseDTO.class );
+        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/api/expense", HttpMethod.POST, httpEntity, ExpenseDTO.class );
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(current_size+1, expenseService.findAll().size());
     }
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void CreateExpense_InvalidExpense_ReturnInternalServerError(){
+        Expense e = new Expense(15,"", 20000, 1637193800, false);
+        ExpenseDTO eDTO = new ExpenseDTO(e);
+        HttpEntity<ExpenseDTO> httpEntity = new HttpEntity<>(eDTO, headers);
+        ResponseEntity<ExpenseDTO> responseEntity = restTemplate.exchange("/api/expense", HttpMethod.POST, httpEntity, ExpenseDTO.class );
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
+
+    @Test
     public void DeleteExpense_ValidId_ReturnsOk(){
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<Void> responseEntity = restTemplate.exchange("/expenses/1", HttpMethod.DELETE, httpEntity, void.class );
+        ResponseEntity<Expense> responseEntity = restTemplate.exchange("/api/expense/1", HttpMethod.DELETE, httpEntity, Expense.class );
 
-        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNull(expenseService.findOne(1));
+
+    }
+
+    @Test
+    public void DeleteExpense_InvalidId_ReturnsOk(){
+        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange("/api/expense/15", HttpMethod.DELETE, httpEntity, void.class );
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 
     }
 }

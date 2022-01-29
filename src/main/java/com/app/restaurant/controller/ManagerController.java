@@ -7,8 +7,10 @@ import com.app.restaurant.model.RestaurantTable;
 import com.app.restaurant.model.Salary;
 import com.app.restaurant.model.users.Manager;
 import com.app.restaurant.model.users.User;
+import com.app.restaurant.model.users.Waiter;
 import com.app.restaurant.repository.UserRepository;
 import com.app.restaurant.service.*;
+import com.app.restaurant.service.implementation.WaiterService;
 import com.app.restaurant.support.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,7 @@ public class ManagerController {
     private final IDrinkCardItemService drinkCardItemService;
     private final IMenuItemService menuItemService;
     private final IRestaurantTableService restaurantTableService;
-
+    private final WaiterService waiterService;
     private final MenuItemDTOToMenuItem menuItemDTOToMenuItem;
     private final DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem;
     private final ManagerDTOToManager managerDTOToManager;
@@ -41,7 +43,7 @@ public class ManagerController {
     @Autowired
     public ManagerController(IManagerService managerService, MenuItemDTOToMenuItem menuItemDTOToMenuItem,
                              IRequestService requestService, IUserService userService, UserRepository userRepository,
-                             IDrinkCardItemService drinkCardItemService, IMenuItemService menuItemService, IRestaurantTableService restaurantTableService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
+                             IDrinkCardItemService drinkCardItemService, IMenuItemService menuItemService, IRestaurantTableService restaurantTableService, WaiterService waiterService, DrinkCardItemDTOToDrinkCardItem drinkCardItemDTOToDrinkCardItem,
                              ManagerDTOToManager managerDTOToManager, UserToUserDTO userToUserDTO)
     {
 
@@ -54,6 +56,7 @@ public class ManagerController {
         this.drinkCardItemService = drinkCardItemService;
         this.menuItemService = menuItemService;
         this.restaurantTableService = restaurantTableService;
+        this.waiterService = waiterService;
         this.drinkCardItemDTOToDrinkCardItem = drinkCardItemDTOToDrinkCardItem;
 
         this.managerDTOToManager = managerDTOToManager;
@@ -65,6 +68,7 @@ public class ManagerController {
     @PostMapping(value = "/new-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> createMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception {
+
         MenuItem menuItem = managerService.createNewMenuItem(menuItemDTOToMenuItem.convert(menuItemDTO), menuItemDTO.getPrice().getValue());
 
         if (menuItem != null) {
@@ -95,14 +99,14 @@ public class ManagerController {
 
     @PostMapping(value = "/delete-drink-card-item", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) {
+    public ResponseEntity<?> deleteDrinkCardItem(@RequestBody DrinkCardItemDTO drinkCardItemDTO) throws Exception {
         drinkCardItemService.delete(drinkCardItemDTOToDrinkCardItem.convert(drinkCardItemDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/delete-menu-item", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteMenuItem(@RequestBody MenuItemDTO menuItemDTO) {
+    public ResponseEntity<?> deleteMenuItem(@RequestBody MenuItemDTO menuItemDTO) throws Exception{
         menuItemService.delete(menuItemDTOToMenuItem.convert(menuItemDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -151,7 +155,6 @@ public class ManagerController {
     @GetMapping(value = "/requests", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> getAllRequests() {
-
         return new ResponseEntity<>(this.requestService.findAllNotDeleted(), HttpStatus.ACCEPTED);
     }
 
@@ -190,12 +193,11 @@ public class ManagerController {
     @PostMapping(value = "/update-user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) throws Exception {
-        userService.updateDynamicUser(userDTO);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        UserToUserDTO support = new UserToUserDTO();
+        return new ResponseEntity<>( support.convert(userService.updateDynamicUser(userDTO)), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/update-salary/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/update-salary/{id}/{value}",  consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> updateSalary(@PathVariable("id") Integer id,@PathVariable("value") Double value) {
         User user = null;
@@ -209,9 +211,8 @@ public class ManagerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         if(user != null) {
-            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>( HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -242,6 +243,8 @@ public class ManagerController {
     @PostMapping(value = "/delete-restaurant-table/{id}")
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<?> deleteRestaurantTable(@PathVariable Integer id) throws Exception {
+        if(restaurantTableService.findOne(id) == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         restaurantTableService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -251,5 +254,22 @@ public class ManagerController {
     public ResponseEntity<?> updateRestaurantTable(@RequestBody RestaurantTable restaurantTable) throws Exception {
         restaurantTableService.update(restaurantTable);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/new-waiter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public ResponseEntity<?> createWaiter(@RequestBody WaiterDTO waiterDTO) {
+        Waiter waiter = null;
+        try {
+            Waiter man = new Waiter(waiterDTO);
+            waiter = waiterService.create(man);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(waiter != null) {
+            return new ResponseEntity<>(waiter, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
