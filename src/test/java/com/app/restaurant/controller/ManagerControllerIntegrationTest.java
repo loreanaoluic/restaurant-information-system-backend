@@ -385,7 +385,7 @@ public class ManagerControllerIntegrationTest {
         UserDTO[] userDTOS = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(1, userDTOS.length);
+        assertEquals(2, userDTOS.length);
     }
 
     @Test

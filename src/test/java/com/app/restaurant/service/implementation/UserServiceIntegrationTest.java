@@ -55,11 +55,11 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void delete_validId_setsDeletedToTrue(){
-        this.userService.delete(7);
-        User u = this.userService.findOne(7);
+        this.userService.delete(5);
+        User u = this.userService.findOne(5);
 
         assertTrue(u.getDeleted());
-        assertEquals((Integer)7, u.getId());
+        assertEquals((Integer)5, u.getId());
     }
 
     @Test
@@ -193,7 +193,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("Mi");
         dto.setEmailAddress("n@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
         User beforeUpdate = this.userService.findByUsername("nemanja");
 
@@ -218,7 +218,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
         User beforeUpdate = this.userService.findByUsername("nemanja");
 
@@ -244,7 +244,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
 
         NotFoundException nfe = assertThrows(NotFoundException.class, () -> this.userService.updateDynamicUser(dto));
         assertEquals("User with given username does not exist.", nfe.getMessage());
@@ -258,7 +258,7 @@ public class UserServiceIntegrationTest {
         dto.setLastName("M");
         dto.setEmailAddress("novimejl@maildrop.cc");
         dto.setPassword("sifra");
-        dto.setDtype("Manager");
+        dto.setDtype("Director");
         dto.setSalary(-55555);
 
         InvalidValueException ive = assertThrows(InvalidValueException.class, () -> this.userService.updateDynamicUser(dto));

@@ -218,7 +218,7 @@ public class RequestServiceIntegrationTest {
             e.printStackTrace();
         }
 
-        assertEquals(3, this.menuItemService.findAll().size());
+        assertEquals(5, this.menuItemService.findAll().size());
 
         Item createdItem = null;
         int duplicateCounter = 0;

@@ -31,7 +31,7 @@ public class MenuItemServiceIntegrationTest {
     public void findAll_successfullyFindsAll(){
         List<MenuItem> allMItems = this.menuItemService.findAll();
 
-        assertEquals(1, allMItems.size());
+        assertEquals(5, allMItems.size());
     }
 
     @Test

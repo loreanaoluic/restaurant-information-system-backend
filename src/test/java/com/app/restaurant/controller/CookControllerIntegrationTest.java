@@ -59,7 +59,6 @@ public class CookControllerIntegrationTest {
         ReceiptItemDTO[] receiptItems = responseEntity.getBody();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("message", receiptItems[0].getAdditionalNote());
 
     }
 

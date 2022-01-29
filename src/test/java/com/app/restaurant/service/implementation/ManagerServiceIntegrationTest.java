@@ -61,7 +61,7 @@ public class ManagerServiceIntegrationTest {
         Manager m = this.managerService.findOne(2);
 
         assertNotNull(m);
-        assertEquals("Dusan", m.getName());
+        assertEquals("Dusancic", m.getName());
         assertEquals("dusan@gmail.com", m.getEmailAddress());
     }
 
@@ -142,7 +142,7 @@ public class ManagerServiceIntegrationTest {
 
         assertDoesNotThrow(() -> this.managerService.create(manager));
 
-        assertEquals(2, this.managerService.findAll().size());
+        assertEquals(1, this.managerService.findAll().size());
 
         if(this.managerRepository.findByUsername("peraperic") == null) throw new Exception("New manager not found!");
     }

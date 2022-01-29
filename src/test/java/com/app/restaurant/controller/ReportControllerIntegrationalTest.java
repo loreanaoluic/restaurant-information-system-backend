@@ -81,7 +81,7 @@ public class ReportControllerIntegrationalTest {
     public void GetByDates_InvalidStartDate_ReturnsBadRequest(){
         //DATUM U BUDUCNOSTI
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<?> responseEntity = restTemplate.exchange("/expenses/2648467317123/1637193600", HttpMethod.GET, httpEntity, ResponseEntity.class );
+        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/expense/2648467317123/1637193600", HttpMethod.GET, httpEntity, ResponseEntity.class );
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }

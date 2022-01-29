@@ -26,7 +26,7 @@ public class UserRepositoryIntegrationTest {
     @Test
     public void FindAll_FindingAllNotDeletedUsers_ReturnsUsersList(){
         List<User> users = userRepository.findAll();
-        assertEquals(8, users.size());
+        assertEquals(9, users.size());
     }
 
     @Test

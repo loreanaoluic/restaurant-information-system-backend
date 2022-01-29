@@ -150,7 +150,7 @@ public class WaiterServiceUnitTest {
         NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
             waiterService.update(newWaiter);
         });
-        assertEquals("Waiter with given username does not exist.", thrown.getMessage());
+        assertEquals("Waiter with given id does not exist.", thrown.getMessage());
     }
 
     @Test

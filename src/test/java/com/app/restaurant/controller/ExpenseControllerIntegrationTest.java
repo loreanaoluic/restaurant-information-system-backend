@@ -63,9 +63,9 @@ public class ExpenseControllerIntegrationTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("nabavka makarona", expenses[0].getText());
         assertEquals(2690, expenses[0].getValue());
-        assertEquals(1637193115, expenses[0].getDate());
+        assertEquals(1637193600, expenses[0].getDate());
 
-        assertEquals(2, expenses.length);
+        assertEquals(1, expenses.length);
 
     }
 
