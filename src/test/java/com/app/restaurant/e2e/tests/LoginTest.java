@@ -32,7 +32,7 @@ public class ActionsTest {
                 "./src/test/resources/drivers/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        loginPage= PageFactory.initElements(driver,LoginPage.class);
+        loginPage = PageFactory.initElements(driver,LoginPage.class);
     }
 
     @Test
