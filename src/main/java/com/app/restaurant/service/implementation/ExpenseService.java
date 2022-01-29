@@ -89,7 +89,8 @@ public class ExpenseService implements IExpenseService {
 
     }
 
-    public double calculateValue(List<Expense> expenses){
+    @Override
+    public double calculateValue(List<Expense> expenses) {
 
         if (expenses == null) {
             throw new NotFoundException("Expenses with given id does not exist.");

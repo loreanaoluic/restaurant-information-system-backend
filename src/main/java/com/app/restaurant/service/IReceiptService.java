@@ -9,4 +9,11 @@ public interface IReceiptService extends IGenericService<Receipt>{
     Receipt updateReceipt(Receipt receipt) throws Exception;
 
     List<ReceiptItem> findAllReceiptItems(Integer id);
+
+    List<Receipt> findByDates(long start_date, long end_date);
+
+    List<Receipt> findByDate(long date);
+
+    double calculateValue(List<Receipt> receipts);
+
 }

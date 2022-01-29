@@ -94,24 +94,4 @@ public class ReportControllerIntegrationalTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
-    @Test
-    public void GetByDate_ValidDate_ReturnsOk(){
-        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<ReportDTO> responseEntity = restTemplate.exchange("/api/reports/1637193115", HttpMethod.GET, httpEntity, ReportDTO.class );
-
-        ReportDTO report = responseEntity.getBody();
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2000, report.getExpense());
-        assertEquals(2300, report.getIncome());
-    }
-
-    @Test
-    public void GetByDate_InvalidDate_ReturnsBadRequest(){
-        //DATUM U BUDUCNOSTI
-        HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<?> responseEntity = restTemplate.exchange("/api/reports/2648467317123", HttpMethod.GET, httpEntity, ResponseEntity.class );
-
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-    }
 }
