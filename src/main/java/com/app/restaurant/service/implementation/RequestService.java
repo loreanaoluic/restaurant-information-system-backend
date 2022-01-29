@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.model.*;
 import com.app.restaurant.model.users.Chef;
 import com.app.restaurant.model.users.HeadBartender;
@@ -91,7 +92,9 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public Request createRequest(Request request) {
+    public Request createRequest(Request request) throws InvalidValueException{
+        if(request.getItemName().equals(""))
+            throw new InvalidValueException("Request Item name must be valid name");
         return this.save(request);
     }
 

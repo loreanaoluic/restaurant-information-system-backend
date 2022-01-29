@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-public class ActionsTest {
+public class LoginTest {
 
     WebDriver driver;
     LoginPage loginPage;
@@ -32,7 +32,7 @@ public class ActionsTest {
                 "./src/test/resources/drivers/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        loginPage= PageFactory.initElements(driver,LoginPage.class);
+        loginPage = PageFactory.initElements(driver,LoginPage.class);
     }
 
     @Test
@@ -44,14 +44,12 @@ public class ActionsTest {
                 driver.getCurrentUrl());
 
         loginPage.submitBtnClick();
-        //potrebno je uhvatiti toast i provjeriti da li se pojavio ili provjeriti status odgovora a ne ovako :D
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
 
         loginPage.setUsernameInput("dusan antic");
         loginPage.setPasswordInput("1234");
 
         loginPage.submitBtnClick();
-        //potrebno je uhvatiti toast i provjeriti da li se pojavio ili provjeriti status odgovora a ne ovako :D
         assertEquals("http://localhost:4200/login", driver.getCurrentUrl());
 
 

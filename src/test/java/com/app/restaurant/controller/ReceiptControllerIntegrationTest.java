@@ -68,4 +68,14 @@ public class ReceiptControllerIntegrationTest {
         assert receipt != null;
         assertEquals(1637193600, receipt.getIssueDate());
     }
+
+    @Test
+    public void UpdateReceipt_InvalidReceipt_ReturnsNotFound() {
+        ReceiptDTO receiptDTO = new ReceiptDTO();
+        receiptDTO.setId(15);
+        HttpEntity<Object> httpEntity = new HttpEntity<>(receiptDTO, headers);
+        ResponseEntity<Receipt> responseEntity = restTemplate.exchange("/api/receipts/update-receipt", HttpMethod.POST, httpEntity, Receipt.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
 }

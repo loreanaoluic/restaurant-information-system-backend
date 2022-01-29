@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuItemService implements IMenuItemService {
@@ -40,7 +41,10 @@ public class MenuItemService implements IMenuItemService {
     }
 
     @Override
-    public void delete(MenuItem menuItem) {
+    public void delete(MenuItem menuItem) throws Exception{
+        Optional<MenuItem> menuItem1 = menuItemRepository.findById(menuItem.getId());
+        if(!menuItem1.isPresent())
+            throw new NotFoundException();
         menuItem.setDeleted(true);
         menuItemRepository.save(menuItem);
     }

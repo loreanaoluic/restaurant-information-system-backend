@@ -6,5 +6,5 @@ public interface IMenuItemService extends IGenericService<MenuItem> {
 
     MenuItem update(MenuItem menuItem, Integer id) throws Exception;
 
-    void delete(MenuItem menuItem);
+    void delete(MenuItem menuItem) throws Exception;
 }

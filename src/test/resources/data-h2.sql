@@ -46,7 +46,7 @@ INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, recei
 values (1, 'message', 0, 2, 1, false);
 
 INSERT INTO receipt_item (quantity, additional_note, item_status, item_id, receipt_id, deleted)
-values (2, 'message', 0, 1, 1, false);
+values (2, 'message', 1, 1, 1, false);
 
 
 INSERT INTO restaurant_table (table_status, table_shape, coordinateX, coordinateY, deleted)

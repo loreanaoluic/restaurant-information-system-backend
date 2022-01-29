@@ -9,14 +9,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExpenseDTOToExpense implements Converter<ExpenseDTO, Expense> {
 
-
-
     @Override
     public Expense convert(ExpenseDTO source) {
         Expense exp = new Expense();
         exp.setDeleted(source.isDeleted());
         exp.setDate(source.getDate());
         exp.setId(source.getId());
+        exp.setText(source.getText());
+        exp.setValue(source.getValue());
+
+        return exp;
+    }
+
+    public Expense convertNewExpense(ExpenseDTO source) {
+        Expense exp = new Expense();
+        exp.setDeleted(false);
+        exp.setDate(System.currentTimeMillis());
         exp.setText(source.getText());
         exp.setValue(source.getValue());
 

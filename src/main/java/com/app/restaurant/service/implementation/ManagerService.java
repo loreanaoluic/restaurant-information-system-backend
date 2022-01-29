@@ -1,6 +1,7 @@
 package com.app.restaurant.service.implementation;
 
 import com.app.restaurant.exception.DuplicateEntityException;
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.DrinkCardItem;
 import com.app.restaurant.model.MenuItem;
@@ -92,6 +93,8 @@ public class ManagerService implements IManagerService {
         drinkCardItemService.save(saveId);
 
         Price newPrice = drinkCardItem.getPrice();
+        if(price<0)
+            throw new InvalidValueException("Price must be grater than 0");
         newPrice.setValue(price);
         newPrice.setStartDate(System.currentTimeMillis());
         newPrice.setItem(saveId);
@@ -103,11 +106,13 @@ public class ManagerService implements IManagerService {
     }
 
     @Override
-    public MenuItem createNewMenuItem(MenuItem menuItem, double price){
+    public MenuItem createNewMenuItem(MenuItem menuItem, double price) throws Exception{
         MenuItem saveId = new MenuItem();
         menuItemService.save(saveId);
 
         Price newPrice = menuItem.getPrice();
+        if(price<0)
+            throw new InvalidValueException("Price must be grater than 0");
         newPrice.setValue(price);
         newPrice.setStartDate(System.currentTimeMillis());
         newPrice.setItem(saveId);

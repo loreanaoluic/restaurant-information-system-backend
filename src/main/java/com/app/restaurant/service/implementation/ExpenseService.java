@@ -1,5 +1,6 @@
 package com.app.restaurant.service.implementation;
 
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Expense;
 import com.app.restaurant.repository.ExpenseRepository;
@@ -59,8 +60,9 @@ public class ExpenseService implements IExpenseService {
 
     }
     @Override
-    public Expense create(Expense e){
-
+    public Expense create(Expense e) throws Exception{
+        if(e.getText().equals(""))
+            throw new InvalidValueException("");
         this.save(e);
 
         return e;
@@ -87,7 +89,8 @@ public class ExpenseService implements IExpenseService {
 
     }
 
-    public double calculateValue(List<Expense> expenses){
+    @Override
+    public double calculateValue(List<Expense> expenses) {
 
         if (expenses == null) {
             throw new NotFoundException("Expenses with given id does not exist.");
