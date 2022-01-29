@@ -3,6 +3,7 @@ package com.app.restaurant.service.implementation;
 import com.app.restaurant.dto.UserDTO;
 import com.app.restaurant.exception.DuplicateEntityException;
 import com.app.restaurant.exception.EmptyParameterException;
+import com.app.restaurant.exception.InvalidValueException;
 import com.app.restaurant.exception.NotFoundException;
 import com.app.restaurant.model.Role;
 import com.app.restaurant.model.Salary;
@@ -91,6 +92,8 @@ public class UserService implements IUserService , IGenericService<User> {
             throw new NotFoundException("User with given id does not exist.");
         }
 
+        if(salary < 0) throw new InvalidValueException("Salary cannot be a negative integer.");
+
         Salary newSalary = new Salary();
         Salary salaryById = user.getSalary();
 
@@ -143,16 +146,16 @@ public class UserService implements IUserService , IGenericService<User> {
         return entity;
     }
 
-	@Override
-    public User getLoggedInUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken)
-            return null;
-
-//        User user = (User) authentication.getPrincipal();
-        User user = this.userRepository.findByUsername(authentication.getName());
-        return user;
-    }
+//	@Override
+//    public User getLoggedInUser() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication instanceof AnonymousAuthenticationToken)
+//            return null;
+//
+////        User user = (User) authentication.getPrincipal();
+//        User user = this.userRepository.findByUsername(authentication.getName());
+//        return user;
+//    }
 
     @Override
     public User updateDynamicUser(UserDTO userDTO) throws Exception {
@@ -192,6 +195,8 @@ public class UserService implements IUserService , IGenericService<User> {
         if(updatedUser.isEmpty()){
             throw new NotFoundException("User with given username does not exist.");
         }
+
+        if(userDTO.getSalary() < 0) throw new InvalidValueException("Salary may not be negative.");
 
         updatedUser.get().setRole(user.getRole());
         updatedUser.get().setName(userDTO.getName());
@@ -239,9 +244,12 @@ public class UserService implements IUserService , IGenericService<User> {
                 user.setRole(new Role(7,"Waiter"));
                 break;
         }
+
         if(userDTO.getName().equals("") || userDTO.getLastName().equals("") || userDTO.getEmailAddress().equals("") || userDTO.getUsername().equals("") || userDTO.getPassword().equals("")){
             throw new EmptyParameterException("Bad input parameters.");
         }
+
+        if(userDTO.getSalary() < 0) throw new InvalidValueException("Salary may not be negative.");
 
         Optional<User> tmp = Optional.ofNullable(userRepository.findByUsername(userDTO.getUsername()));
         if(tmp.isPresent()){
@@ -255,6 +263,7 @@ public class UserService implements IUserService , IGenericService<User> {
         user.setPassword(hashPassword(userDTO.getPassword()));
         user.setDeleted(userDTO.getDeleted());
         user.setSalary(new Salary(userDTO.getSalary(), System.currentTimeMillis(),user));
+        user.setDeleted(false);
 
         this.create(user);
         return user;
