@@ -14,11 +14,11 @@ import lombok.Setter;
 public class ExpenseDTO {
 
     private Integer id;
-
     private String text;
     private double value;
     private long date;
     private boolean deleted;
+
     public ExpenseDTO(Expense e){
         this.text = e.getText();
         this.value = e.getValue();

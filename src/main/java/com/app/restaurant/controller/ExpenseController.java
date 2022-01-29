@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/expenses")
+@RequestMapping("/api/expense")
 public class ExpenseController {
 
     private final ExpenseService expenseService;
@@ -81,8 +81,7 @@ public class ExpenseController {
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_DIRECTOR', 'ROLE_MANAGER')")
     public ResponseEntity<ExpenseDTO> createExpense(@RequestBody ExpenseDTO expenseDTO) throws Exception {
-        Expense e = expenseService.create(expenseConverter.convert(expenseDTO));
-
+        Expense e = expenseService.create(expenseConverter.convertNewExpense(expenseDTO));
         ExpenseDTO eDTO = new ExpenseDTO(e);
 
         return new ResponseEntity<>(eDTO, HttpStatus.CREATED);
